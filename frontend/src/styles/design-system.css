@@ -1117,197 +1117,239 @@ h4 {
   color: #fffefc;
 }
 
-.hierarchy-login-container {
+.login-credentials-wrapper {
   width: 100%;
-  max-width: 660px;
+  max-width: 540px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
 
-.hierarchy-login-header {
-  text-align: center;
-  margin-bottom: 4px;
-}
-
-.hierarchy-login-header h2 {
-  font-size: 28px;
-  margin-bottom: 8px;
-}
-
-.hierarchy-login-header .eyebrow {
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  color: var(--caramel);
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-.hierarchy-tree {
+.login-icon-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--brand-surface);
+  color: #fffefc;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  width: 100%;
-}
-
-.hierarchy-tier {
-  width: 100%;
-}
-
-.hierarchy-tier-admin {
-  max-width: 440px;
-  display: flex;
   justify-content: center;
 }
 
-.hierarchy-card {
+.login-header h2 {
+  font-size: 26px;
+  margin-bottom: 6px;
+}
+
+.login-form-credentials {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius-panel);
-  padding: 16px 20px;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
-  text-align: left;
+  padding: 24px;
   box-shadow: var(--shadow-subtle);
-  width: 100%;
-  outline: none;
 }
 
-.hierarchy-card:hover,
-.hierarchy-card:focus-visible {
-  border-color: var(--caramel);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-panel);
+.input-group-custom {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
-.hierarchy-card.is-loading {
-  opacity: 0.75;
+.input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
   pointer-events: none;
-}
-
-.hierarchy-card-admin {
-  border: 2px solid var(--brand);
-  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-soft) 100%);
-}
-
-.hierarchy-card-top {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-bottom: 10px;
 }
 
-.hierarchy-card-header {
+.form-control.with-icon {
+  padding-left: 42px;
+}
+
+.login-submit-btn {
+  min-height: 44px;
+  font-weight: 600;
+  font-size: 14px;
   display: flex;
   align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.login-recover-container,
+.login-reset-container {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  padding: 24px;
+  box-shadow: var(--shadow-subtle);
+}
+
+/* Credentials guide cheat-sheet box */
+.credentials-guide-box {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-subtle);
+}
+
+.credentials-guide-header {
+  display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 6px;
 }
 
-.hierarchy-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
+.credentials-guide-header strong {
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.badge-hint {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--caramel);
+  background: var(--caramel-soft);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+.credentials-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.credential-role-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  background: var(--surface-soft);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.credential-role-card:hover {
+  border-color: var(--caramel);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-subtle);
+}
+
+.credential-role-card.active {
+  border-color: var(--brand);
+  background: var(--surface);
+  box-shadow: 0 0 0 2px var(--brand);
+}
+
+.credential-role-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.role-avatar-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
 
-.hierarchy-avatar-admin {
+.role-avatar-admin {
   background: var(--brand);
   color: #fffefc;
 }
 
-.hierarchy-avatar-mozo {
-  background: rgba(197, 139, 88, 0.16);
+.role-avatar-mozo {
+  background: rgba(197, 139, 88, 0.2);
   color: var(--caramel);
 }
 
-.hierarchy-avatar-caja {
-  background: rgba(54, 107, 70, 0.16);
+.role-avatar-caja {
+  background: rgba(54, 107, 70, 0.2);
   color: var(--success);
 }
 
-.hierarchy-avatar-cocina {
-  background: rgba(182, 109, 73, 0.16);
+.role-avatar-cocina {
+  background: rgba(182, 109, 73, 0.2);
   color: var(--clay);
 }
 
-.hierarchy-card-identity {
+.role-meta {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  flex-grow: 1;
-}
-
-.hierarchy-role-tag {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--caramel);
-  text-transform: uppercase;
-}
-
-.hierarchy-person-name {
-  font-size: 16px;
-  font-weight: 700;
-  margin: 0;
-  color: var(--ink);
   line-height: 1.2;
 }
 
-.hierarchy-username {
+.role-title {
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.role-person {
   font-size: 11px;
   color: var(--muted);
-  background: var(--surface-muted);
-  padding: 1px 6px;
-  border-radius: 4px;
-  width: fit-content;
-  font-family: monospace;
 }
 
-.hierarchy-scope-badge,
-.hierarchy-step-badge {
-  font-size: 10px;
-  font-weight: 700;
-  padding: 3px 8px;
-  border-radius: var(--radius-full);
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-}
-
-.hierarchy-scope-badge {
-  background: var(--brand-surface);
-  color: #fffefc;
-}
-
-.hierarchy-step-badge {
-  background: var(--surface-soft);
-  color: var(--ink-secondary);
-  border: 1px solid var(--line);
-}
-
-.hierarchy-card-desc {
-  font-size: 12px;
-  line-height: 1.45;
-  color: var(--ink-secondary);
-  margin: 0 0 12px 0;
-}
-
-.hierarchy-card-op .hierarchy-card-desc {
-  flex-grow: 1;
-}
-
-.hierarchy-login-btn {
-  width: 100%;
-  font-size: 13px;
-  min-height: 38px;
-  display: flex;
+.btn-apply-cred {
+  font-size: 11px;
+  padding: 2px 8px;
+  min-height: 24px;
+  border-radius: 6px;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
+  gap: 4px;
+}
+
+.credential-data-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 6px 8px;
+  margin-bottom: 6px;
+}
+
+.cred-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cred-label {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.cred-val {
+  font-family: monospace;
+  font-size: 11px;
+  color: var(--brand);
+  font-weight: 600;
+}
+
+.role-desc {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.35;
+  margin: 0;
 }
 
 .btn-spinner {
@@ -1320,98 +1362,10 @@ h4 {
   }
 }
 
-/* Branch connector tree */
-.hierarchy-branch-connector {
-  width: 100%;
-  max-width: 620px;
-  height: 32px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  margin: 2px 0;
-}
-
-.hierarchy-stem {
-  width: 2px;
-  height: 14px;
-  background: var(--line-strong);
-}
-
-.hierarchy-branch-bar {
-  width: 67%;
-  height: 2px;
-  background: var(--line-strong);
-}
-
-.hierarchy-drop-lines {
-  width: 67%;
-  display: flex;
-  justify-content: space-between;
-}
-
-.hierarchy-drop-line {
-  width: 2px;
-  height: 16px;
-  background: var(--line-strong);
-}
-
-/* Ops grid: 3 roles */
-.hierarchy-ops-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  width: 100%;
-}
-
-.hierarchy-card-op {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 215px;
-  padding: 14px;
-}
-
-.hierarchy-manual-wrapper {
-  width: 100%;
-  text-align: center;
-  border-top: 1px solid var(--line);
-  padding-top: 12px;
-  margin-top: 4px;
-}
-
-.hierarchy-toggle-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--muted);
-  font-size: 13px;
-  text-decoration: none;
-  cursor: pointer;
-  padding: 4px 8px;
-}
-
-.hierarchy-toggle-btn:hover {
-  color: var(--ink);
-}
-
-.hierarchy-manual-form {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-panel);
-  padding: 20px;
-  margin-top: 10px;
-  text-align: left;
-  box-shadow: var(--shadow-subtle);
-}
-
-.hierarchy-login-footer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  text-align: center;
-  padding-top: 8px;
+@media (max-width: 600px) {
+  .credentials-cards-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .animate-fade-in {
@@ -1592,17 +1546,5 @@ h4 {
     width: 100%;
     border: none !important;
     padding: 0 !important;
-  }
-}
-
-@media (max-width: 900px) {
-  .hierarchy-ops-grid {
-    grid-template-columns: 1fr;
-  }
-  .hierarchy-branch-connector {
-    display: none;
-  }
-  .hierarchy-tier-admin {
-    max-width: 100%;
   }
 }

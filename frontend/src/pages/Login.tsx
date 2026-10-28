@@ -5,121 +5,102 @@ import {
   Utensils,
   Receipt,
   ChefHat,
-  ChevronDown,
-  ChevronUp,
+  Eye,
+  EyeOff,
   Loader2,
   Lock,
-  ArrowRight,
   Sparkles,
+  KeyRound,
+  User,
+  Copy,
+  Check,
 } from 'lucide-react';
 import { useStore } from '../contexts/Store';
 import { FieldsForm } from '../components/UI';
 import { ThemeSelector } from '../components/ThemeSelector';
 import { post } from '../services/api';
 
-const DEMO_PASSWORD = 'DemoBaguette2026!';
-
-interface RoleDefinition {
-  id: string;
-  username: string;
-  name: string;
-  title: string;
-  tier: string;
-  badge: string;
-  icon: typeof ShieldCheck;
-  flowDescription: string;
-  duties: string[];
-}
-
-const ADMIN_ROLE: RoleDefinition = {
-  id: 'admin',
-  username: 'admin',
-  name: 'Ana Encargada',
-  title: 'ADMINISTRADOR',
-  tier: 'Nivel Superior · Supervisión Global',
-  badge: 'Supervisión Total',
-  icon: ShieldCheck,
-  flowDescription:
-    'Supervisión integral de toda la operación, configuración del catálogo, diseño de mesas, auditoría y control de caja.',
-  duties: [
-    'Supervisión y control integral de la operación',
-    'Acceso completo a Salón, Cocina, Caja y Auditoría',
-    'Administración del catálogo, diseño del salón y usuarios',
-  ],
-};
-
-const OPERATIONAL_ROLES: RoleDefinition[] = [
+export const DEMO_CREDENTIALS = [
+  {
+    id: 'admin',
+    role: 'Administrador',
+    name: 'Ana Encargada',
+    username: 'admin',
+    password: 'DemoBaguette2026!',
+    badge: 'Supervisión Global',
+    icon: ShieldCheck,
+    description: 'Acceso total: Salón, Cocina, Caja, Catálogo, Usuarios y Auditoría.',
+  },
   {
     id: 'mozo',
-    username: 'mozo',
+    role: 'Mozo',
     name: 'Martín Camarero',
-    title: 'MOZO',
-    tier: 'Nivel Operativo · Salón',
-    badge: '1. Pedidos & 3. Entrega',
+    username: 'mozo',
+    password: 'DemoBaguette2026!',
+    badge: 'Salón y Comandas',
     icon: Utensils,
-    flowDescription:
-      'Apertura y comanda de mesas, envío a cocina y entrega de pedidos listos al comensal.',
-    duties: [
-      'Agregar y confirmar productos por mesa',
-      'Aviso visual de pedidos listos en cocina',
-      'Entrega a mesa para habilitar el cobro',
-    ],
+    description: 'Carga pedidos en mesa, envía a cocina y entrega platos listos.',
   },
   {
     id: 'caja',
-    username: 'caja',
+    role: 'Cajera',
     name: 'Carla Cajera',
-    title: 'CAJERA',
-    tier: 'Nivel Operativo · Caja',
-    badge: '4. Factura & Cobro',
+    username: 'caja',
+    password: 'DemoBaguette2026!',
+    badge: 'Caja y Facturación',
     icon: Receipt,
-    flowDescription:
-      'Cobro de comandas entregadas, impresión de factura fiscal y liberación de mesas.',
-    duties: [
-      'Recepción de cuentas con pedidos entregados',
-      'Impresión de factura de consumo detallada',
-      'Cobro (efectivo/tarjeta) y liberación de mesa',
-    ],
+    description: 'Cobra comandas entregadas, imprime facturas y libera mesas.',
   },
   {
     id: 'cocina',
-    username: 'cocina',
+    role: 'Cocina',
     name: 'Lucía Cocina',
-    title: 'COCINA',
-    tier: 'Nivel Operativo · Cocina',
-    badge: '2. Preparación',
+    username: 'cocina',
+    password: 'DemoBaguette2026!',
+    badge: 'Preparación y Despacho',
     icon: ChefHat,
-    flowDescription:
-      'Recepción en tiempo real de comandas de mozos, elaboración y aviso de platos listos.',
-    duties: [
-      'Visualización de comandas con adicionales y notas',
-      'Inicio de preparación de platos en marcha',
-      'Marcado de pedido "Listo para mesa"',
-    ],
+    description: 'Recibe comandas de mozos, inicia cocción y marca listos para mesa.',
   },
 ];
 
 export function Login() {
   const { login, notice: serverNotice } = useStore();
-  const [loggingRole, setLoggingRole] = useState<string | null>(null);
-  const [showManual, setShowManual] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [mode, setMode] = useState<'login' | 'recover' | 'reset'>('login');
   const [notice, setNotice] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [copiedRole, setCopiedRole] = useState<string | null>(null);
 
-  async function handleFastLogin(username: string) {
+  async function handleLoginSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!username.trim() || !password) {
+      setError('Por favor completá tu usuario y contraseña.');
+      return;
+    }
     try {
       setError(null);
-      setLoggingRole(username);
-      await login(username, DEMO_PASSWORD);
+      setIsSubmitting(true);
+      await login(username.trim(), password);
     } catch (err) {
-      setError((err as Error).message || 'Error al iniciar sesión');
-      setLoggingRole(null);
+      setError((err as Error).message || 'Credenciales incorrectas.');
+      setIsSubmitting(false);
     }
+  }
+
+  function applyCredentials(u: string, p: string, roleId: string) {
+    setUsername(u);
+    setPassword(p);
+    setError(null);
+    setCopiedRole(roleId);
+    setTimeout(() => setCopiedRole(null), 2000);
   }
 
   return (
     <main className="login-layout">
+      {/* BRAND & FLOW SIDEBAR */}
       <section className="login-brand">
         <img src="/brand/baguette-logo.svg" alt="Café" width="208" height="79" />
         <div className="login-brand-body">
@@ -132,17 +113,16 @@ export function Login() {
             </span>
             <ol className="brand-flow-steps">
               <li>
-                <strong>Mozo:</strong> carga productos en la mesa y confirma el pedido.
+                <strong>1. Mozo:</strong> toma y confirma el pedido de la mesa.
               </li>
               <li>
-                <strong>Cocina:</strong> recibe la comanda, prepara y marca "Listo para mesa".
+                <strong>2. Cocina:</strong> prepara y marca "Listo para mesa".
               </li>
               <li>
-                <strong>Mozo:</strong> recibe el aviso en su panel y entrega el pedido al comensal.
+                <strong>3. Mozo:</strong> retira de cocina y entrega al comensal.
               </li>
               <li>
-                <strong>Cajera:</strong> imprime la factura, cobra y libera la mesa para nuevos
-                clientes.
+                <strong>4. Cajera:</strong> imprime la factura, cobra y libera la mesa.
               </li>
             </ol>
           </div>
@@ -150,18 +130,29 @@ export function Login() {
         <span className="demo-stamp">DEMO OPERATIVA · EXPO TEC 2026</span>
       </section>
 
+      {/* CREDENTIALS LOGIN PANEL */}
       <section className="login-panel">
         <div className="login-panel-topbar">
           <ThemeSelector compact />
         </div>
 
-        <div className="hierarchy-login-container">
-          <header className="hierarchy-login-header">
-            <p className="eyebrow">INGRESO POR JERARQUÍAS</p>
-            <h2>Elegí tu puesto de trabajo</h2>
-            <p className="text-secondary">
-              1 cuenta asignada por rol para una clara segmentación operativa. Hacé click para
-              ingresar directamente:
+        <div className="login-credentials-wrapper">
+          <header className="login-header text-center mb-4">
+            <div className="login-icon-badge mx-auto mb-3">
+              <Lock size={24} strokeWidth={1.8} />
+            </div>
+            <p className="eyebrow">ACCESO AL SISTEMA</p>
+            <h2>
+              {mode === 'login'
+                ? 'Iniciar sesión'
+                : mode === 'recover'
+                  ? 'Recuperar acceso'
+                  : 'Cambiar contraseña'}
+            </h2>
+            <p className="text-secondary small mb-0">
+              {mode === 'login'
+                ? 'Ingresá tus credenciales de usuario para acceder a tu panel de trabajo.'
+                : 'Correo de prueba local: no se envía ningún email real.'}
             </p>
           </header>
 
@@ -174,270 +165,251 @@ export function Login() {
             </div>
           )}
 
-          {/* HIERARCHY TREE */}
-          <div className="hierarchy-tree" aria-label="Jerarquía de roles del sistema">
-            {/* TIER 1: ADMIN */}
-            <div className="hierarchy-tier hierarchy-tier-admin">
-              <article
-                className={`hierarchy-card hierarchy-card-admin ${
-                  loggingRole === ADMIN_ROLE.username ? 'is-loading' : ''
-                }`}
-                tabIndex={0}
-                role="button"
-                aria-label={`Ingresar como ${ADMIN_ROLE.title} (${ADMIN_ROLE.name})`}
-                onClick={() => !loggingRole && handleFastLogin(ADMIN_ROLE.username)}
-                onKeyDown={(e) => {
-                  if ((e.key === 'Enter' || e.key === ' ') && !loggingRole) {
-                    e.preventDefault();
-                    void handleFastLogin(ADMIN_ROLE.username);
-                  }
-                }}
-              >
-                <div className="hierarchy-card-top">
-                  <div className="hierarchy-avatar hierarchy-avatar-admin">
-                    <ADMIN_ROLE.icon size={22} strokeWidth={1.8} />
-                  </div>
-                  <div className="hierarchy-card-identity">
-                    <span className="hierarchy-role-tag">{ADMIN_ROLE.title}</span>
-                    <h3 className="hierarchy-person-name">{ADMIN_ROLE.name}</h3>
-                    <code className="hierarchy-username">@{ADMIN_ROLE.username}</code>
-                  </div>
-                  <span className="hierarchy-scope-badge">{ADMIN_ROLE.badge}</span>
+          {mode === 'login' ? (
+            <form onSubmit={handleLoginSubmit} className="login-form-credentials" noValidate>
+              <div className="form-group mb-3">
+                <label htmlFor="login-username" className="form-label">
+                  Usuario
+                </label>
+                <div className="input-group-custom">
+                  <span className="input-icon" aria-hidden="true">
+                    <User size={18} />
+                  </span>
+                  <input
+                    id="login-username"
+                    name="username"
+                    type="text"
+                    className="form-control with-icon"
+                    placeholder="Ej: admin, mozo, caja, cocina"
+                    autoComplete="username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                    disabled={isSubmitting}
+                  />
                 </div>
-                <p className="hierarchy-card-desc">{ADMIN_ROLE.flowDescription}</p>
+              </div>
+
+              <div className="form-group mb-4">
+                <div className="d-flex justify-content-between align-items-center mb-1">
+                  <label htmlFor="login-password" className="form-label mb-0">
+                    Contraseña
+                  </label>
+                  <button
+                    type="button"
+                    className="btn btn-link btn-sm p-0 text-muted"
+                    onClick={() => setMode('recover')}
+                  >
+                    ¿Olvidaste tu clave?
+                  </button>
+                </div>
+                <div className="password-input">
+                  <input
+                    id="login-password"
+                    name="password"
+                    type={showPassword ? 'text' : 'password'}
+                    className="form-control"
+                    placeholder="Ingresá tu contraseña"
+                    autoComplete="current-password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    disabled={isSubmitting}
+                  />
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    aria-label={showPassword ? 'Ocultar contraseña' : 'Ver contraseña'}
+                    onClick={() => setShowPassword((prev) => !prev)}
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="btn btn-primary w-100 login-submit-btn"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 size={16} className="btn-spinner" /> Validando credenciales…
+                  </>
+                ) : (
+                  'Iniciar sesión'
+                )}
+              </button>
+            </form>
+          ) : mode === 'recover' ? (
+            <div className="login-recover-container">
+              <FieldsForm
+                key="recover"
+                fields={[
+                  {
+                    name: 'username',
+                    label: 'Usuario',
+                    autoComplete: 'username',
+                    required: true,
+                    minLength: 3,
+                    maxLength: 60,
+                    pattern: '^[a-zA-Z0-9._-]{3,60}$',
+                  },
+                ]}
+                label="Solicitar recuperación"
+                submit={async (v) => {
+                  await post('auth/recover', v);
+                  setNotice(
+                    'Si el usuario existe, el token está disponible en la bandeja local del encargado.',
+                  );
+                }}
+              />
+              <div className="text-center mt-3">
                 <button
                   type="button"
-                  className="btn btn-primary hierarchy-login-btn"
-                  disabled={Boolean(loggingRole)}
+                  className="btn btn-link btn-sm"
+                  onClick={() => {
+                    setMode('login');
+                    setNotice('');
+                  }}
                 >
-                  {loggingRole === ADMIN_ROLE.username ? (
-                    <>
-                      <Loader2 size={16} className="btn-spinner" /> Ingresando…
-                    </>
-                  ) : (
-                    <>
-                      Ingresar como Admin <ArrowRight size={16} />
-                    </>
-                  )}
+                  Volver al ingreso
                 </button>
-              </article>
-            </div>
-
-            {/* TREE CONNECTORS */}
-            <div className="hierarchy-branch-connector" aria-hidden="true">
-              <div className="hierarchy-stem" />
-              <div className="hierarchy-branch-bar" />
-              <div className="hierarchy-drop-lines">
-                <span className="hierarchy-drop-line" />
-                <span className="hierarchy-drop-line" />
-                <span className="hierarchy-drop-line" />
               </div>
             </div>
+          ) : (
+            <div className="login-reset-container">
+              <FieldsForm
+                key="reset"
+                fields={[
+                  {
+                    name: 'token',
+                    label: 'Token de recuperación',
+                    required: true,
+                    maxLength: 64,
+                    pattern: '^[a-f0-9]{64}$',
+                  },
+                  {
+                    name: 'password',
+                    label: 'Nueva contraseña',
+                    type: 'password',
+                    autoComplete: 'new-password',
+                    required: true,
+                    minLength: 12,
+                    maxLength: 128,
+                    pattern: '^.{12,128}$',
+                    help: 'Entre 12 y 128 caracteres.',
+                  },
+                ]}
+                label="Cambiar contraseña"
+                submit={async (v) => {
+                  await post('auth/reset', v);
+                  setNotice('Contraseña actualizada. Ya podés ingresar.');
+                  setMode('login');
+                }}
+              />
+              <div className="text-center mt-3">
+                <button
+                  type="button"
+                  className="btn btn-link btn-sm"
+                  onClick={() => {
+                    setMode('login');
+                    setNotice('');
+                  }}
+                >
+                  Volver al ingreso
+                </button>
+              </div>
+            </div>
+          )}
 
-            {/* TIER 2: OPERATIONAL (MOZO - CAJERA - COCINA) */}
-            <div className="hierarchy-tier hierarchy-tier-ops">
-              <div className="hierarchy-ops-grid">
-                {OPERATIONAL_ROLES.map((role) => {
-                  const Icon = role.icon;
-                  const isLoading = loggingRole === role.username;
-                  return (
-                    <article
-                      key={role.id}
-                      className={`hierarchy-card hierarchy-card-op hierarchy-card-${role.id} ${
-                        isLoading ? 'is-loading' : ''
-                      }`}
-                      tabIndex={0}
-                      role="button"
-                      aria-label={`Ingresar como ${role.title} (${role.name})`}
-                      onClick={() => !loggingRole && handleFastLogin(role.username)}
-                      onKeyDown={(e) => {
-                        if ((e.key === 'Enter' || e.key === ' ') && !loggingRole) {
-                          e.preventDefault();
-                          void handleFastLogin(role.username);
-                        }
-                      }}
-                    >
-                      <div className="hierarchy-card-header">
-                        <div className={`hierarchy-avatar hierarchy-avatar-${role.id}`}>
-                          <Icon size={20} strokeWidth={1.8} />
-                        </div>
-                        <span className="hierarchy-step-badge">{role.badge}</span>
+          {/* CREDENTIALS REFERENCE CARD */}
+          <div className="credentials-guide-box mt-4">
+            <div className="credentials-guide-header">
+              <div className="d-flex align-items-center gap-2">
+                <KeyRound size={16} className="text-caramel" />
+                <strong>Credenciales del Sistema por Rol</strong>
+              </div>
+              <span className="badge-hint">1 cuenta por puesto</span>
+            </div>
+            <p className="small text-secondary mb-3">
+              Hacé click en <em>"Cargar"</em> para autocompletar usuario y contraseña en el
+              formulario:
+            </p>
+
+            <div className="credentials-cards-grid">
+              {DEMO_CREDENTIALS.map((cred) => {
+                const Icon = cred.icon;
+                const isSelected = username === cred.username;
+                const isCopied = copiedRole === cred.id;
+                return (
+                  <article
+                    key={cred.id}
+                    className={`credential-role-card ${isSelected ? 'active' : ''}`}
+                    onClick={() => applyCredentials(cred.username, cred.password, cred.id)}
+                    role="button"
+                    tabIndex={0}
+                    title={`Click para cargar credenciales de ${cred.role}`}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        applyCredentials(cred.username, cred.password, cred.id);
+                      }
+                    }}
+                  >
+                    <div className="credential-role-header">
+                      <div className={`role-avatar-badge role-avatar-${cred.id}`}>
+                        <Icon size={16} strokeWidth={2} />
                       </div>
-
-                      <div className="hierarchy-card-identity">
-                        <span className="hierarchy-role-tag">{role.title}</span>
-                        <h4 className="hierarchy-person-name">{role.name}</h4>
-                        <code className="hierarchy-username">@{role.username}</code>
+                      <div className="role-meta">
+                        <strong className="role-title">{cred.role}</strong>
+                        <span className="role-person">{cred.name}</span>
                       </div>
-
-                      <p className="hierarchy-card-desc">{role.flowDescription}</p>
-
                       <button
                         type="button"
-                        className="btn btn-outline-primary hierarchy-login-btn"
-                        disabled={Boolean(loggingRole)}
+                        className="btn btn-sm btn-outline-secondary btn-apply-cred"
+                        aria-label={`Cargar credenciales de ${cred.role}`}
                       >
-                        {isLoading ? (
+                        {isCopied ? (
                           <>
-                            <Loader2 size={15} className="btn-spinner" /> Ingresando…
+                            <Check size={13} className="text-success" /> Cargado
                           </>
                         ) : (
                           <>
-                            Ingresar como {role.title} <ArrowRight size={15} />
+                            <Copy size={13} /> Cargar
                           </>
                         )}
                       </button>
-                    </article>
-                  );
-                })}
-              </div>
+                    </div>
+
+                    <div className="credential-data-row">
+                      <div className="cred-field">
+                        <span className="cred-label">Usuario:</span>
+                        <code className="cred-val">@{cred.username}</code>
+                      </div>
+                      <div className="cred-field">
+                        <span className="cred-label">Clave:</span>
+                        <code className="cred-val">{cred.password}</code>
+                      </div>
+                    </div>
+
+                    <p className="role-desc">{cred.description}</p>
+                  </article>
+                );
+              })}
             </div>
           </div>
 
-          {/* MANUAL CREDENTIALS TOGGLE */}
-          <div className="hierarchy-manual-wrapper">
-            <button
-              type="button"
-              className="btn btn-link hierarchy-toggle-btn"
-              onClick={() => setShowManual((prev) => !prev)}
-            >
-              <Lock size={15} />
-              <span>O ingresar con credenciales manuales</span>
-              {showManual ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-            </button>
-
-            {showManual && (
-              <div className="hierarchy-manual-form animate-fade-in">
-                <p className="small text-secondary mb-3">
-                  {mode === 'login'
-                    ? 'Ingresá usuario y contraseña específicos de cualquier cuenta.'
-                    : mode === 'recover'
-                      ? 'Correo de prueba local: no se envía ningún email real.'
-                      : 'Elegí una nueva contraseña para tu cuenta.'}
-                </p>
-
-                {mode === 'login' ? (
-                  <FieldsForm
-                    key="login"
-                    fields={[
-                      {
-                        name: 'username',
-                        label: 'Usuario',
-                        autoComplete: 'username',
-                        required: true,
-                        minLength: 3,
-                        maxLength: 60,
-                        pattern: '^[a-zA-Z0-9._-]{3,60}$',
-                      },
-                      {
-                        name: 'password',
-                        label: 'Contraseña',
-                        type: 'password',
-                        autoComplete: 'current-password',
-                        required: true,
-                        maxLength: 128,
-                      },
-                    ]}
-                    label="Iniciar sesión con credenciales"
-                    submit={(v) => login(String(v.username), String(v.password))}
-                  />
-                ) : mode === 'recover' ? (
-                  <FieldsForm
-                    key="recover"
-                    fields={[
-                      {
-                        name: 'username',
-                        label: 'Usuario',
-                        autoComplete: 'username',
-                        required: true,
-                        minLength: 3,
-                        maxLength: 60,
-                        pattern: '^[a-zA-Z0-9._-]{3,60}$',
-                      },
-                    ]}
-                    label="Solicitar recuperación"
-                    submit={async (v) => {
-                      await post('auth/recover', v);
-                      setNotice(
-                        'Si el usuario existe, el token está disponible en la bandeja local del encargado.',
-                      );
-                    }}
-                  />
-                ) : (
-                  <FieldsForm
-                    key="reset"
-                    fields={[
-                      {
-                        name: 'token',
-                        label: 'Token de recuperación',
-                        required: true,
-                        maxLength: 64,
-                        pattern: '^[a-f0-9]{64}$',
-                      },
-                      {
-                        name: 'password',
-                        label: 'Nueva contraseña',
-                        type: 'password',
-                        autoComplete: 'new-password',
-                        required: true,
-                        minLength: 12,
-                        maxLength: 128,
-                        pattern: '^.{12,128}$',
-                        help: 'Entre 12 y 128 caracteres.',
-                      },
-                    ]}
-                    label="Cambiar contraseña"
-                    submit={async (v) => {
-                      await post('auth/reset', v);
-                      setNotice('Contraseña actualizada. Ya podés ingresar.');
-                      setMode('login');
-                    }}
-                  />
-                )}
-
-                <div className="login-links mt-3">
-                  {mode !== 'login' && (
-                    <button
-                      type="button"
-                      className="btn btn-link"
-                      onClick={() => {
-                        setMode('login');
-                        setNotice('');
-                      }}
-                    >
-                      Volver al ingreso
-                    </button>
-                  )}
-                  {mode === 'login' && (
-                    <button
-                      type="button"
-                      className="btn btn-link"
-                      onClick={() => setMode('recover')}
-                    >
-                      Olvidé mi contraseña
-                    </button>
-                  )}
-                  {mode !== 'reset' && (
-                    <button type="button" className="btn btn-link" onClick={() => setMode('reset')}>
-                      Tengo un token
-                    </button>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-
           {/* FOOTER LINKS */}
-          <footer className="hierarchy-login-footer">
-            <a className="menu-link" href="/carta">
-              Ver la carta pública <ArrowUpRight size={17} />
-            </a>
-            <a className="menu-link" href="/">
-              Volver al terminal de salón
-            </a>
-            <p className="small text-secondary mt-3 mb-0">
-              Contraseña demo unificada: <code>DemoBaguette2026!</code>
-            </p>
+          <footer className="login-panel-footer mt-4 pt-3 border-top">
+            <div className="d-flex justify-content-between flex-wrap gap-2">
+              <a className="menu-link" href="/carta">
+                Ver carta pública <ArrowUpRight size={15} />
+              </a>
+              <a className="menu-link" href="/">
+                Terminal de salón
+              </a>
+            </div>
           </footer>
         </div>
       </section>
