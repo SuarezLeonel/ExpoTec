@@ -52,14 +52,26 @@ if (isMysql) {
         if (!Number.isSafeInteger(num)) throw new Error('Importe fuera del rango exacto');
         return num;
       }
-      if (field.type === 'JSON') {
+      if (
+        field.type === 'JSON' ||
+        field.type === 'VAR_STRING' ||
+        field.type === 'STRING' ||
+        field.type === 'BLOB'
+      ) {
         const val = field.string('utf8');
         if (val === null) return null;
-        try {
-          return JSON.parse(val);
-        } catch {
-          return val;
+        const trimmed = val.trim();
+        if (
+          (trimmed.startsWith('[') && trimmed.endsWith(']')) ||
+          (trimmed.startsWith('{') && trimmed.endsWith('}'))
+        ) {
+          try {
+            return JSON.parse(trimmed);
+          } catch {
+            return val;
+          }
         }
+        return val;
       }
       return next();
     },
