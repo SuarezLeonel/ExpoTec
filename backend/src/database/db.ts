@@ -23,6 +23,11 @@ let mysqlPool: MysqlPool | undefined;
 
 if (isMysql) {
   const dbUrl = new URL(config.DATABASE_URL);
+  const useSsl =
+    dbUrl.hostname !== '127.0.0.1' &&
+    dbUrl.hostname !== 'localhost' &&
+    dbUrl.searchParams.get('ssl') !== 'false';
+
   mysqlPool = mysql.createPool({
     host: dbUrl.hostname,
     port: dbUrl.port ? Number(dbUrl.port) : 3306,
@@ -34,6 +39,7 @@ if (isMysql) {
     queueLimit: 0,
     enableKeepAlive: true,
     keepAliveInitialDelay: 0,
+    ...(useSsl ? { ssl: { minVersion: 'TLSv1.2', rejectUnauthorized: true } } : {}),
     typeCast: function (field, next) {
       if (field.type === 'TINY' && field.length === 1) {
         const val = field.string();
@@ -45,6 +51,15 @@ if (isMysql) {
         const num = Number(val);
         if (!Number.isSafeInteger(num)) throw new Error('Importe fuera del rango exacto');
         return num;
+      }
+      if (field.type === 'JSON') {
+        const val = field.string('utf8');
+        if (val === null) return null;
+        try {
+          return JSON.parse(val);
+        } catch {
+          return val;
+        }
       }
       return next();
     },
@@ -323,7 +338,7 @@ export async function transaction<T>(fn: (client: DB) => Promise<T>, write = tru
   const client = await pool.connect();
   try {
     if (isMysql) {
-      await client.query(write ? 'START TRANSACTION' : 'START TRANSACTION READ ONLY');
+      await client.query('START TRANSACTION');
       if (write) await client.query('SELECT pg_advisory_xact_lock(725615870)');
       const result = await fn(client);
       await client.query('COMMIT');
