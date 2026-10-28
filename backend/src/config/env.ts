@@ -5,7 +5,7 @@ const schema = z.object({
   DATABASE_URL: z
     .string()
     .url()
-    .refine((v) => /^postgres(ql)?:/.test(v), 'Debe ser PostgreSQL'),
+    .refine((v) => /^(postgres(ql)?|mysql):/.test(v), 'Debe ser PostgreSQL o MySQL'),
   PORT: z.coerce.number().int().min(1024).max(65535).default(3001),
   HOST: z.string().default('127.0.0.1'),
   BRANCH_TIMEZONE: z

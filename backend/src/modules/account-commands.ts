@@ -1,3 +1,4 @@
+import crypto from 'node:crypto';
 import { one, rows } from '../database/db.js';
 import { has, userById } from '../middleware/auth.js';
 import { ensure } from './errors.js';
@@ -28,15 +29,15 @@ async function moveItems(
         value.id,
       ]);
     else {
-      const created = await one(
-        ctx.db,
-        'INSERT INTO items(account_id,product_id,name,description,unit_cents,quantity,notes,destination,status) SELECT $1,product_id,name,description,unit_cents,$2,notes,destination,status FROM items WHERE id=$3 RETURNING id',
-        [target, selection.quantity, value.id],
+      const newId = crypto.randomUUID();
+      await ctx.db.query(
+        'INSERT INTO items(id,account_id,product_id,name,description,unit_cents,quantity,notes,destination,status) SELECT $1,$2,product_id,name,description,unit_cents,$3,notes,destination,status FROM items WHERE id=$4',
+        [newId, target, selection.quantity, value.id],
       );
-      movedId = created!.id as string;
+      movedId = newId;
       await ctx.db.query(
         'INSERT INTO item_addons(item_id,addon_id,name,price_cents) SELECT $1,addon_id,name,price_cents FROM item_addons WHERE item_id=$2',
-        [created!.id, value.id],
+        [newId, value.id],
       );
       await ctx.db.query('UPDATE items SET quantity=quantity-$1,updated_at=now() WHERE id=$2', [
         selection.quantity,

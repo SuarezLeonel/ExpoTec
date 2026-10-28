@@ -17,7 +17,7 @@ export const authenticate: RequestHandler = async (request, _response, next) => 
     );
     const session = await one(
       pool,
-      'SELECT s.id session_id,s.csrf,u.id,u.username,u.name,u.role,u.active,ARRAY(SELECT permission FROM role_permissions WHERE role=u.role) permissions FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=$1 AND s.mode=$2 AND s.revoked_at IS NULL AND s.expires_at>now() AND u.active',
+      "SELECT s.id session_id,s.csrf,u.id,u.username,u.name,u.role,u.active,coalesce((SELECT json_agg(permission) FROM role_permissions WHERE role=u.role),'[]'::json) permissions FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=$1 AND s.mode=$2 AND s.revoked_at IS NULL AND s.expires_at>now() AND u.active",
       [sha256(cookie), mode],
     );
     ensure(session, 401, 'UNAUTHENTICATED', 'La sesión venció. Iniciá sesión nuevamente.');

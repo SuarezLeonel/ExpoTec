@@ -3,31 +3,57 @@ import type { AuthRequest } from './types.js';
 import { config } from '../config/env.js';
 
 export async function tableState(db: DB, tableId: string, cash: boolean) {
-  const snapshot = (await one<
-    Record<
-      'accounts' | 'items' | 'payments' | 'refunds' | 'discounts' | 'cashSessions',
-      Record<string, unknown>[]
-    >
-  >(
+  const accounts = await rows<Record<string, unknown>>(
     db,
-    `WITH active_accounts AS MATERIALIZED (
-      SELECT * FROM account_totals WHERE table_id=$1 AND status IN ('open','requested')
-    )
-    SELECT
-      coalesce((SELECT json_agg(a ORDER BY a.created_at DESC) FROM active_accounts a),'[]') accounts,
-      coalesce((SELECT json_agg(line ORDER BY line.created_at) FROM (
-        SELECT i.*,coalesce((SELECT json_agg(json_build_object('id',a.addon_id,'name',a.name,'price_cents',a.price_cents)) FROM item_addons a WHERE a.item_id=i.id),'[]'::json) addons
-        FROM item_totals i JOIN active_accounts a ON a.id=i.account_id
-      ) line),'[]') items,
-      coalesce((SELECT json_agg(p ORDER BY p.created_at DESC) FROM payments p JOIN active_accounts a ON a.id=p.account_id WHERE $2),'[]') payments,
-      coalesce((SELECT json_agg(line ORDER BY line.created_at DESC) FROM (
-        SELECT r.*,coalesce((SELECT json_agg(pr) FROM product_returns pr WHERE pr.refund_id=r.id),'[]'::json) product_returns
-        FROM refunds r JOIN active_accounts a ON a.id=r.account_id WHERE $2
-      ) line),'[]') refunds,
-      coalesce((SELECT json_agg(d ORDER BY d.created_at DESC) FROM discounts d JOIN active_accounts a ON a.id=d.account_id),'[]') discounts,
-      coalesce((SELECT json_agg(line) FROM (SELECT id,status,created_at FROM cash_sessions WHERE status='open' AND $2) line),'[]') "cashSessions"`,
-    [tableId, cash],
-  ))!;
+    "SELECT * FROM account_totals WHERE table_id=$1 AND status IN ('open','requested') ORDER BY created_at DESC",
+    [tableId],
+  );
+  const accountIds = accounts.map((a) => a.id as string);
+  let items: Record<string, unknown>[] = [];
+  let payments: Record<string, unknown>[] = [];
+  let refunds: Record<string, unknown>[] = [];
+  let discounts: Record<string, unknown>[] = [];
+
+  if (accountIds.length > 0) {
+    items = await rows<Record<string, unknown>>(
+      db,
+      `SELECT i.*,coalesce((SELECT json_agg(json_build_object('id',a.addon_id,'name',a.name,'price_cents',a.price_cents)) FROM item_addons a WHERE a.item_id=i.id),'[]'::json) addons FROM item_totals i WHERE i.account_id=ANY($1::uuid[]) ORDER BY i.created_at`,
+      [accountIds],
+    );
+    if (cash) {
+      payments = await rows<Record<string, unknown>>(
+        db,
+        'SELECT * FROM payments WHERE account_id=ANY($1::uuid[]) ORDER BY created_at DESC',
+        [accountIds],
+      );
+      refunds = await rows<Record<string, unknown>>(
+        db,
+        `SELECT r.*,coalesce((SELECT json_agg(pr) FROM product_returns pr WHERE pr.refund_id=r.id),'[]'::json) product_returns FROM refunds r WHERE r.account_id=ANY($1::uuid[]) ORDER BY r.created_at DESC`,
+        [accountIds],
+      );
+    }
+    discounts = await rows<Record<string, unknown>>(
+      db,
+      'SELECT * FROM discounts WHERE account_id=ANY($1::uuid[]) ORDER BY created_at DESC',
+      [accountIds],
+    );
+  }
+
+  const cashSessions = cash
+    ? await rows<Record<string, unknown>>(
+        db,
+        "SELECT id,status,created_at FROM cash_sessions WHERE status='open' ORDER BY created_at DESC",
+      )
+    : [];
+
+  const snapshot = {
+    accounts,
+    items,
+    payments,
+    refunds,
+    discounts,
+    cashSessions,
+  };
   // JSON aggregates must retain the same integer safety as the pg bigint parser.
   function checkAmounts(value: unknown): void {
     if (!value || typeof value !== 'object') return;

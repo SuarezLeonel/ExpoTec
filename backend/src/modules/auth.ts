@@ -22,9 +22,16 @@ const cookieOptions = {
 let dummyHash: Promise<string> | undefined;
 export async function throttle(ip: string, route: string, limit: number) {
   const bucket = sha256(`${ip}:${route}`);
-  const row = await one(
+  await pool.query(
+    `INSERT INTO auth_attempts(bucket,attempts,started_at) VALUES($1,1,now())
+     ON CONFLICT(bucket) DO UPDATE SET
+       attempts=CASE WHEN auth_attempts.started_at<now()-interval '15 minutes' THEN 1 ELSE auth_attempts.attempts+1 END,
+       started_at=CASE WHEN auth_attempts.started_at<now()-interval '15 minutes' THEN now() ELSE auth_attempts.started_at END`,
+    [bucket],
+  );
+  const row = await one<{ attempts: number }>(
     pool,
-    `INSERT INTO auth_attempts(bucket,attempts) VALUES($1,1) ON CONFLICT(bucket) DO UPDATE SET attempts=CASE WHEN auth_attempts.started_at<now()-interval '15 minutes' THEN 1 ELSE auth_attempts.attempts+1 END, started_at=CASE WHEN auth_attempts.started_at<now()-interval '15 minutes' THEN now() ELSE auth_attempts.started_at END RETURNING attempts`,
+    'SELECT attempts FROM auth_attempts WHERE bucket=$1',
     [bucket],
   );
   ensure(
@@ -35,16 +42,19 @@ export async function throttle(ip: string, route: string, limit: number) {
   );
 }
 async function removeSuccessfulPinAttempt(address: string, route: string) {
-  // Lock the counter so concurrent successful PINs cannot erase failed guesses.
-  await pool.query(
-    `WITH counter AS MATERIALIZED (
-      SELECT bucket,attempts FROM auth_attempts WHERE bucket=$1 FOR UPDATE
-    ), cleared AS (
-      DELETE FROM auth_attempts a USING counter c WHERE a.bucket=c.bucket AND c.attempts=1
-    )
-    UPDATE auth_attempts a SET attempts=c.attempts-1 FROM counter c WHERE a.bucket=c.bucket AND c.attempts>1`,
-    [sha256(`${address}:${route}`)],
+  const bucket = sha256(`${address}:${route}`);
+  const counter = await one<{ attempts: number }>(
+    pool,
+    'SELECT attempts FROM auth_attempts WHERE bucket=$1',
+    [bucket],
   );
+  if (counter) {
+    if (counter.attempts <= 1) {
+      await pool.query('DELETE FROM auth_attempts WHERE bucket=$1', [bucket]);
+    } else {
+      await pool.query('UPDATE auth_attempts SET attempts=attempts-1 WHERE bucket=$1', [bucket]);
+    }
+  }
 }
 authRouter.post('/login', async (req, res) => {
   await throttle(req.ip ?? 'local', 'login', 20);
@@ -192,7 +202,7 @@ authRouter.post('/operational-pin', authenticate, csrf, async (req, res) => {
         `SELECT u.id,u.username,u.name,u.role,u.pin_version,
           EXISTS(SELECT 1 FROM sessions WHERE id=$4 AND mode='terminal' AND revoked_at IS NULL AND expires_at>now()) session_active,
           EXISTS(SELECT 1 FROM dining_tables WHERE id=$5 AND active) table_active,
-          ARRAY(SELECT permission FROM role_permissions WHERE role=u.role) permissions
+          coalesce((SELECT json_agg(permission) FROM role_permissions WHERE role=u.role),'[]'::json) permissions
          FROM users u WHERE u.id=$1 AND u.active AND u.pin_lookup=$2 AND u.pin_version=$3`,
         [
           identified.id,
@@ -216,29 +226,32 @@ authRouter.post('/operational-pin', authenticate, csrf, async (req, res) => {
         'El empleado identificado no tiene permiso para operar mesas.',
       );
       ensure(employee.table_active, 404, 'NOT_FOUND', 'La mesa no está disponible.');
+      await db.query('DELETE FROM operational_grants WHERE session_id=$1 OR expires_at<=now()', [
+        auth.sessionId,
+      ]);
       await db.query(
-        `WITH released AS (
-          DELETE FROM operational_grants WHERE session_id=$1 OR expires_at<=now() RETURNING id
-        ), granted AS (
-          INSERT INTO operational_grants(session_id,user_id,table_id,token_hash,pin_version,expires_at)
-          SELECT $1,$2,$3,$4,$5,now()+interval '10 minutes' WHERE (SELECT count(*) FROM released)>=0 RETURNING id
-        ), counter AS MATERIALIZED (
-          SELECT bucket,attempts FROM auth_attempts WHERE bucket=$6 FOR UPDATE
-        ), cleared AS (
-          DELETE FROM auth_attempts a USING counter c WHERE a.bucket=c.bucket AND c.attempts=1
-        ), decremented AS (
-          UPDATE auth_attempts a SET attempts=c.attempts-1 FROM counter c WHERE a.bucket=c.bucket AND c.attempts>1
-        )
-        INSERT INTO audit_events(user_id,operation,entity,entity_id)
-        SELECT $2,'auth.pin.verified','table',$3 FROM granted`,
-        [
-          auth.sessionId,
-          employee.id,
-          input.table_id,
-          sha256(grant),
-          employee.pin_version,
-          sha256(`${address}:terminal-pin`),
-        ],
+        `INSERT INTO operational_grants(session_id,user_id,table_id,token_hash,pin_version,expires_at)
+         VALUES($1,$2,$3,$4,$5,now()+interval '10 minutes')`,
+        [auth.sessionId, employee.id, input.table_id, sha256(grant), employee.pin_version],
+      );
+      const bucketKey = sha256(`${address}:terminal-pin`);
+      const counter = await one<{ attempts: number }>(
+        db,
+        'SELECT attempts FROM auth_attempts WHERE bucket=$1 FOR UPDATE',
+        [bucketKey],
+      );
+      if (counter) {
+        if (counter.attempts <= 1) {
+          await db.query('DELETE FROM auth_attempts WHERE bucket=$1', [bucketKey]);
+        } else {
+          await db.query('UPDATE auth_attempts SET attempts=attempts-1 WHERE bucket=$1', [
+            bucketKey,
+          ]);
+        }
+      }
+      await db.query(
+        'INSERT INTO audit_events(user_id,operation,entity,entity_id) VALUES($1,$2,$3,$4)',
+        [employee.id, 'auth.pin.verified', 'table', input.table_id],
       );
       return {
         operator: {

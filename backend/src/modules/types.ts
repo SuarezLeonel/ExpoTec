@@ -1,5 +1,5 @@
 import type { Request } from 'express';
-import type { PoolClient } from 'pg';
+import type { DB } from '../database/db.js';
 
 export interface User {
   id: string;
@@ -18,7 +18,7 @@ export interface AuthRequest extends Request {
   grantTableId?: string;
 }
 export interface CommandContext {
-  db: PoolClient;
+  db: DB;
   user: User;
   permissions: string[];
   operationId: string;

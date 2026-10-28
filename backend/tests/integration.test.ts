@@ -584,7 +584,7 @@ test('migración de la carta existente conserva productos, variantes, precios e 
       ['Cafetería', 'Desayunos', 'Cocina', 'Dulces', 'Bebidas'],
     );
     assert.equal(
-      tree.find((c) => c.name === 'Cafés clásicos').id,
+      tree.find((c) => c.name === 'Cafés clásicos')!.id,
       '10000000-0000-4000-8000-000000000001',
     );
   } finally {
