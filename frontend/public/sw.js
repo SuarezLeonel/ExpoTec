@@ -44,7 +44,7 @@ self.addEventListener("fetch", (event) => {
   )
     return;
   const allowed =
-    (event.request.mode === "navigate" && ["/", "/gestion", "/carta"].includes(url.pathname)) ||
+    (event.request.mode === "navigate" && ["/", "/gestion", "/carta", "/terminal"].includes(url.pathname)) ||
     url.pathname.startsWith("/assets/") ||
     url.pathname.startsWith("/brand/");
   if (!allowed) return;

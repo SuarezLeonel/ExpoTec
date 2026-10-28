@@ -1,7 +1,7 @@
 import type { Download, Pending } from '../types';
 let csrf = '';
 let operationToken = '';
-export const isTerminalMode = () => !location.pathname.startsWith('/gestion');
+export const isTerminalMode = () => location.pathname.startsWith('/terminal');
 export function setOperationToken(value: string) {
   operationToken = value;
 }

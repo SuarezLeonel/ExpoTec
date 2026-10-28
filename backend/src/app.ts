@@ -595,7 +595,9 @@ export function createApp() {
   const frontend = path.resolve('frontend/dist');
   if (existsSync(frontend)) {
     app.use(express.static(frontend));
-    app.get('/{*path}', (_req, res) => res.sendFile(path.join(frontend, 'index.html')));
+    app.get('/{*path}', (_req, res) =>
+      res.sendFile('index.html', { root: frontend, dotfiles: 'allow' }),
+    );
   }
   const errorHandler: ErrorRequestHandler = (error: unknown, _req, res, _next) => {
     if (error instanceof z.ZodError) {

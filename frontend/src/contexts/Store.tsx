@@ -261,14 +261,6 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   }, [identity, online, refresh, restore, terminal]);
   async function login(username: string, password: string) {
     const value = await post<Session>('auth/login', { username, password });
-    if (!['admin', 'cashier'].includes(value.user.role)) {
-      setCsrf(value.csrf);
-      await post('auth/logout');
-      setCsrf('');
-      throw new Error(
-        'El acceso de gestión está reservado a caja y encargado. Para comandar usá el terminal y tu PIN.',
-      );
-    }
     setCsrf(value.csrf);
     assignIdentity(value);
     setPendingScope(value.user.id);

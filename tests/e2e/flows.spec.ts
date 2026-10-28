@@ -142,7 +142,6 @@ test('navegación operativa y formularios sin infracciones automáticas en ambos
       ['cash', 'La caja'],
       ['catalog', 'Catálogo'],
       ['users', 'Usuarios'],
-      ['services', 'Servicios de la demo'],
       ['audit', 'Auditoría'],
     ]) {
       await page.goto(`/gestion#${hash}`);

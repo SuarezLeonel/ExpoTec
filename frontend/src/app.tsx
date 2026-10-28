@@ -5,7 +5,6 @@ import {
   BookOpen,
   Users,
   PenTool,
-  Printer,
   History,
   Menu as MenuIcon,
   LogOut,
@@ -27,7 +26,6 @@ import { Menu } from './pages/Menu';
 import { Salon } from './pages/Salon';
 import { Cash } from './pages/Cash';
 import { Catalog } from './pages/Catalog';
-import { Services } from './pages/Services';
 import { Audit } from './pages/Audit';
 import { FloorPlanEditor } from './pages/FloorPlanEditor';
 import './styles/floor-plan.css';
@@ -42,12 +40,6 @@ const navigation = [
   { id: 'catalog', name: 'Catálogo', icon: BookOpen, roles: ['admin'] },
   { id: 'users', name: 'Usuarios', icon: Users, roles: ['admin'] },
   { id: 'design', name: 'Diseño del salón', icon: PenTool, roles: ['admin'] },
-  {
-    id: 'services',
-    name: 'Servicios demo',
-    icon: Printer,
-    roles: ['admin', 'cashier', 'kitchen', 'bar'],
-  },
   { id: 'audit', name: 'Auditoría', icon: History, roles: ['admin'] },
 ];
 export function App() {
@@ -92,7 +84,6 @@ export function App() {
     catalog: ['manage_catalog'],
     users: ['manage_users'],
     design: ['manage_tables'],
-    services: ['operate', 'cash', 'prepare_kitchen', 'prepare_bar'],
     audit: ['audit'],
   };
   const available = navigation.filter((n) =>
@@ -138,7 +129,7 @@ export function App() {
           >
             <MenuIcon size={20} />
           </button>
-          <a href="/gestion" className="brand-logo" aria-label="Inicio">
+          <a href="/" className="brand-logo" aria-label="Inicio">
             <img src="/brand/baguette-logo.svg" alt="Café" width="104" height="40" />
           </a>
           <span className="branch-tag">
@@ -246,7 +237,6 @@ export function App() {
           {current === 'catalog' && <Catalog />}
           {current === 'users' && <Catalog users />}
           {current === 'design' && <FloorPlanEditor />}
-          {current === 'services' && <Services />}
           {current === 'audit' && <Audit />}
           <footer className="workspace-footer">
             <span>Café · Demo</span>

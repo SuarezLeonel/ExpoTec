@@ -121,8 +121,7 @@ export function Preparation() {
         </div>
       )}
       <p className="small text-secondary mt-4">
-        Las correcciones y anulaciones posteriores al envío también generan tickets identificables
-        en Servicios demo.
+        Las correcciones y anulaciones posteriores al envío también generan tickets identificables.
       </p>
     </>
   );

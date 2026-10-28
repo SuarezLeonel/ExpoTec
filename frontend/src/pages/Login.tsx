@@ -28,14 +28,14 @@ export function Login() {
           <p className="eyebrow mt-4">BIENVENIDO A TU TURNO</p>
           <h2>
             {mode === 'login'
-              ? 'Acceso de gestión'
+              ? 'Iniciar sesión'
               : mode === 'recover'
                 ? 'Recuperá tu acceso'
                 : 'Elegí otra contraseña'}
           </h2>
           <p className="text-secondary">
             {mode === 'login'
-              ? 'Ingresá como cajero o encargado. Para comandar usá el terminal de salón y tu PIN.'
+              ? 'Ingresá con tu usuario y contraseña para acceder al sistema.'
               : 'Correo de prueba local: no se envía ningún email real.'}
           </p>
           {(notice || serverNotice) && (
@@ -65,7 +65,7 @@ export function Login() {
                   maxLength: 128,
                 },
               ]}
-              label="Iniciar turno"
+              label="Iniciar sesión"
               submit={(v) => login(String(v.username), String(v.password))}
             />
           ) : mode === 'recover' ? (
