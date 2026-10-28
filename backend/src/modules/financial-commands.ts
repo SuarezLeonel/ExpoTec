@@ -77,7 +77,7 @@ export const financialCommands: Record<string, Handler> = {
     ensure(
       !(await one(
         ctx.db,
-        'SELECT 1 FROM discounts WHERE account_id=$1 AND item_id IS NOT DISTINCT FROM $2::uuid',
+        'SELECT 1 FROM discounts WHERE account_id=$1 AND item_id <=> $2',
         [before.id, input.item_id ?? null],
       )),
       409,

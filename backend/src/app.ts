@@ -672,6 +672,7 @@ export function createApp() {
     process.stderr.write(
       `Error interno de API (${typeof pg.code === 'string' ? pg.code : 'sin código'}).\n`,
     );
+    console.error('Detalle error API:', error);
     res.status(500).json({
       error: {
         code: 'INTERNAL',

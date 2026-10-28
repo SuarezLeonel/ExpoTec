@@ -156,6 +156,20 @@ async function executeMysql<T = QueryResultRow>(
   // Typecasts
   s = s.replace(/::(uuid(\[\])?|text(\[\])?|integer|int|bigint|boolean|jsonb?)/gi, '');
 
+  // NULL-safe comparison
+  s = s.replace(/\bIS\s+NOT\s+DISTINCT\s+FROM\b/gi, '<=>');
+
+  // FILTER (WHERE ...) emulation
+  s = s.replace(
+    /\b(SUM|COUNT|AVG)\s*\(\s*([\s\S]+?)\s*\)\s*FILTER\s*\(\s*WHERE\s+([\s\S]+?)\s*\)/gi,
+    (_, fn, expr, cond) => {
+      if (fn.toUpperCase() === 'COUNT') {
+        return `COUNT(CASE WHEN ${cond} THEN ${expr} END)`;
+      }
+      return `${fn.toUpperCase()}(CASE WHEN ${cond} THEN ${expr} ELSE 0 END)`;
+    },
+  );
+
   // ANY array comparisons
   s = s.replace(
     /NOT\s*\(\s*([a-zA-Z0-9_.]+)\s*=\s*ANY\s*\(\s*\$(\d+)\s*\)\s*\)/gi,

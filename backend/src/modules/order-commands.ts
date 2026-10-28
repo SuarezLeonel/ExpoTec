@@ -88,14 +88,28 @@ export const orderCommands: Record<string, Handler> = {
       'El total excede el rango exacto admitido.',
     );
     if (lines.length) {
-      await ctx.db.query(
-        `INSERT INTO items(id,account_id,product_id,name,description,unit_cents,quantity,notes,destination) SELECT x.id,$1,x.product_id,x.name,x.description,x.unit_cents,x.quantity,x.notes,x.destination FROM jsonb_to_recordset($2::jsonb) AS x(id uuid,product_id uuid,name text,description text,unit_cents bigint,quantity integer,notes text,destination text)`,
-        [current.id, JSON.stringify(lines)],
-      );
-      await ctx.db.query(
-        `INSERT INTO item_addons(item_id,addon_id,name,price_cents) SELECT * FROM jsonb_to_recordset($1::jsonb) AS x(item_id uuid,addon_id uuid,name text,price_cents bigint)`,
-        [JSON.stringify(itemAddons)],
-      );
+      for (const line of lines) {
+        await ctx.db.query(
+          'INSERT INTO items(id,account_id,product_id,name,description,unit_cents,quantity,notes,destination) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)',
+          [
+            line.id,
+            current.id,
+            line.product_id,
+            line.name,
+            line.description,
+            line.unit_cents,
+            line.quantity,
+            line.notes ?? null,
+            line.destination,
+          ],
+        );
+      }
+      for (const addon of itemAddons) {
+        await ctx.db.query(
+          'INSERT INTO item_addons(item_id,addon_id,name,price_cents) VALUES($1,$2,$3,$4)',
+          [addon.item_id, addon.addon_id, addon.name, addon.price_cents],
+        );
+      }
     }
     const result = (await orderCommands['order.send']!(ctx, {
       account_id: current.id,
