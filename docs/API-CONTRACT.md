@@ -58,7 +58,7 @@ La operación conserva su mesa original para lookup/replay aunque una cuenta se 
 | `item.add`                                   | `{account_id,version,product_id,quantity,notes,addon_ids}`                                                         |
 | `item.edit`, `item.void`                     | Base de cuenta + `{item_id,quantity,notes}` / `{item_id,reason,authorization?}`; respetar permisos sensibles       |
 | `order.send`                                 | `{account_id,version,item_ids}`; marca Pedido y genera el trabajo correspondiente                                  |
-| `item.status`                                | Deshabilitado para nuevas transiciones: responde 409; no es un paso del salón                                      |
+| `item.status`                                | Base de cuenta + `{item_id,status}`; avanza ciclo de preparación y entrega (`preparing`, `ready`, `delivered`)     |
 | `discount.apply`                             | Base de cuenta + `{item_id?,kind:amount                                                                            | percent,value,reason,authorization?}`; importe en centavos o porcentaje entero |
 | `payment.add`                                | Base de cuenta + `{amount_cents,method:cash                                                                        | debit                                                                          | credit                                                             | transfer,received_cents?,split?:{kind:equal | amount | items,parts?,part?,selections?}}` |
 | `refund.add`                                 | Base de cuenta + `{payment_id,item_id?,quantity?,amount_cents,reason,return_product,authorization?}`               |

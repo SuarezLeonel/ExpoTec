@@ -21,6 +21,7 @@ export function OrderItemRow({
   onVoid,
   onIncrease,
   onDecrease,
+  onDeliver,
   children,
 }: {
   item: Item;
@@ -39,6 +40,7 @@ export function OrderItemRow({
   onVoid: () => void;
   onIncrease: () => void;
   onDecrease: () => void;
+  onDeliver?: () => void;
   children?: ReactNode;
 }) {
   const [more, setMore] = useState(false);
@@ -82,9 +84,19 @@ export function OrderItemRow({
           )}
         </div>
       )}
-      {(showStatus || editable || canVoid || canAdjust) && (
+      {(showStatus || editable || canVoid || canAdjust || onDeliver) && (
         <div className="order-line-actions">
           {showStatus && <Badge value={item.status} />}
+          {item.status === 'ready' && onDeliver && (
+            <button
+              type="button"
+              className="btn btn-sm btn-success py-1 px-2"
+              onClick={onDeliver}
+              title="Marcar pedido entregado a la mesa"
+            >
+              ✓ Entregar
+            </button>
+          )}
           {canAdjust && (
             <div
               className="order-line-stepper"

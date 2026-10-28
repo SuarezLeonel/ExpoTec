@@ -24,31 +24,42 @@ export const seedUsers = [
     username: 'admin',
     name: 'Ana Encargada',
     role: 'admin',
+    active: true,
   },
   {
     id: '50000000-0000-4000-8000-000000000002',
     username: 'caja',
     name: 'Carla Cajera',
     role: 'cashier',
+    active: true,
   },
   {
     id: '50000000-0000-4000-8000-000000000003',
     username: 'mozo',
     name: 'Martín Camarero',
     role: 'waiter',
+    active: true,
   },
   {
     id: '50000000-0000-4000-8000-000000000004',
     username: 'cocina',
     name: 'Lucía Cocina',
     role: 'kitchen',
+    active: true,
   },
-  { id: '50000000-0000-4000-8000-000000000005', username: 'bar', name: 'Bruno Bar', role: 'bar' },
+  {
+    id: '50000000-0000-4000-8000-000000000005',
+    username: 'bar',
+    name: 'Bruno Bar',
+    role: 'bar',
+    active: true,
+  },
   {
     id: '50000000-0000-4000-8000-000000000006',
     username: 'moza',
     name: 'María Camarera',
     role: 'waiter',
+    active: true,
   },
 ];
 export async function seed(db?: DB, sample = true) {
@@ -88,8 +99,8 @@ export async function seed(db?: DB, sample = true) {
     `);
     for (const user of seedUsers)
       await client.query(
-        'INSERT INTO users(id,username,name,role,password_hash) VALUES($1,$2,$3,$4,$5) ON CONFLICT DO NOTHING',
-        [user.id, user.username, user.name, user.role, passwordHash],
+        'INSERT INTO users(id,username,name,role,password_hash,active) VALUES($1,$2,$3,$4,$5,$6) ON CONFLICT(id) DO UPDATE SET active=$6',
+        [user.id, user.username, user.name, user.role, passwordHash, user.active !== false],
       );
     for (const [index, user] of seedUsers.entries()) {
       const pin = String(4101 + index * 101);

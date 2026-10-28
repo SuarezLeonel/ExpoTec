@@ -7,8 +7,7 @@ export function Preparation() {
   const { state, session, command, busy, refresh } = useStore();
   const [filter, setFilter] = useState('all');
   if (!state || !session) return null;
-  const destination =
-    session.user.role === 'bar' ? 'bar' : session.user.role === 'kitchen' ? 'kitchen' : filter;
+  const destination = session.user.role === 'bar' ? 'bar' : filter;
   const items = state.items.filter(
     (i) =>
       ['sent', 'preparing', 'ready'].includes(i.status) &&
@@ -17,7 +16,7 @@ export function Preparation() {
   const groups = [...new Set(items.map((i) => i.account_id))];
   return (
     <>
-      <PageHeading eyebrow="COMANDAS DEL TURNO" title="Cocina y bar">
+      <PageHeading eyebrow="COMANDAS DEL TURNO" title="Cocina y despacho">
         <button
           className="btn btn-outline-primary"
           disabled={busy}
@@ -30,10 +29,10 @@ export function Preparation() {
       </PageHeading>
       <div className="salon-toolbar">
         <nav className="category-tabs" aria-label="Destino de preparación">
-          {['admin', 'cashier', 'waiter'].includes(session.user.role) && (
+          {['admin', 'cashier', 'waiter', 'kitchen'].includes(session.user.role) && (
             <>
               <button className={filter === 'all' ? 'active' : ''} onClick={() => setFilter('all')}>
-                Todos los destinos
+                Todos los pedidos
               </button>
               <button
                 className={filter === 'kitchen' ? 'active' : ''}
@@ -84,34 +83,77 @@ export function Preparation() {
                       <small className="text-secondary">{date(i.created_at, true)}</small>
                       <div className="item-bottom">
                         <Badge value={i.status} />
-                        <button
-                          className="btn btn-sm btn-primary"
-                          disabled={
-                            busy ||
-                            (i.status === 'ready' && ['kitchen', 'bar'].includes(session.user.role))
-                          }
-                          onClick={() => {
-                            void command('item.status', {
-                              account_id: id,
-                              version: account?.version,
-                              item_id: i.id,
-                              status:
-                                i.status === 'sent'
-                                  ? 'preparing'
-                                  : i.status === 'preparing'
-                                    ? 'ready'
-                                    : 'delivered',
-                            }).catch(() => undefined);
-                          }}
-                        >
-                          {i.status === 'sent'
-                            ? 'Preparar'
-                            : i.status === 'preparing'
-                              ? 'Marcar listo'
-                              : ['kitchen', 'bar'].includes(session.user.role)
-                                ? 'Esperando entrega'
-                                : 'Entregar'}
-                        </button>
+                        <div className="d-flex gap-2">
+                          {i.status === 'sent' && (
+                            <>
+                              <button
+                                className="btn btn-sm btn-outline-primary"
+                                disabled={busy}
+                                onClick={() => {
+                                  void command('item.status', {
+                                    account_id: id,
+                                    version: account?.version,
+                                    item_id: i.id,
+                                    status: 'preparing',
+                                  }).catch(() => undefined);
+                                }}
+                              >
+                                Preparar
+                              </button>
+                              <button
+                                className="btn btn-sm btn-primary"
+                                disabled={busy}
+                                onClick={() => {
+                                  void command('item.status', {
+                                    account_id: id,
+                                    version: account?.version,
+                                    item_id: i.id,
+                                    status: 'ready',
+                                  }).catch(() => undefined);
+                                }}
+                              >
+                                Listo para mesa
+                              </button>
+                            </>
+                          )}
+                          {i.status === 'preparing' && (
+                            <button
+                              className="btn btn-sm btn-primary"
+                              disabled={busy}
+                              onClick={() => {
+                                void command('item.status', {
+                                  account_id: id,
+                                  version: account?.version,
+                                  item_id: i.id,
+                                  status: 'ready',
+                                }).catch(() => undefined);
+                              }}
+                            >
+                              ✓ Listo para entregar
+                            </button>
+                          )}
+                          {i.status === 'ready' &&
+                            (session.user.role === 'kitchen' ? (
+                              <span className="badge badge-success d-inline-flex align-items-center py-1 px-2">
+                                Listo en despacho · Esperando mozo
+                              </span>
+                            ) : (
+                              <button
+                                className="btn btn-sm btn-success"
+                                disabled={busy}
+                                onClick={() => {
+                                  void command('item.status', {
+                                    account_id: id,
+                                    version: account?.version,
+                                    item_id: i.id,
+                                    status: 'delivered',
+                                  }).catch(() => undefined);
+                                }}
+                              >
+                                ✓ Entregar a la mesa
+                              </button>
+                            ))}
+                        </div>
                       </div>
                     </article>
                   ))}

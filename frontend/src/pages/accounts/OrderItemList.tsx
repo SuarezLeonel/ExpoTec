@@ -94,6 +94,18 @@ export function OrderItemList({
         canIncrease={canIncrease}
         canAdjust={!closed && item.status === 'draft'}
         showPrice={showPrices}
+        onDeliver={
+          item.status === 'ready'
+            ? () => {
+                setError('');
+                void command('item.status', {
+                  ...body,
+                  item_id: item.id,
+                  status: 'delivered',
+                }).catch((e: Error) => setError(e.message));
+              }
+            : undefined
+        }
         onSelect={(checked) =>
           setSelected((ids) => (checked ? [...ids, item.id] : ids.filter((id) => id !== item.id)))
         }

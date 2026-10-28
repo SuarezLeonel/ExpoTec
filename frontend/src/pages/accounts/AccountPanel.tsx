@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from 'react';
-import { Plus, Send, MoreHorizontal, CreditCard, CheckCheck } from 'lucide-react';
-import { Badge, Confirm } from '../../components/UI';
+import { Plus, Send, MoreHorizontal, CreditCard, CheckCheck, Printer } from 'lucide-react';
+import { Badge, Confirm, Dialog } from '../../components/UI';
 import { useStore } from '../../contexts/Store';
 import { can } from '../../services/permissions';
 import { date, money } from '../../services/api';
@@ -205,6 +205,14 @@ export function AccountPanel({
           </div>
           {!closed && (
             <div className="account-footer">
+              <button
+                type="button"
+                className="btn btn-outline-primary"
+                onClick={() => setPanel('invoice')}
+                title="Imprimir comanda o factura de la mesa"
+              >
+                <Printer size={16} /> Imprimir factura
+              </button>
               {account.status === 'open' && (
                 <button
                   className="btn btn-outline-primary"
@@ -225,11 +233,12 @@ export function AccountPanel({
               )}
               {canCash && Number(account.balance_cents) === 0 && (
                 <button
-                  className="btn btn-primary"
+                  className="btn btn-success"
                   disabled={sending || localCount > 0}
                   onClick={() => setPanel('close')}
+                  title="Liberar mesa para nuevos comensales"
                 >
-                  <CheckCheck size={17} /> Cerrar cuenta
+                  <CheckCheck size={17} /> Dejar libre la mesa
                 </button>
               )}
             </div>
@@ -253,11 +262,123 @@ export function AccountPanel({
       {panel === 'refund' && <RefundPanel account={account} close={() => setPanel('')} />}{' '}
       {panel === 'close' && (
         <Confirm
-          title="Cerrar cuenta"
-          text="La cuenta está pagada. ¿Cerrar y liberar la mesa?"
+          title="Dejar libre la mesa"
+          text="El consumo está totalmente pagado. Al confirmar, la mesa queda libre en el salón para nuevos clientes."
           close={() => setPanel('')}
           proceed={() => command('account.close', accountBody)}
         />
+      )}
+      {panel === 'invoice' && (
+        <Dialog title="Comprobante de consumo / Factura" close={() => setPanel('')} wide>
+          <div className="printable-invoice">
+            <header className="invoice-header text-center pb-3 border-bottom mb-3">
+              <h2 className="mb-1">CAFÉ</h2>
+              <p className="small text-secondary mb-1">ESPRESSO & COCINA · Sucursal Central</p>
+              <p className="small mb-0">
+                Comprobante de mesa: {state.tables.find((t) => t.id === account.table_id)?.label}
+              </p>
+            </header>
+            <div className="invoice-meta d-flex justify-content-between small text-secondary mb-3">
+              <div>
+                <div>
+                  <strong>Fecha:</strong> {date(new Date().toISOString(), true)}
+                </div>
+                <div>
+                  <strong>Mesa:</strong>{' '}
+                  {state.tables.find((t) => t.id === account.table_id)?.label} (
+                  {state.tables.find((t) => t.id === account.table_id)?.sector})
+                </div>
+              </div>
+              <div className="text-end">
+                <div>
+                  <strong>Atendió:</strong>{' '}
+                  {state.users.find((u) => u.id === account.waiter_id)?.name || 'Mozo'}
+                </div>
+                <div>
+                  <strong>Comensales:</strong> {account.guests}
+                </div>
+              </div>
+            </div>
+            <table className="table table-sm invoice-table mb-3">
+              <thead>
+                <tr>
+                  <th>Cant.</th>
+                  <th>Descripción</th>
+                  <th className="text-end">Unitario</th>
+                  <th className="text-end">Importe</th>
+                </tr>
+              </thead>
+              <tbody>
+                {items
+                  .filter((i) => i.status !== 'void')
+                  .map((item) => {
+                    const lineTotal =
+                      (Number(item.unit_cents) +
+                        (item.addons || []).reduce((s, a) => s + Number(a.price_cents), 0)) *
+                      item.quantity;
+                    return (
+                      <tr key={item.id}>
+                        <td>{item.quantity}</td>
+                        <td>
+                          <strong>{item.name}</strong>
+                          {item.addons?.length > 0 && (
+                            <div className="small text-secondary">
+                              + {item.addons.map((a) => a.name).join(', ')}
+                            </div>
+                          )}
+                          {item.notes && <div className="small text-muted">Nota: {item.notes}</div>}
+                        </td>
+                        <td className="text-end">{money(item.unit_cents)}</td>
+                        <td className="text-end">{money(lineTotal)}</td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+            <div className="invoice-totals border-top pt-2 mb-4">
+              <div className="d-flex justify-content-between mb-1">
+                <span>Subtotal consumos:</span>
+                <strong>{money(account.subtotal_cents)}</strong>
+              </div>
+              {account.discount_cents > 0 && (
+                <div className="d-flex justify-content-between text-success mb-1">
+                  <span>Descuento aplicado:</span>
+                  <strong>- {money(account.discount_cents)}</strong>
+                </div>
+              )}
+              <div className="d-flex justify-content-between fs-5 mb-1">
+                <strong>Total a pagar:</strong>
+                <strong>{money(account.total_cents)}</strong>
+              </div>
+              <div className="d-flex justify-content-between text-secondary mb-1">
+                <span>Total pagado:</span>
+                <span>{money(account.paid_cents)}</span>
+              </div>
+              <div className="d-flex justify-content-between fs-6 border-top pt-1">
+                <strong>Saldo pendiente:</strong>
+                <strong
+                  className={Number(account.balance_cents) === 0 ? 'text-success' : 'text-danger'}
+                >
+                  {Number(account.balance_cents) === 0
+                    ? 'PAGADO COMPLETO'
+                    : money(account.balance_cents)}
+                </strong>
+              </div>
+            </div>
+            <div className="d-flex justify-content-between align-items-center pt-2 border-top">
+              <button
+                type="button"
+                className="btn btn-outline-secondary"
+                onClick={() => setPanel('')}
+              >
+                Cerrar
+              </button>
+              <button type="button" className="btn btn-primary" onClick={() => window.print()}>
+                <Printer size={16} /> Imprimir comanda
+              </button>
+            </div>
+          </div>
+        </Dialog>
       )}
     </section>
   );

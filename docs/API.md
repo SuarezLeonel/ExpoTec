@@ -31,7 +31,7 @@ Sesiones revocables, cookies HttpOnly/SameSite Strict, CSRF, orígenes y límite
 | 429     | Respetar el bloqueo temporal por intentos                                              |
 | 500     | Consultar el resultado antes de repetir; no afirmar confirmación local                 |
 
-Los errores tienen `{error:{code,message,details?}}`. La recuperación no revela cuentas existentes. `item.status` queda deshabilitado para el flujo nuevo y devuelve 409.
+Los errores tienen `{error:{code,message,details?}}`. La recuperación no revela cuentas existentes. `item.status` gestiona la transición de preparación y entrega entre cocina y salón (`preparing`, `ready`, `delivered`).
 
 Las solicitudes JSON comunes admiten hasta 128 KB. `/api/products/image` autoriza sesión, CSRF y permiso de catálogo antes de leer su cuerpo de hasta 6 MB; conserva las validaciones de imagen de 3 MB y reprocesamiento. `/api/public` admite 120 solicitudes por minuto e imágenes 12 por minuto, por dirección de origen. Estos límites responden 429 con `Retry-After` en segundos y se mantienen en memoria de cada proceso. El límite persistente de autenticación/PIN conserva su ventana de quince minutos; un PIN correcto no borra fallos previos.
 

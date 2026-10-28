@@ -4,7 +4,7 @@ import { authorize, has } from '../middleware/auth.js';
 import { account, bump, editable, item, orderTicket } from './account-data.js';
 import { audit } from './audit.js';
 import { define, type Handler } from './command-types.js';
-import { ApiError, ensure } from './errors.js';
+import { ensure } from './errors.js';
 import { schemas } from './validation.js';
 import { accountCommands } from './account-commands.js';
 import type { Account } from './types.js';
@@ -261,12 +261,42 @@ export const orderCommands: Record<string, Handler> = {
     await audit(ctx, 'order.send', 'account', current.id, { item_ids: input.item_ids }, after);
     return { account: after, sent_item_ids: input.item_ids };
   }),
-  'item.status': define(schemas['item.status'], async () => {
-    throw new ApiError(
-      409,
-      'WORKFLOW_DISABLED',
-      'El pedido enviado queda registrado. Este flujo no utiliza estados de preparación o entrega.',
+  'item.status': define(schemas['item.status'], async (ctx, input) => {
+    const current = await account(ctx, input.account_id, input.version);
+    const before = await item(ctx, current.id, input.item_id);
+    ensure(before.status !== 'void', 409, 'ALREADY_VOID', 'El ítem ya fue anulado.');
+
+    if (input.status === 'preparing') {
+      ensure(
+        ['sent', 'draft'].includes(before.status),
+        409,
+        'INVALID_STATUS',
+        'Solo se pueden preparar ítems enviados.',
+      );
+    } else if (input.status === 'ready') {
+      ensure(
+        ['sent', 'preparing'].includes(before.status),
+        409,
+        'INVALID_STATUS',
+        'Solo se pueden marcar listos ítems enviados o en preparación.',
+      );
+    } else if (input.status === 'delivered') {
+      ensure(
+        ['ready', 'preparing', 'sent'].includes(before.status),
+        409,
+        'INVALID_STATUS',
+        'Solo se pueden entregar ítems listos o en curso.',
+      );
+    }
+
+    const updated = await one(
+      ctx.db,
+      'UPDATE items SET status=$1, updated_at=now() WHERE id=$2 RETURNING *',
+      [input.status, before.id],
     );
+    const after = await bump(ctx, current.id);
+    await audit(ctx, 'item.status', 'item', before.id, before, updated);
+    return { item: updated, account: after };
   }),
   'item.void': define(schemas['item.void'], async (ctx, input) => {
     has(ctx, 'sensitive_void');

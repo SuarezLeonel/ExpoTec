@@ -711,10 +711,9 @@ test('unión física separada de cuentas, división por cantidades, transferenci
   await command(admin, 'table.group', { table_ids: [table, table2], group_id: null });
   assert.equal((await current(admin, source.id)).total_cents, value.account.total_cents);
 });
-test('enviar conserva disponibilidad y corrección incremental; preparación y entrega están deshabilitadas', async () => {
+test('enviar conserva disponibilidad y corrección incremental; preparación y entrega avanzan de estado', async () => {
   const admin = await login();
   const kitchen = await login('cocina');
-  const bar = await login('bar');
   const account = await open(admin);
   const added = await add(admin, account.id, coffee, 1);
   await pool.query('UPDATE products SET available=false WHERE id=$1', [coffee]);
@@ -730,21 +729,20 @@ test('enviar conserva disponibilidad y corrección incremental; preparación y e
     version: added.account.version,
     item_ids: [added.item.id],
   });
-  for (const session of [kitchen, bar, admin])
-    await command(
-      session,
-      'item.status',
-      {
-        account_id: account.id,
-        version: (await current(admin, account.id)).version,
-        item_id: added.item.id,
-        status: 'preparing',
-      },
-      409,
-    );
+  await command(
+    kitchen,
+    'item.status',
+    {
+      account_id: account.id,
+      version: (await current(admin, account.id)).version,
+      item_id: added.item.id,
+      status: 'preparing',
+    },
+    200,
+  );
   assert.equal(
     (await state(admin)).items.find((item) => item.id === added.item.id)!.status,
-    'sent',
+    'preparing',
   );
   await command(admin, 'item.edit', {
     account_id: account.id,

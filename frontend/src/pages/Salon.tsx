@@ -1,5 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Plus, Grid2X2, List, Link2, ZoomIn, ZoomOut, Maximize2 } from 'lucide-react';
+import {
+  Plus,
+  Grid2X2,
+  List,
+  Link2,
+  ZoomIn,
+  ZoomOut,
+  Maximize2,
+  BellRing,
+  Check,
+} from 'lucide-react';
 import { InlineConfirm, Dialog, Empty, FieldsForm } from '../components/UI';
 import { useFloorPages } from '../hooks/useFloorPages';
 import { TableMap, type PlacementDraft } from '../components/TableMap';
@@ -63,9 +73,76 @@ export function Salon() {
   if (!state || !session) return null;
   const canEdit = can(state, 'manage_tables');
   const table = tables.find((t) => t.id === activeTableId);
+  const readyItems = state.items.filter((i) => i.status === 'ready');
   return (
     <div className={`salon-page ${terminal ? 'shared-salon' : ''}`}>
       <h1 className="visually-hidden">El salón</h1>
+      {readyItems.length > 0 && (
+        <section className="ready-orders-banner" aria-label="Platos listos para entregar">
+          <div className="ready-orders-header">
+            <div className="ready-orders-title">
+              <span className="ready-orders-pulse" aria-hidden="true" />
+              <BellRing size={18} className="ready-icon" />
+              <strong>
+                {readyItems.length === 1
+                  ? '1 pedido listo en cocina para entregar a la mesa'
+                  : `${readyItems.length} pedidos listos en cocina para entregar a las mesas`}
+              </strong>
+            </div>
+            <span className="small text-secondary">Retirar de cocina y servir al comensal</span>
+          </div>
+          <div className="ready-orders-grid">
+            {readyItems.map((item) => {
+              const account = state.accounts.find((a) => a.id === item.account_id);
+              const tableObj = state.tables.find((t) => t.id === account?.table_id);
+              return (
+                <article key={item.id} className="ready-order-card">
+                  <div className="ready-order-info">
+                    <span className="ready-table-badge">
+                      {tableObj?.label || 'Mesa'} · {tableObj?.sector || 'Salón'}
+                    </span>
+                    <strong className="ready-item-name">
+                      {item.quantity} × {item.name}
+                    </strong>
+                    {item.addons?.length > 0 && (
+                      <span className="ready-addons">
+                        + {item.addons.map((a) => a.name).join(', ')}
+                      </span>
+                    )}
+                    {item.notes && <span className="ready-notes">Nota: {item.notes}</span>}
+                  </div>
+                  <div className="ready-order-actions">
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-success"
+                      onClick={() => {
+                        void command('item.status', {
+                          account_id: item.account_id,
+                          version: account?.version,
+                          item_id: item.id,
+                          status: 'delivered',
+                        }).catch(() => undefined);
+                      }}
+                      title="Marcar como entregado a la mesa"
+                    >
+                      <Check size={15} /> Entregar a mesa
+                    </button>
+                    {tableObj && (
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-outline-primary"
+                        onClick={() => enterTable(tableObj.id)}
+                      >
+                        Abrir mesa
+                      </button>
+                    )}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+      )}
       <div className="salon-toolbar">
         <label className="salon-search">
           Buscar mesa

@@ -6,6 +6,7 @@ import {
   Users,
   PenTool,
   History,
+  ChefHat,
   Menu as MenuIcon,
   LogOut,
   Wifi,
@@ -24,6 +25,7 @@ import { TerminalShell } from './components/TerminalShell';
 import { Login } from './pages/Login';
 import { Menu } from './pages/Menu';
 import { Salon } from './pages/Salon';
+import { Preparation } from './pages/Preparation';
 import { Cash } from './pages/Cash';
 import { Catalog } from './pages/Catalog';
 import { Audit } from './pages/Audit';
@@ -35,6 +37,12 @@ const navigation = [
     name: 'Salón',
     icon: LayoutGrid,
     roles: ['admin', 'cashier', 'waiter'],
+  },
+  {
+    id: 'preparation',
+    name: 'Cocina',
+    icon: ChefHat,
+    roles: ['admin', 'kitchen'],
   },
   { id: 'cash', name: 'Caja', icon: Wallet, roles: ['admin', 'cashier'] },
   { id: 'catalog', name: 'Catálogo', icon: BookOpen, roles: ['admin'] },
@@ -79,7 +87,7 @@ export function App() {
   if (!session) return <Login />;
   const navPermissions: Record<string, string[]> = {
     salon: ['operate'],
-    preparation: ['operate', 'cash', 'prepare_kitchen', 'prepare_bar'],
+    preparation: ['prepare_kitchen', 'manage_users'],
     cash: ['cash'],
     catalog: ['manage_catalog'],
     users: ['manage_users'],
@@ -233,6 +241,7 @@ export function App() {
             </div>
           )}
           {current === 'salon' && <Salon />}
+          {current === 'preparation' && <Preparation />}
           {current === 'cash' && <Cash />}
           {current === 'catalog' && <Catalog />}
           {current === 'users' && <Catalog users />}
