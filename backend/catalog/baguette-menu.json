@@ -1,0 +1,459 @@
+{
+  "source": "https://baguette.com.ar/carta-general/",
+  "document": "https://drive.google.com/file/d/1fubJWiPKsgbA3jZyErbEoYy4JN2nk6nf/preview",
+  "checked_at": "2026-10-20",
+  "currency": "ARS",
+  "categories": [
+    {
+      "name": "Cafetería",
+      "destination": "bar",
+      "items": [
+        ["Ristretto", 4300, ""],
+        ["Café en pocillo", 4200, ""],
+        ["Café en jarrito", 4400, ""],
+        ["Descafeinado", 4600, ""],
+        ["Café con leche", 6500, ""],
+        ["Café con leche Baguette", 6700, ""],
+        ["Café doble", 6600, ""],
+        ["Café con crema", 5500, ""],
+        ["Café doble con crema", 6700, ""],
+        ["Submarino", 6500, ""],
+        ["Chocolatada", 6500, ""],
+        ["Vaso de leche", 4400, ""],
+        ["Jarrita de leche", 1300, ""],
+        ["Vaso de leche de almendras", 4800, ""],
+        ["Adicional de leche de almendras", 1100, ""]
+      ]
+    },
+    {
+      "name": "Cafés artesanales",
+      "destination": "bar",
+      "items": [
+        ["Cappuccino", 7200, "Espresso, leche vaporizada y espuma de leche."],
+        ["Cappuccino al chocolate", 7300, "Espresso, leche vaporizada y espuma de chocolatada."],
+        ["Cappuccino italiano", 7300, "Espresso con leche, crema, chocolate y canela."],
+        ["Café vienés", 7300, "Espresso con crema y chocolate."],
+        ["Café irlandés", 7300, "Espresso, whisky, azúcar morena, crema y chocolate."],
+        ["Café moka", 7300, "Espresso con chocolate, leche, crema y nueces."],
+        ["Café Baguette", 7300, "Espresso, leche condensada, almendras, Baileys y espuma de leche."]
+      ]
+    },
+    {
+      "name": "Tés",
+      "destination": "bar",
+      "items": [
+        ["Té clásico", 4400, ""],
+        ["Té con leche", 6500, ""],
+        ["Té con limón", 6500, ""],
+        ["Tés saborizados", 4400, ""]
+      ]
+    },
+    {
+      "name": "Jugos y limonadas",
+      "destination": "bar",
+      "items": [
+        ["Jugo exprimido chico", 5400, "Naranja o pomelo."],
+        ["Jugo exprimido grande", 5700, "Naranja o pomelo."],
+        ["Limonada con menta", 6700, ""]
+      ]
+    },
+    {
+      "name": "Licuados frutales",
+      "destination": "bar",
+      "items": [
+        [
+          "Licuado al agua",
+          6500,
+          "Frutas a elección: durazno, banana, frutilla, kiwi, ananá, manzana o naranja."
+        ],
+        [
+          "Licuado con leche",
+          7200,
+          "Frutas a elección: durazno, banana, frutilla, kiwi, ananá, manzana o naranja."
+        ],
+        [
+          "Licuado con jugo de naranja",
+          7200,
+          "Frutas a elección: durazno, banana, frutilla, kiwi, ananá, manzana o naranja."
+        ]
+      ]
+    },
+    {
+      "name": "Frutas y yogures",
+      "destination": "kitchen",
+      "items": [
+        ["Ensalada de frutas", 7200, ""],
+        ["Yogur", 5100, ""],
+        ["Yogur con granola y fruta", 9400, ""]
+      ]
+    },
+    {
+      "name": "Panadería y pastelería",
+      "destination": "kitchen",
+      "items": [
+        ["Facturas", 1600, ""],
+        ["Medialunas de jamón y queso", 3400, ""],
+        ["Porción de tostadas", 6500, "Con queso y mermelada."],
+        ["Media porción de tostadas", 6100, "Con queso y mermelada."],
+        ["Tostada untada", 4300, ""],
+        ["Tostada para untar", 4600, ""],
+        ["Croissant", 5000, ""],
+        ["Cinnamon rolls", 5000, ""],
+        ["Scones", 2700, ""],
+        ["Scones con queso", 5000, ""],
+        ["Alfajores", 4500, ""],
+        ["Muffins", 5000, ""],
+        ["Porción de budín", 5000, ""]
+      ]
+    },
+    {
+      "name": "Desayunos y meriendas",
+      "destination": "kitchen",
+      "items": [
+        ["Express", 10700, "Café con leche, tostada untada o dos medialunas y copa de jugo."],
+        ["Tradicional", 14300, "Café con leche Baguette, tres medialunas y jugo chico."],
+        [
+          "Campestre",
+          23600,
+          "Café con leche Baguette, tostadas caseras, manteca, queso crema, mermelada y jugo de naranja. Incluye dos medialunas con jamón y queso, o medio calentito de campo y dos medialunas."
+        ],
+        [
+          "Saludable",
+          20900,
+          "Café con leche Baguette, tostadas multicereal, queso crema, mermelada y yogur con granola y fruta."
+        ],
+        ["Italiano", 16700, "Café especial y porción de torta a elección."],
+        [
+          "Americano",
+          16300,
+          "Café con leche, tres huevos revueltos, palta o panceta, queso crema, tostada de salvado y copa de jugo."
+        ]
+      ]
+    },
+    {
+      "name": "Desayunos keto",
+      "destination": "kitchen",
+      "items": [
+        [
+          "Keto opción 1",
+          16700,
+          "Café con leche de almendras, pancakes de harina de coco, mermelada de frutos rojos sin azúcar, almendras y arándanos."
+        ],
+        [
+          "Keto opción 2",
+          19600,
+          "Café con leche de almendras, pancakes de harina de coco, queso crema, jamón y palta."
+        ]
+      ]
+    },
+    {
+      "name": "Tostones y omelettes",
+      "destination": "kitchen",
+      "items": [
+        [
+          "Tostón de hummus",
+          12200,
+          "Hummus de garbanzos con olivas negras, tomates cherry, oliva, alcaparras y perejil."
+        ],
+        [
+          "Tostón de hongos",
+          12200,
+          "Hongos en salsa toscana, cebolla caramelizada, parmesano, ciboulette y rabanitos."
+        ],
+        ["Tostón de huevos revueltos y palta", 12200, "Con pickle de cebolla morada."],
+        ["Tostón de jamón crudo", 12200, "Con tomate rallado, oliva, sal y pimienta."],
+        ["Omelette de jamón y queso", 11800, "Con mix de hojas verdes."],
+        ["Omelette de hongos y tomates", 16800, "Con mix de hojas verdes."]
+      ]
+    },
+    {
+      "name": "Frappuccinos",
+      "destination": "bar",
+      "items": [
+        ["Café frío", 6600, "Espresso y hielo. Sin azúcar."],
+        ["Latte frío", 7200, "Espresso, leche y hielo. Sin azúcar."],
+        ["Frappuccino", 7200, "Espresso con leche, hielo, azúcar y crema."],
+        ["Frappuccino al chocolate", 7200, "Espresso con leche, hielo, chocolate, azúcar y crema."]
+      ]
+    },
+    {
+      "name": "Smoothies",
+      "destination": "bar",
+      "items": [
+        ["Smoothie de frutos rojos", 7200, "Frutos rojos, agua, hielo y azúcar."],
+        ["Smoothie de naranja", 7200, "Jugo de naranja, hielo y azúcar."],
+        ["Smoothie de maracuyá", 7200, "Maracuyá, agua, hielo y azúcar."]
+      ]
+    },
+    {
+      "name": "Milkshakes",
+      "destination": "bar",
+      "items": [
+        ["Milkshake de chocolate", 7200, "Contiene azúcar."],
+        ["Milkshake de pistacho", 7200, "Contiene azúcar."],
+        ["Milkshake de dulce de leche", 7200, "Contiene azúcar."]
+      ]
+    },
+    {
+      "name": "Tortas y tartas dulces",
+      "destination": "kitchen",
+      "items": [
+        ["Pasta frola", 5500, ""],
+        ["Milhojas", 8200, ""],
+        ["Coco", 9900, ""],
+        ["Lemon pie", 9900, ""],
+        ["Pastel alemán", 9900, ""],
+        ["Tarta de frutilla", 9900, ""],
+        ["Tarta de ricota", 9900, ""],
+        ["Chajacitos", 9900, ""],
+        ["Sardanas", 9900, ""],
+        ["Años locos", 9900, ""],
+        ["Cheesecake", 9900, ""],
+        ["Brownie con dulce de leche y merengue", 9900, ""],
+        ["Mousse de chocolate", 9900, ""],
+        ["Tiramisú", 9900, ""],
+        ["Chocotorta", 9900, ""],
+        ["Oreo", 9900, ""],
+        ["Pasticer", 7600, ""]
+      ]
+    },
+    {
+      "name": "Sándwiches tostados",
+      "destination": "kitchen",
+      "items": [
+        [
+          "Tostado de miga de jamón y queso",
+          12900,
+          "Agregados a consultar: tomate, lechuga, huevo, cheddar, lomito o jamón crudo."
+        ],
+        [
+          "Pan árabe de jamón y queso",
+          14500,
+          "Agregados a consultar: tomate, lechuga, huevo, cheddar, lomito o jamón crudo."
+        ],
+        ["Calentito de campo", 14600, "Lomito y queso."],
+        ["Croissant de jamón y queso", 14500, ""],
+        ["Chipá relleno de jamón y queso", 14500, ""],
+        ["Pan nube de jamón y queso", 14000, "Keto, sin harina."]
+      ]
+    },
+    {
+      "name": "Hamburguesas",
+      "destination": "kitchen",
+      "items": [
+        ["Hamburguesa clásica", 20900, "Doble carne y cheddar. Con papas fritas."],
+        [
+          "Hamburguesa americana",
+          22000,
+          "Doble carne, panceta, cheddar, pepino y cebolla. Con papas fritas."
+        ],
+        [
+          "Hamburguesa completa",
+          22000,
+          "Doble carne, jamón, queso, tomate confitado, lechuga y huevo a la plancha. Con papas fritas."
+        ],
+        [
+          "Hamburguesa veggie",
+          19400,
+          "Medallón de lentejas al curry, rúcula, brotes y mayonesa de zanahoria. Con papas fritas."
+        ]
+      ]
+    },
+    {
+      "name": "Guarniciones",
+      "destination": "kitchen",
+      "items": [
+        ["Papas fritas", 10100, ""],
+        ["Puré", 10100, "De papas o zapallo."]
+      ]
+    },
+    {
+      "name": "Menús",
+      "destination": "kitchen",
+      "items": [
+        [
+          "Menú del día clásico",
+          25300,
+          "Plato del día, bebida, café y postre. Compartir tiene un adicional de $2.300."
+        ],
+        [
+          "Menú del día saludable",
+          25300,
+          "Plato del día, bebida, café y postre. Compartir tiene un adicional de $2.300."
+        ],
+        [
+          "Menú ejecutivo",
+          18700,
+          "Plato del día y agua de mesa. De lunes a viernes, excepto feriados."
+        ]
+      ]
+    },
+    {
+      "name": "Sándwiches especiales",
+      "destination": "kitchen",
+      "items": [
+        [
+          "Baguettino tradizionale",
+          15100,
+          "Baguette con jamón crudo, rúcula y parmesano gratinado."
+        ],
+        ["Wrap César con pollo", 15100, "Tortilla de trigo con ensalada César y pollo."],
+        [
+          "Wrap César con langostinos",
+          15900,
+          "Tortilla de trigo con ensalada César y langostinos."
+        ],
+        [
+          "Sándwich vegetariano",
+          15100,
+          "Hummus, tomates cherry confitados, zanahoria asada, pickle de cebolla morada y lechuga."
+        ],
+        [
+          "Chicken Cheese",
+          15100,
+          "Ciabatta con mayonesa provenzal, pollo grillado, tomate, queso emmental y lechuga morada."
+        ],
+        [
+          "Sándwich de atún",
+          16100,
+          "Con mayonesa, choclo, rúcula, cebolla morada, tomate rallado y pepinillo agridulce."
+        ]
+      ]
+    },
+    {
+      "name": "Ensaladas",
+      "destination": "kitchen",
+      "items": [
+        ["César con pollo", 17500, "Hojas verdes, parmesano, croutons, pollo y aderezo César."],
+        [
+          "César con langostinos",
+          21500,
+          "Hojas verdes, parmesano, croutons, langostinos y aderezo César."
+        ],
+        [
+          "Olivas",
+          17500,
+          "Hojas verdes, pollo o atún, olivas negras, panceta, parmesano y croutons."
+        ],
+        ["Ferpecta", 17500, "Hojas verdes, tomates cherry, atún, palta, brotes de soja y sésamo."],
+        [
+          "Ensalada Baguette",
+          17500,
+          "Lechuga manteca, pasta fresca, tomates cherry, atún, olivas negras, albahaca y salsa de la casa."
+        ]
+      ]
+    },
+    {
+      "name": "Lomitos",
+      "destination": "kitchen",
+      "items": [
+        ["Lomito a la plancha", 26600, "300 g de carne. Con papas fritas."],
+        [
+          "Lomito Filadelfia",
+          23300,
+          "Lomo, queso fundido, cebolla caramelizada y panceta. Con papas fritas."
+        ],
+        [
+          "Lomito completo",
+          23300,
+          "Lomo, jamón, queso, lechuga, tomate confitado y huevo a la plancha. Con papas fritas."
+        ],
+        ["Lomito al champiñón", 23300, "Con crema de hongos y papas fritas."]
+      ]
+    },
+    {
+      "name": "Tartas",
+      "destination": "kitchen",
+      "items": [
+        ["Tarta de jamón y queso", 15100, "Con ensalada de dos ingredientes."],
+        ["Tarta de pollo", 15400, "Con ensalada de dos ingredientes."],
+        ["Tarta tricolor", 15100, "Con ensalada de dos ingredientes."],
+        ["Tarta de verdura", 15100, "Con ensalada de dos ingredientes."],
+        ["Tarta de brócoli", 15100, "Con ensalada de dos ingredientes."],
+        ["Tarta de zapallitos", 15100, "Con ensalada de dos ingredientes."],
+        ["Tarta de puerro y panceta", 15100, "Con ensalada de dos ingredientes."]
+      ]
+    },
+    {
+      "name": "Minutas",
+      "destination": "kitchen",
+      "items": [
+        ["Milanesa sola", 19900, "Incluye guarnición."],
+        ["Milanesa napolitana", 19900, "Incluye guarnición."],
+        ["Milanesa americana", 19900, "Con cheddar y panceta. Incluye guarnición."],
+        ["Suprema sola", 19900, "Incluye guarnición."],
+        ["Suprema napolitana", 19900, "Incluye guarnición."],
+        ["Suprema a la suiza", 19900, "Incluye guarnición."],
+        [
+          "Ravioles",
+          16300,
+          "De ricota o verdura; salsa de tomate, crema o mixta. Incluye guarnición."
+        ],
+        ["Tortilla de papas", 15400, "Incluye guarnición."]
+      ]
+    },
+    {
+      "name": "Pechugas",
+      "destination": "kitchen",
+      "items": [
+        ["Pechuga a la plancha", 18400, "Con papas fritas."],
+        [
+          "Pechuga Guacamole",
+          18900,
+          "Pollo, queso emmental, cebolla morada y palta. Con papas fritas."
+        ],
+        [
+          "Pechuga americana",
+          19100,
+          "Pollo, cebolla caramelizada, panceta y cheddar. Con papas fritas."
+        ],
+        [
+          "Pechuga completa",
+          19100,
+          "Pollo, jamón, queso, lechuga, tomate confitado y huevo. Con papas fritas."
+        ]
+      ]
+    },
+    {
+      "name": "Pizzas",
+      "destination": "kitchen",
+      "items": [
+        ["Pizza Margherita chica", 14000, "Salsa de tomate y mozzarella."],
+        ["Pizza Margherita grande", 23100, "Salsa de tomate y mozzarella."],
+        ["Pizza napolitana chica", 14900, "Salsa de tomate, mozzarella, tomate fresco y ajo."],
+        ["Pizza napolitana grande", 23300, "Salsa de tomate, mozzarella, tomate fresco y ajo."],
+        [
+          "Pizza Baguette chica",
+          15200,
+          "Salsa de tomate, mozzarella, jamón crudo, rúcula y parmesano."
+        ],
+        [
+          "Pizza Baguette grande",
+          24700,
+          "Salsa de tomate, mozzarella, jamón crudo, rúcula y parmesano."
+        ],
+        ["Pizza Pedro chica", 15200, "Cebolla, atún, olivas negras y parmesano."],
+        ["Pizza Pedro grande", 24700, "Cebolla, atún, olivas negras y parmesano."]
+      ]
+    },
+    {
+      "name": "Bebidas",
+      "destination": "bar",
+      "items": [
+        ["Agua", 4600, ""],
+        ["Agua con gas", 4600, ""],
+        ["Agua saborizada", 4600, ""],
+        ["Gaseosa línea Coca-Cola", 4600, ""],
+        ["Copa de vino", 4200, ""]
+      ]
+    },
+    {
+      "name": "Cervezas",
+      "destination": "bar",
+      "items": [
+        ["Stella Artois lata 473 ml", 7000, ""],
+        ["Stella Artois botella 730 ml", 10300, ""]
+      ]
+    }
+  ]
+}

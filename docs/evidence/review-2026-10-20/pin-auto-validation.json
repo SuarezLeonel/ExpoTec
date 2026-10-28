@@ -1,0 +1,135 @@
+{
+  "date": "2026-10-20",
+  "typecheck": "pass",
+  "lint": "pass",
+  "build": "pass",
+  "regression": {
+    "stats": {
+      "startTime": "2026-10-20T13:31:16.703Z",
+      "duration": 88551.099,
+      "expected": 18,
+      "skipped": 0,
+      "unexpected": 1,
+      "flaky": 0
+    },
+    "tests": [
+      {
+        "title": "recuperar una respuesta perdida permite continuar la cola sin duplicar el primer ítem",
+        "file": "client-recovery.spec.ts",
+        "status": "passed"
+      },
+      {
+        "title": "inicio sin desplazamiento en seis tamaños, todas las mesas accesibles por páginas y PIN al tocar",
+        "file": "density.spec.ts",
+        "status": "passed"
+      },
+      {
+        "title": "espera de formulario, disponibilidad parcial, movimiento reducido y controles táctiles",
+        "file": "design-states.spec.ts",
+        "status": "passed"
+      },
+      {
+        "title": "pedido enviado permite cobrar y cerrar sin etapas de cocina ni entrega",
+        "file": "flows.spec.ts",
+        "status": "passed"
+      },
+      {
+        "title": "crear producto desde gestión y verificar misma carta pública e imprimible",
+        "file": "flows.spec.ts",
+        "status": "passed"
+      },
+      {
+        "title": "navegación operativa y formularios sin infracciones automáticas en ambos temas",
+        "file": "flows.spec.ts",
+        "status": "passed"
+      },
+      {
+        "title": "carta pública comparte catálogo, filtra producto oculto y conserva descarga",
+        "file": "operation.spec.ts",
+        "status": "passed"
+      },
+      {
+        "title": "abrir mesa, cargar agregado y observación, enviar y conservar al recargar",
+        "file": "operation.spec.ts",
+        "status": "passed"
+      },
+      {
+        "title": "escritorio y móvil, temas persistentes y accesibilidad",
+        "file": "operation.spec.ts",
+        "status": "passed"
+      },
+      {
+        "title": "mesa ocupada pide PIN antes de mostrar carta e identifica al mozo sin selector",
+        "file": "ordering.spec.ts",
+        "status": "passed"
+      },
+      {
+        "title": "mesa libre usa PIN para asignar responsable y el mismo equipo cambia de empleado",
+        "file": "ordering.spec.ts",
+        "status": "passed"
+      },
+      {
+        "title": "gestión con contraseña coexiste con comandera general y PIN de caja habilita sus acciones",
+        "file": "ordering.spec.ts",
+        "status": "passed"
+      },
+      {
+        "title": "comandera compartida conserva borrador offline y solo su empleado puede sincronizarlo",
+        "file": "ordering.spec.ts",
+        "status": "passed"
+      },
+      {
+        "title": "el cuarto dígito valida el PIN una sola vez y un error permite reintentar con foco",
+        "file": "pin-entry.spec.ts",
+        "status": "failed"
+      },
+      {
+        "title": "sin conexión real: recargar, recuperar ítem local y sincronizar una vez",
+        "file": "recovery.spec.ts",
+        "status": "passed"
+      },
+      {
+        "title": "pago con respuesta perdida: no confirmar localmente y consultar misma operación",
+        "file": "recovery.spec.ts",
+        "status": "passed"
+      },
+      {
+        "title": "movimiento con respuesta perdida: reintento consulta historial sin duplicar caja",
+        "file": "recovery.spec.ts",
+        "status": "passed"
+      },
+      {
+        "title": "formularios, búsqueda recuperable y agregados accesibles en 390x844",
+        "file": "usability.spec.ts",
+        "status": "passed"
+      },
+      {
+        "title": "formularios, búsqueda recuperable y agregados accesibles en 1440x900",
+        "file": "usability.spec.ts",
+        "status": "passed"
+      }
+    ],
+    "note": "Los 18 recorridos existentes aprobaron. La prueba nueva solo falló por un selector ambiguo del nombre del operador al final del recorrido; se corrigió para seleccionar el operador activo y se vuelve a ejecutar separadamente."
+  },
+  "focusedTest": {
+    "command": "npm run test:e2e -- tests/e2e/pin-entry.spec.ts",
+    "stats": {
+      "startTime": "2026-10-20T13:33:32.005Z",
+      "duration": 5065.3460000000005,
+      "expected": 1,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "status": "pass",
+    "checks": [
+      "Tres dígitos no solicitan validación",
+      "El cuarto dígito valida automáticamente",
+      "Un error limpia el campo y devuelve el foco",
+      "Se omiten caracteres no numéricos",
+      "Una solicitud en curso bloquea envíos duplicados y muestra estado",
+      "Enter durante la espera no duplica la solicitud",
+      "Un PIN válido identifica al operador y abre la mesa"
+    ]
+  }
+}

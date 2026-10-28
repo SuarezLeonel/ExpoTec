@@ -1,0 +1,266 @@
+[
+  {
+    "width": 1440,
+    "height": 900,
+    "sector": "salon",
+    "pageScroll": false,
+    "tiles": [
+      {
+        "label": "1, libre, 2 lugares, Salón",
+        "width": 162,
+        "height": 162,
+        "visible": true
+      },
+      {
+        "label": "2, libre, 4 lugares, Salón",
+        "width": 162,
+        "height": 162,
+        "visible": true
+      },
+      {
+        "label": "7, libre, 4 lugares, Salón",
+        "width": 162,
+        "height": 162,
+        "visible": true
+      },
+      {
+        "label": "4, libre, 2 lugares, Salón",
+        "width": 162,
+        "height": 162,
+        "visible": true
+      },
+      {
+        "label": "3, libre, 4 lugares, Salón",
+        "width": 162,
+        "height": 162,
+        "visible": true
+      }
+    ]
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "sector": "all",
+    "pageScroll": false,
+    "tiles": [
+      {
+        "label": "1, libre, 2 lugares, Salón",
+        "width": 117,
+        "height": 117,
+        "visible": true
+      },
+      {
+        "label": "2, libre, 4 lugares, Salón",
+        "width": 117,
+        "height": 117,
+        "visible": true
+      },
+      {
+        "label": "7, libre, 4 lugares, Salón",
+        "width": 117,
+        "height": 117,
+        "visible": true
+      },
+      {
+        "label": "4, libre, 2 lugares, Salón",
+        "width": 117,
+        "height": 117,
+        "visible": true
+      },
+      {
+        "label": "3, libre, 4 lugares, Salón",
+        "width": 117,
+        "height": 117,
+        "visible": true
+      },
+      {
+        "label": "5, libre, 6 lugares, Patio",
+        "width": 173,
+        "height": 173,
+        "visible": true
+      },
+      {
+        "label": "6, libre, 4 lugares, Patio",
+        "width": 173,
+        "height": 173,
+        "visible": true
+      }
+    ]
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "sector": "salon",
+    "pageScroll": false,
+    "tiles": [
+      {
+        "label": "1, libre, 2 lugares, Salón",
+        "width": 61,
+        "height": 61,
+        "visible": true
+      },
+      {
+        "label": "2, libre, 4 lugares, Salón",
+        "width": 61,
+        "height": 61,
+        "visible": true
+      },
+      {
+        "label": "7, libre, 4 lugares, Salón",
+        "width": 61,
+        "height": 61,
+        "visible": true
+      },
+      {
+        "label": "4, libre, 2 lugares, Salón",
+        "width": 61,
+        "height": 61,
+        "visible": true
+      },
+      {
+        "label": "3, libre, 4 lugares, Salón",
+        "width": 61,
+        "height": 61,
+        "visible": true
+      }
+    ]
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "sector": "all",
+    "pageScroll": false,
+    "tiles": [
+      {
+        "label": "1, libre, 2 lugares, Salón",
+        "width": 61,
+        "height": 61,
+        "visible": true
+      },
+      {
+        "label": "2, libre, 4 lugares, Salón",
+        "width": 61,
+        "height": 61,
+        "visible": true
+      },
+      {
+        "label": "7, libre, 4 lugares, Salón",
+        "width": 61,
+        "height": 61,
+        "visible": true
+      },
+      {
+        "label": "4, libre, 2 lugares, Salón",
+        "width": 61,
+        "height": 61,
+        "visible": true
+      },
+      {
+        "label": "3, libre, 4 lugares, Salón",
+        "width": 61,
+        "height": 61,
+        "visible": true
+      },
+      {
+        "label": "5, libre, 6 lugares, Patio",
+        "width": 90,
+        "height": 90,
+        "visible": true
+      },
+      {
+        "label": "6, libre, 4 lugares, Patio",
+        "width": 90,
+        "height": 90,
+        "visible": true
+      }
+    ]
+  },
+  {
+    "width": 320,
+    "height": 568,
+    "sector": "salon",
+    "pageScroll": false,
+    "tiles": [
+      {
+        "label": "1, libre, 2 lugares, Salón",
+        "width": 49,
+        "height": 49,
+        "visible": true
+      },
+      {
+        "label": "2, libre, 4 lugares, Salón",
+        "width": 49,
+        "height": 49,
+        "visible": true
+      },
+      {
+        "label": "7, libre, 4 lugares, Salón",
+        "width": 49,
+        "height": 49,
+        "visible": true
+      },
+      {
+        "label": "4, libre, 2 lugares, Salón",
+        "width": 49,
+        "height": 49,
+        "visible": true
+      },
+      {
+        "label": "3, libre, 4 lugares, Salón",
+        "width": 49,
+        "height": 49,
+        "visible": true
+      }
+    ]
+  },
+  {
+    "width": 320,
+    "height": 568,
+    "sector": "all",
+    "pageScroll": false,
+    "tiles": [
+      {
+        "label": "1, libre, 2 lugares, Salón",
+        "width": 24,
+        "height": 24,
+        "visible": true
+      },
+      {
+        "label": "2, libre, 4 lugares, Salón",
+        "width": 24,
+        "height": 24,
+        "visible": true
+      },
+      {
+        "label": "7, libre, 4 lugares, Salón",
+        "width": 24,
+        "height": 24,
+        "visible": true
+      },
+      {
+        "label": "4, libre, 2 lugares, Salón",
+        "width": 24,
+        "height": 24,
+        "visible": true
+      },
+      {
+        "label": "3, libre, 4 lugares, Salón",
+        "width": 24,
+        "height": 24,
+        "visible": true
+      },
+      {
+        "label": "5, libre, 6 lugares, Patio",
+        "width": 45,
+        "height": 45,
+        "visible": true
+      },
+      {
+        "label": "6, libre, 4 lugares, Patio",
+        "width": 45,
+        "height": 45,
+        "visible": true
+      }
+    ]
+  }
+]

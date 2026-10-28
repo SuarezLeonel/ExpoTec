@@ -1,0 +1,18 @@
+services:
+  db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: ${PGUSER}
+      POSTGRES_PASSWORD: ${PGPASSWORD}
+      POSTGRES_DB: baguette_demo
+    ports:
+      - "127.0.0.1:${PGPORT}:5432"
+    volumes:
+      - baguette_pg:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d baguette_demo"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+volumes:
+  baguette_pg:

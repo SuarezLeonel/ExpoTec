@@ -1,0 +1,72 @@
+[
+  {
+    "viewport": "390x844",
+    "artifact": "login-390.png",
+    "horizontalOverflow": false
+  },
+  {
+    "viewport": "390x844",
+    "artifact": "cash-390.png",
+    "horizontalOverflow": false
+  },
+  {
+    "viewport": "390x844",
+    "artifact": "catalog-390.png",
+    "horizontalOverflow": false
+  },
+  {
+    "viewport": "390x844",
+    "artifact": "services-390.png",
+    "horizontalOverflow": false
+  },
+  {
+    "viewport": "390x844",
+    "artifact": "audit-390.png",
+    "horizontalOverflow": false
+  },
+  {
+    "viewport": "390x844",
+    "artifact": "pin-390.png",
+    "horizontalOverflow": false
+  },
+  {
+    "viewport": "390x844",
+    "artifact": "pedido-390.png",
+    "horizontalOverflow": false
+  },
+  {
+    "viewport": "1440x900",
+    "artifact": "login-1440.png",
+    "horizontalOverflow": false
+  },
+  {
+    "viewport": "1440x900",
+    "artifact": "cash-1440.png",
+    "horizontalOverflow": false
+  },
+  {
+    "viewport": "1440x900",
+    "artifact": "catalog-1440.png",
+    "horizontalOverflow": false
+  },
+  {
+    "viewport": "1440x900",
+    "artifact": "services-1440.png",
+    "horizontalOverflow": false
+  },
+  {
+    "viewport": "1440x900",
+    "artifact": "audit-1440.png",
+    "horizontalOverflow": false
+  },
+  {
+    "viewport": "1440x900",
+    "artifact": "pin-1440.png",
+    "horizontalOverflow": false
+  },
+  {
+    "viewport": "1440x900",
+    "artifact": "pedido-1440.png",
+    "horizontalOverflow": false
+  }
+]

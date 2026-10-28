@@ -1,0 +1,95 @@
+:root,
+[data-theme='light'] {
+  /* Brand core palette */
+  --color-espresso: #30231f;
+  --color-cafe: #654638;
+  --color-caramel: #c58b58;
+  --color-caramel-hover: #b47844;
+  --color-cream: #f7f3ec;
+  --color-warm-white: #fffefc;
+  --color-sage: #788675;
+  --color-sage-soft: #e8ece7;
+
+  /* Surfaces & Backgrounds */
+  --app-bg: #f7f3ec;
+  --surface: #fffefc;
+  --surface-raised: #ffffff;
+  --surface-soft: #efe9df;
+  --surface-muted: #e8e0d4;
+  --surface-active: #e2d8ca;
+
+  /* Typography */
+  --ink: #30231f;
+  --ink-secondary: #52423b;
+  --muted: #6e615a;
+  --muted-light: #8e7f77;
+
+  /* Borders & Lines */
+  --line: #e2d9ce;
+  --line-strong: #d5cabe;
+  --line-subtle: #ece4d9;
+
+  /* Identity & Accents */
+  --brand: #654638;
+  --brand-hover: #50372c;
+  --brand-deep: #30231f;
+  --brand-surface: #30231f;
+  --caramel: #c58b58;
+  --caramel-soft: #f6ece2;
+  --gold: #c58b58;
+  --gold-soft: #f6ece2;
+  --clay: #b66d49;
+
+  /* Semantics */
+  --success: #366b46;
+  --success-surface: #e8f3eb;
+  --success-line: #a8d1b6;
+  --success-ink: #234e31;
+
+  --warning: #9b5d23;
+  --warning-surface: #fdf1e2;
+  --warning-line: #e8c496;
+  --warning-ink: #754415;
+
+  --danger: #aa3d35;
+  --danger-surface: #fdeceb;
+  --danger-line: #eea9a4;
+  --danger-ink: #7f2620;
+
+  --info: #4f616e;
+  --info-surface: #eaf0f4;
+  --info-line: #b9cbd7;
+  --info-ink: #354551;
+
+  --focus: #c58b58;
+
+  /* Bootstrap Variable Mappings */
+  --bs-body-bg: var(--app-bg);
+  --bs-body-color: var(--ink);
+  --bs-border-color: var(--line);
+  --bs-secondary-color: var(--muted);
+  --bs-primary: #654638;
+  --bs-primary-rgb: 101, 70, 56;
+  --bs-link-color: var(--brand);
+  --bs-link-hover-color: var(--color-espresso);
+
+  color-scheme: light;
+}
+
+[data-theme='light'] .btn-primary {
+  --bs-btn-bg: #654638;
+  --bs-btn-border-color: #654638;
+  --bs-btn-hover-bg: #50372c;
+  --bs-btn-hover-border-color: #50372c;
+  --bs-btn-active-bg: #30231f;
+  --bs-btn-active-border-color: #30231f;
+  --bs-btn-color: #fffefc;
+}
+
+[data-theme='light'] .btn-outline-primary {
+  --bs-btn-color: #654638;
+  --bs-btn-border-color: #c58b58;
+  --bs-btn-hover-bg: #654638;
+  --bs-btn-hover-border-color: #654638;
+  --bs-btn-hover-color: #fffefc;
+}

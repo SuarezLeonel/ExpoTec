@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-22",
+  "environment": "local production build, isolated baguette_e2e database",
+  "browserRuns": [
+    {
+      "files": [
+        "fast-ordering.spec.ts",
+        "floor-resize.spec.ts",
+        "pending-scope.spec.ts",
+        "pin-entry.spec.ts"
+      ],
+      "passed": 18,
+      "failed": 0,
+      "skipped": 0,
+      "flaky": 0
+    },
+    {
+      "selection": "two-terminals.spec.ts floor-resize.spec.ts --grep 'terminal puede|paleta permite'",
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "flaky": 0
+    }
+  ],
+  "distinctBrowserScenarios": 20,
+  "checks": { "typecheck": "passed", "lint": "passed", "build": "passed" },
+  "limits": [
+    "One desktop palette scenario was repeated in the second run.",
+    "PIN validation waits for already submitted requests on that terminal; server revocation remains unchanged.",
+    "The two-terminal test retains one response after commit; it is not a load benchmark.",
+    "Backend integration and prolonged load tests were not repeated in this change.",
+    "No deployment was performed."
+  ]
+}

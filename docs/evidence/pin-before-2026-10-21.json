@@ -1,0 +1,78 @@
+{
+  "measuredAt": "2026-10-21T22:32:21.058Z",
+  "method": "Isolated local HTTP API and PostgreSQL, fixed added delay per SQL round trip; no deployed-site claim. One cold verification then 14 warm requests. No PIN, verifier or token in artifact.",
+  "database": "baguette_test",
+  "addedRoundTripMs": 40,
+  "moduleInitMs": 2181,
+  "first": {
+    "milliseconds": 1494.9,
+    "queries": 18
+  },
+  "warm": {
+    "p50": 1543,
+    "p95": 1942.5,
+    "p99": 1942.5
+  },
+  "samples": [
+    {
+      "milliseconds": 1494.9,
+      "queries": 18
+    },
+    {
+      "milliseconds": 1671.8,
+      "queries": 18
+    },
+    {
+      "milliseconds": 1389.1,
+      "queries": 18
+    },
+    {
+      "milliseconds": 1659.3,
+      "queries": 18
+    },
+    {
+      "milliseconds": 1543,
+      "queries": 18
+    },
+    {
+      "milliseconds": 1682,
+      "queries": 18
+    },
+    {
+      "milliseconds": 1637.8,
+      "queries": 18
+    },
+    {
+      "milliseconds": 1453.8,
+      "queries": 18
+    },
+    {
+      "milliseconds": 1574.8,
+      "queries": 18
+    },
+    {
+      "milliseconds": 1340.9,
+      "queries": 18
+    },
+    {
+      "milliseconds": 1477.4,
+      "queries": 18
+    },
+    {
+      "milliseconds": 1942.5,
+      "queries": 18
+    },
+    {
+      "milliseconds": 1311.4,
+      "queries": 18
+    },
+    {
+      "milliseconds": 1836.8,
+      "queries": 18
+    },
+    {
+      "milliseconds": 1432.4,
+      "queries": 18
+    }
+  ]
+}

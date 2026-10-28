@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="208" height="79" viewBox="0 0 208 79" fill="none">
+  <!-- Coffee Cup & Steam Icon -->
+  <g transform="translate(14, 16)">
+    <!-- Steaming vapors -->
+    <path d="M14 6 C12 11 16 13 14 18 C12 21 15 23 14 26" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.85"/>
+    <path d="M22 4 C20 9 24 12 22 17 C20 20 23 22 22 26" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.95"/>
+    <path d="M30 6 C28 11 32 13 30 18 C28 21 31 23 30 26" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.85"/>
+    <!-- Cup Body -->
+    <path d="M7 28 H37 C37 40 29 45 22 45 C15 45 7 40 7 28 Z" fill="currentColor"/>
+    <!-- Cup Handle -->
+    <path d="M36 30 H40 C43 30 45 32 45 35 C45 38 43 40 40 40 H35" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+    <!-- Saucer -->
+    <path d="M4 48 C14 51 30 51 40 48" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/>
+  </g>
+
+  <!-- Typography "CAFÉ" -->
+  <text x="76" y="44" font-family="'Playfair Display', Georgia, serif" font-size="34" font-weight="700" letter-spacing="4" fill="currentColor">
+    CAFÉ
+  </text>
+
+  <!-- Subtitle "ESPRESSO &amp; COCINA" -->
+  <text x="77" y="58" font-family="'Plus Jakarta Sans', sans-serif" font-size="8.5" font-weight="600" letter-spacing="2.8" fill="currentColor" opacity="0.85">
+    ESPRESSO &amp; COCINA
+  </text>
+</svg>

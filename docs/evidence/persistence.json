@@ -1,0 +1,19 @@
+{
+  "tested_at": "2026-10-18T20:03:54.167Z",
+  "database": "baguette_demo",
+  "before": {
+    "accounts": 10,
+    "items": 12,
+    "paid_cents": "3060000",
+    "operations": 42,
+    "operation_fingerprint": "c1efa00923d7a23d616f4c4c871bbe20"
+  },
+  "after": {
+    "accounts": 10,
+    "items": 12,
+    "paid_cents": "3060000",
+    "operations": 42,
+    "operation_fingerprint": "c1efa00923d7a23d616f4c4c871bbe20"
+  },
+  "passed": true
+}

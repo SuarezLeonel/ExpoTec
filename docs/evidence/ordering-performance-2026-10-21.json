@@ -1,0 +1,59 @@
+{
+  "delayMs": 1000,
+  "samples": {
+    "before": [
+      {
+        "addToPaintMs": 2034,
+        "sendReadyMs": 2048.60000000149,
+        "commandsBeforeSend": 1
+      },
+      {
+        "addToPaintMs": 2056.7000000029802,
+        "sendReadyMs": 2077.4000000059605,
+        "commandsBeforeSend": 1
+      },
+      {
+        "addToPaintMs": 2051.2000000029802,
+        "sendReadyMs": 2062.60000000149,
+        "commandsBeforeSend": 1
+      },
+      {
+        "addToPaintMs": 2044.3999999985099,
+        "sendReadyMs": 2053.3000000044703,
+        "commandsBeforeSend": 1
+      },
+      {
+        "addToPaintMs": 2032.5,
+        "sendReadyMs": 2051.7999999970198,
+        "commandsBeforeSend": 1
+      }
+    ],
+    "after": [
+      {
+        "addToPaintMs": 14.399999998509884,
+        "sendReadyMs": 22.30000000447035,
+        "commandsBeforeSend": 0
+      },
+      {
+        "addToPaintMs": 8,
+        "sendReadyMs": 23.100000001490116,
+        "commandsBeforeSend": 0
+      },
+      {
+        "addToPaintMs": 13.199999995529652,
+        "sendReadyMs": 25.30000000447035,
+        "commandsBeforeSend": 0
+      },
+      {
+        "addToPaintMs": 8.100000001490116,
+        "sendReadyMs": 25.700000002980232,
+        "commandsBeforeSend": 0
+      },
+      {
+        "addToPaintMs": 8.799999997019768,
+        "sendReadyMs": 17.100000001490116,
+        "commandsBeforeSend": 0
+      }
+    ]
+  }
+}

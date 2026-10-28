@@ -1,0 +1,99 @@
+{
+  "contract": "design-contract.md",
+  "targetViewports": ["390x844", "1440x900"],
+  "accessibility": {
+    "status": "pass",
+    "evidence": "Usability pasó en ambos viewports: foco en Usuario inválido, casilla de agregado seleccionable por toque y Espacio, cero infracciones axe en catálogo y diálogo. Inspección visual de foco, etiquetas y contraste realizada. Design-states pasó: preferencia reduced-motion activa con transición/animación computadas de 0s y scroll auto; diez controles de cabecera, filtros, vista y paginación miden al menos 44x44 a 390 px."
+  },
+  "responsive": {
+    "status": "pass",
+    "evidence": "Inspeccionadas ocho capturas de login, catálogo vacío, terminal y agregados en 390x844 y 1440x900. Sin superposición de textos ni desbordamiento horizontal; diálogo y acciones visibles. Densidad E2E pasó seis tamaños hasta 320x568, con 80 mesas accesibles por páginas y sin desplazamiento del documento."
+  },
+  "contentStates": {
+    "loading": {
+      "status": "pass",
+      "evidence": "Design-states retiene la respuesta de ingreso: formulario aria-busy=true, Usuario/Contraseña deshabilitados y botón Guardando deshabilitado. Captura de espera inspeccionada. Tras liberar la respuesta se accede al salón."
+    },
+    "empty": {
+      "status": "pass",
+      "evidence": "En ambos viewports, buscar un producto inexistente muestra 0 de 7 productos, No hay coincidencias y Limpiar búsqueda. Usability verifica que limpiar recupera la lista y Editar Café con leche."
+    },
+    "error": {
+      "status": "pass",
+      "evidence": "Envío vacío muestra errores vinculados a Usuario y Contraseña; foco visible en Usuario y aria-invalid=true. Usability corrige los campos y accede al salón en ambos viewports."
+    },
+    "partial": {
+      "status": "pass",
+      "evidence": "Design-states intercepta la carta con dos productos ficticios: el primero muestra Sin disponibilidad y el segundo sigue visible sin esa marca. El nombre largo se ajusta sin desbordamiento horizontal. Se probó disponibilidad parcial con datos de demostración interceptados, sin modificar el catálogo guardado."
+    },
+    "success": {
+      "status": "pass",
+      "evidence": "Usability guarda cantidad 2 con Leche vegetal, comprueba cierre del diálogo y agregado visible en el pedido a 390 y 1440 px."
+    },
+    "permission": {
+      "status": "pass",
+      "evidence": "Densidad E2E comprueba PIN al tocar mesa y ausencia de Carta para comandar antes de identificación; luego identifica y comprueba productos disponibles. Captura pin-al-tocar-mesa.png inspeccionada: mesa identificada, campo PIN, ayuda y Cancelar visibles."
+    }
+  },
+  "renderedEvidence": [
+    {
+      "viewport": "390x844",
+      "artifact": "login-validation-390.png",
+      "observation": "Recaptura final del formulario móvil con errores y foco evidente. Confirma Todo listo para con separación correcta; campos, ayudas y acciones no se superponen."
+    },
+    {
+      "viewport": "1440x900",
+      "artifact": "login-validation-1440.png",
+      "observation": "Identidad y formulario de acceso en dos columnas; ayudas, errores y acciones sin superposición."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "catalog-empty-390.png",
+      "observation": "Búsqueda con cero coincidencias, cantidad de resultados y acción para recuperar lista; navegación y controles caben."
+    },
+    {
+      "viewport": "1440x900",
+      "artifact": "catalog-empty-1440.png",
+      "observation": "Navegación activa, jerarquía de catálogo y recuperación del filtro visibles; foco de búsqueda contrastado."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "terminal-390.png",
+      "observation": "Cabecera compacta, selector de vista, búsqueda, sector, mesa y paginación visibles sin desplazamiento. Identificación larga de mesa se abrevia con elipsis y conserva nombre accesible completo."
+    },
+    {
+      "viewport": "1440x900",
+      "artifact": "terminal-1440.png",
+      "observation": "Salón operativo directamente visible y plano estable con filtros y acciones; se conserva espacio físico del mapa."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "addons-390.png",
+      "observation": "Diálogo de producto cabe completo; agregado con casilla, precio y selección visibles, foco contrastado y acción Guardar accesible."
+    },
+    {
+      "viewport": "1440x900",
+      "artifact": "addons-1440.png",
+      "observation": "Diálogo centrado y producto reconocible sobre comanda; cantidad, agregado, observaciones y guardar no se superponen."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "design-loading-390.png",
+      "observation": "Ingreso en espera con campos deshabilitados, botón Guardando y estructura estable; la frase de marca conserva separación correcta."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "design-partial-390.png",
+      "observation": "Carta ficticia interceptada con un producto sin disponibilidad y otro disponible; nombre largo, precio y aviso se acomodan sin solapamiento."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "design-touch-motion-390.png",
+      "observation": "Terminal renderizado con movimiento reducido y diez controles medidos con tamaño mínimo de 44x44; mapa, búsqueda y paginación visibles."
+    }
+  ],
+  "limitations": [
+    "La revisión cubre interfaz web en navegador Chromium disponible y axe; no equivale a validación manual con todos los lectores de pantalla o dispositivos físicos.",
+    "La prueba parcial usa dos productos ficticios interceptados en el navegador y verifica presentación; no acredita una migración ni una modificación persistente del catálogo."
+  ]
+}

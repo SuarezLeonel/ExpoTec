@@ -1,0 +1,59 @@
+{
+  "baseline": {
+    "cycles": 70,
+    "baseline": {
+      "documents": 3,
+      "nodes": 479,
+      "jsEventListeners": 194,
+      "heap": 4976800
+    },
+    "halfway": {
+      "documents": 3,
+      "nodes": 479,
+      "jsEventListeners": 194,
+      "heap": 5300480
+    },
+    "final": {
+      "documents": 3,
+      "nodes": 479,
+      "jsEventListeners": 194,
+      "heap": 5468416
+    },
+    "earlyAddMs": 7.100000001490116,
+    "lateAddMs": 6.5
+  },
+  "after": {
+    "cycles": 70,
+    "baseline": {
+      "documents": 3,
+      "nodes": 479,
+      "jsEventListeners": 195,
+      "heap": 4988076
+    },
+    "halfway": {
+      "documents": 3,
+      "nodes": 479,
+      "jsEventListeners": 195,
+      "heap": 5230140
+    },
+    "final": {
+      "documents": 3,
+      "nodes": 479,
+      "jsEventListeners": 195,
+      "heap": 5370860
+    },
+    "emptyDraftKeys": 0,
+    "earlyAddMs": 7.799999997019768,
+    "lateAddMs": 5.5999999940395355
+  },
+  "terminalHistoryFixture": {
+    "closedAccounts": 200,
+    "historicalItems": 1000,
+    "beforePinBytes": 495392,
+    "afterPinBytes": 992,
+    "afterPinAccounts": 1,
+    "afterPinItems": 1,
+    "managementAccounts": 201,
+    "managementItems": 1001
+  }
+}

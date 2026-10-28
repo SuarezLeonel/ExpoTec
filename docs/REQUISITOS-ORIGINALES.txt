@@ -1,0 +1,475 @@
+Quiero que construyas dentro de este proyecto un prototipo funcional, navegable y persistente de un sistema gastronómico para **una sola sucursal de Baguette**, preparado para presentar en una reunión con su encargado.
+
+Implementalo en **Node.js + TypeScript**, con frontend en **React + TypeScript + Vite**. Necesito una aplicación ejecutable y recorridos completos, no solamente diseños, documentación o pantallas con datos estáticos.
+
+## 1. Objetivo y alcance
+
+El sistema debe permitir gestionar salón, mesas, comandas, cocina, bar, cobros, descuentos, devoluciones, caja, catálogo, usuarios y una carta pública alimentada por el mismo catálogo.
+
+Tomá Morphi y Thinkion como referencias funcionales generales, sin copiar sus interfaces, código ni recursos propietarios. El problema que buscamos resolver es una operación gastronómica ágil y confiable, especialmente al comandar, cobrar, facturar y cerrar mesas.
+
+Trabajaremos primero con datos ficticios y servicios externos simulados. La lógica interna, los permisos, la persistencia y los cálculos deben funcionar realmente.
+
+La arquitectura será para una sucursal con su propia base de datos. Más adelante podremos desplegar el mismo código para otras sucursales, cada una con configuración, usuarios, datos y base independientes. No construyas ahora un sistema centralizado de franquicias ni una arquitectura multitenant.
+
+No agregues módulos ajenos al alcance, como sueldos, proveedores, delivery, contabilidad completa o programas de fidelización.
+
+## 2. Identidad visual de Baguette
+
+Antes de diseñar, revisá visualmente el [sitio oficial de Baguette](https://baguette.com.ar/), tanto en escritorio como en móvil.
+
+Identificá y documentá:
+
+- Logo oficial y sus variantes disponibles.
+- Colores reales, con sus valores obtenidos del sitio.
+- Tipografías verificables y alternativas si alguna no está disponible.
+- Fotografías, composición, botones y tratamiento de títulos.
+- Tono de comunicación y vocabulario.
+
+Registrá las fuentes, las URLs de los recursos y la fecha de consulta. Diferenciá lo observado en la marca de las decisiones propuestas para esta aplicación.
+
+Usá el logo original, conservando sus proporciones. No inventes un logo, una paleta, una tipografía oficial ni fotografías supuestamente propias de Baguette.
+
+La interfaz debe sentirse coherente con la marca, adaptada a una herramienta de trabajo. Evitá un dashboard genérico con métricas decorativas. No retomes el dashboard oscuro inventado anteriormente.
+
+Implementá un modo claro de fondo suave como presentación inicial y un modo oscuro accesible, con selector funcional y preferencia persistente. El modo oscuro será una adaptación de la aplicación; no lo presentes como una identidad oficial de Baguette.
+
+Si no podés acceder a una fuente visual, informá esa limitación y registrá qué queda pendiente de verificar. No afirmes haber revisado recursos inaccesibles.
+
+## 3. Forma de trabajo
+
+Primero inspeccioná el proyecto existente y sus instrucciones. Conservá el trabajo útil y no sobrescribas cambios ajenos.
+
+Antes de implementar, dejá una especificación breve con módulos, dependencias, supuestos y criterios de aceptación. Después avanzá por partes funcionales verificables hasta completar la demo.
+
+Este pedido autoriza las decisiones técnicas y los cambios locales reversibles necesarios para construirla. No necesito aprobar cada componente, archivo o dependencia habitual.
+
+Cuando falte información operativa, adoptá un supuesto reversible, documentalo y continuá. Solo consultame antes de una decisión que realmente impida avanzar o implique una acción externa sensible o irreversible.
+
+Usá las skills disponibles que correspondan a cada tarea: especificación, arquitectura, diseño, accesibilidad, seguridad, base de datos, pruebas, documentación y revisión. No actives indiscriminadamente skills sin relación con el proyecto. Podés delegar tareas independientes a subagentes y hacer una revisión adicional de los flujos críticos.
+
+No te quedes únicamente en un plan: implementá, ejecutá, probá y corregí.
+
+## 4. Stack y organización
+
+Usá como base:
+
+- Backend: Node.js en una versión LTS vigente, TypeScript y módulos ESM con `import` y `export`.
+- API: Express o una alternativa simple si el proyecto ya tiene una elección razonable.
+- Base de datos: PostgreSQL.
+- Frontend: React, TypeScript y Vite.
+- Responsive: Bootstrap, personalizado con los estilos de Baguette.
+- Calidad: TypeScript estricto, ESLint y formato consistente.
+- Pruebas: herramientas apropiadas para lógica, API y navegación real.
+
+Preferí un monolito modular. No agregues microservicios ni infraestructura innecesaria.
+
+Separá al menos:
+
+```text
+frontend/
+  index.html
+  src/
+    main.tsx
+    app.tsx
+    components/
+    pages/
+    contexts/
+    hooks/
+    services/
+    types/
+    styles/
+      base.css
+      light.css
+      dark.css
+
+backend/
+  src/
+    modules/
+    middleware/
+    config/
+    database/
+  sql/
+  tests/
+  .env.example
+
+docs/
+```
+
+En `index.html`, el contenido de la aplicación debe montarse en un único contenedor con `id="root"` y `class="root"`. `main.tsx` se encarga del montaje.
+
+Organizá el backend por responsabilidades y separá rutas, validación, lógica y acceso a datos cuando corresponda. Evitá archivos gigantes y también fragmentar innecesariamente funciones pequeñas.
+
+Configurá puertos, conexión a base, orígenes permitidos y rutas de almacenamiento mediante variables de entorno validadas. No uses puertos fijos dentro de la lógica ni incluyas secretos en el repositorio.
+
+Interpretá mi regla de **no usar GET** así: no definas endpoints de datos de la API con ese método. Para consultas, utilizá rutas `POST` documentadas, por ejemplo `/api/productos/consultar`. Esto no prohíbe la navegación del navegador, los archivos estáticos, las consultas `SELECT` ni métodos internos cuyo nombre contenga `get`.
+
+## 5. Base de datos y consistencia
+
+Diseñá una base relacional normalizada al menos hasta tercera forma normal, con claves foráneas, restricciones, índices y transacciones.
+
+Incluí en `backend/sql/` los scripts necesarios para crear el esquema, sus migraciones y los datos ficticios iniciales, con instrucciones para ejecutarlos.
+
+El modelo debe contemplar las relaciones necesarias entre usuarios y permisos, catálogo, mesas, cuentas, ítems, envíos, descuentos, pagos, devoluciones, caja, impresión, comprobantes y auditoría.
+
+Requisitos:
+
+- Un único catálogo compartido por la operación interna y la carta pública.
+- Precios y descripción históricos en los ítems vendidos: cambiar un producto no modifica consumos anteriores.
+- Importes exactos, mediante centavos enteros o decimales apropiados. No calcules dinero con errores de punto flotante.
+- Fechas de creación y actualización.
+- Baja lógica y desactivación cuando exista historial.
+- Restricciones que impidan cantidades, relaciones o estados inválidos.
+- Operaciones financieras atómicas.
+- Protección frente a modificaciones concurrentes y cobros repetidos.
+- Consultas parametrizadas.
+
+Liberá los clientes tomados del pool al terminar cada operación, incluso si falla. No cierres todo el pool después de cada consulta; cerralo correctamente al apagar el servidor.
+
+Los registros financieros y de auditoría no deben borrarse o reescribirse para corregir un error. Usá operaciones compensatorias y conservá el historial.
+
+## 6. Usuarios, sesiones y permisos
+
+Implementá autenticación real y autorización comprobada en el backend. Ocultar botones en el frontend no es suficiente.
+
+Incluí:
+
+- Inicio de sesión.
+- Usuarios individuales.
+- Alta, edición y desactivación de usuarios según permisos.
+- Contraseñas hasheadas con un algoritmo adecuado.
+- Sesiones revocables y cierre de sesión.
+- Confirmación estilizada antes de salir.
+- Recuperación de contraseña mediante tokens de un solo uso y vencimiento.
+- Protección de intentos de acceso y recuperación.
+- Errores que no revelen innecesariamente si una cuenta existe.
+- Registro de acciones sensibles sin guardar contraseñas ni tokens.
+
+Para la demo, la recuperación puede utilizar una bandeja de correo local de pruebas. El flujo debe funcionar y quedar identificado como local, sin simular un correo realmente enviado.
+
+Matriz inicial de permisos, pendiente de validar con el encargado:
+
+- **Camarero:** consultar catálogo, abrir y atender mesas, cargar pedidos y gestionar sus acciones operativas autorizadas.
+- **Cocina y bar:** consultar las comandas de su sector y actualizar su preparación.
+- **Cajero:** cobrar, gestionar caja, facturar en el entorno de demostración y aplicar descuentos o reintegros autorizados.
+- **Encargado o administrador:** gestionar catálogo, usuarios, configuración, autorizaciones y auditoría.
+
+Como supuesto inicial, el camarero puede solicitar un descuento o una anulación sensible; cajero o encargado deben autorizarla. Hacé que esta política pueda ajustarse sin reescribir el sistema.
+
+Registrá quién realizó y quién autorizó cada operación. Si hay autorización de otra persona, comprobá sus credenciales y permisos en el servidor; no uses un PIN fijo expuesto en el frontend.
+
+La carta pública debe funcionar sin autenticación y exponer exclusivamente información pública.
+
+## 7. Catálogo y carta
+
+Implementá CRUD de categorías, productos y agregados.
+
+Los productos deben permitir gestionar:
+
+- Nombre, descripción y categoría.
+- Precio.
+- Imagen.
+- Destino de preparación: cocina, bar o sin preparación.
+- Disponibilidad.
+- Estado activo.
+- Campo `visible_en_carta`.
+- Agregados permitidos y sus precios.
+- Fecha de creación visible.
+
+Diferenciá desactivar un producto, marcarlo sin disponibilidad y ocultarlo de la carta.
+
+La carta pública debe consumir ese mismo catálogo, filtrar por `visible_en_carta` y permitir recorrer categorías, consultar precios, imágenes y descripciones. No expongas campos internos.
+
+Incluí una versión imprimible de la carta desde la misma fuente de datos. Así cubrimos tanto la carta virtual como un menú físico actualizado.
+
+Al modificar un producto, verificá el cambio en gestión y en la carta, sin mantener dos listas independientes.
+
+Validá archivos de imagen, tamaño y contenido. Si utilizás imágenes de demostración, identificá su procedencia y no las presentes como fotografías oficiales.
+
+## 8. Salón, mesas y cuentas
+
+Implementá un plano de salón utilizable y una alternativa en lista.
+
+Debe permitir:
+
+- Agregar, editar y dar de baja mesas.
+- Configurar identificación, capacidad y sector.
+- Moverlas en el plano.
+- Abrir una mesa e indicar comensales y camarero.
+- Consultar estado, consumo y tiempo de apertura.
+- Cambiar el camarero responsable.
+- Trasladar una cuenta a otra mesa.
+- Unir mesas y separarlas.
+- Dividir cuentas y trasladar ítems entre cuentas cuando sea válido.
+- Solicitar la cuenta, cobrar y cerrar.
+
+Diferenciá claramente:
+
+1. Mover la representación de una mesa.
+2. Trasladar una cuenta.
+3. Unir físicamente mesas.
+4. Agrupar o dividir cuentas.
+
+No permitas eliminar una mesa con una cuenta abierta ni perder consumos al unir o separar. Los pagos deben conservar su asociación y trazabilidad.
+
+Las acciones de movimiento deben poder realizarse también sin arrastrar elementos, mediante controles accesibles.
+
+Definí y comprobá las transiciones entre estados. No permitas cerrar una cuenta con saldo pendiente, salvo una excepción expresamente autorizada, implementada y auditada.
+
+## 9. Pedidos, comandas, cocina y bar
+
+Desde una mesa debe ser posible:
+
+- Buscar y seleccionar productos.
+- Indicar cantidades.
+- Incorporar agregados con precio.
+- Escribir observaciones.
+- Editar pedidos.
+- Enviar ítems al sector correspondiente.
+- Consultar su estado.
+- Anular ítems con motivo y autorización cuando corresponda.
+
+Diferenciá ítems en borrador, enviados, en preparación, listos, entregados y anulados, ajustando las transiciones al flujo documentado.
+
+Las modificaciones posteriores al envío deben generar una corrección identificable. No vuelvas a imprimir o enviar toda la comanda como si fuera nueva.
+
+La pantalla de cocina/bar debe mostrar mesa, camarero, hora, ítems, agregados, observaciones y cambios relevantes.
+
+Comprobá disponibilidad y permisos nuevamente en el servidor al confirmar el pedido.
+
+## 10. Descuentos, anulaciones y devoluciones
+
+Implementá descuentos por importe y por porcentaje, con alcance claramente indicado: ítem o cuenta.
+
+Validá límites, base de cálculo, saldo, redondeos y combinaciones permitidas. No admitas porcentajes mayores a 100 ni importes que generen saldos inválidos.
+
+Toda operación sensible debe registrar:
+
+- Responsable.
+- Autorizante, cuando corresponda.
+- Motivo.
+- Fecha y hora.
+- Valores anteriores y resultantes.
+- Cuenta, ítem u operación afectada.
+
+Diferenciá anular un ítem antes de cobrar, registrar una devolución de un producto y reintegrar un pago.
+
+Una devolución posterior al cobro debe quedar vinculada a la venta original y generar los movimientos correspondientes. No borres la venta.
+
+Si una cuenta tiene pagos parciales, impedí cambios que vuelvan incoherente lo cobrado y ofrecé el procedimiento de ajuste que corresponda.
+
+## 11. Cobros, división de cuentas y caja
+
+Implementá pagos parciales y combinación de medios: efectivo, débito, crédito y transferencia, como registros internos de demostración.
+
+Permití dividir una cuenta por ítems, cantidades, importes y partes iguales, evitando cobrar dos veces el mismo saldo. Mostrá y resolvé los ajustes de redondeo.
+
+En efectivo, contemplá dinero recibido y vuelto. Diferenciá el importe entregado del importe aplicado a la cuenta.
+
+No afirmes que un registro interno es una transacción realmente procesada por una terminal o un banco.
+
+El flujo de caja debe incluir:
+
+- Apertura con fondo inicial.
+- Ingresos y egresos con concepto y responsable.
+- Cobros discriminados por medio.
+- Devoluciones y reintegros.
+- Efectivo esperado.
+- Arqueo.
+- Diferencia entre esperado y contado.
+- Cierre con responsable y resumen.
+
+Como política inicial, bloqueá el cierre de caja si quedan operaciones incompatibles pendientes y explicá cuáles. Documentá qué debe validarse respecto de mesas abiertas y cambios de turno.
+
+Un fallo al facturar no debe borrar un cobro confirmado ni obligar a reiniciar la aplicación.
+
+## 12. Facturación argentina
+
+Contemplá un proceso de facturación y una interfaz de ejemplo con los datos pertinentes del emisor, receptor, comprobante, conceptos e importes.
+
+Separá el estado del cobro del estado de facturación.
+
+Creá un adaptador de facturación simulado que permita demostrar preparación, solicitud, éxito de prueba, rechazo, respuesta incierta y reintento seguro.
+
+Todos los documentos ficticios deben indicar claramente **“Demostración. Sin validez fiscal”**.
+
+No inventes una integración con ARCA, una homologación, un CAE válido ni una emisión fiscal real. No uses credenciales ni datos fiscales reales para la demo.
+
+Documentá lo que faltaría para una integración real, sujeto a documentación oficial vigente y a validación con el responsable contable.
+
+## 13. Comanderas e impresión
+
+Prepará la arquitectura para impresoras de comandas, con destinos de cocina y bar.
+
+Para esta etapa, implementá una cola persistente y un adaptador simulado funcional que permita:
+
+- Generar y visualizar el ticket.
+- Asignarlo a un destino.
+- Consultar estados y errores.
+- Simular impresora desconectada.
+- Reintentar cuando sea seguro.
+- Registrar reimpresiones, con motivo y marca de copia.
+
+Diferenciá trabajo generado, enviado y confirmación de impresión. Abrir el diálogo del navegador no demuestra que salió un papel.
+
+Si una impresora pudo imprimir pero se perdió la respuesta, mostrale al operador un estado incierto. No reimprimas automáticamente ni prometas impresión física exactamente una vez.
+
+Dejá preguntas concretas sobre modelos, conexión, sistema operativo, papel, cantidad y ubicación de impresoras.
+
+## 14. Fallos, reconexión y trazabilidad
+
+La demo debe demostrar recuperación real dentro del alcance implementado.
+
+Incluí:
+
+- Identificadores de operación e idempotencia.
+- Restricciones persistentes contra duplicados.
+- Misma clave y mismo contenido: devolver el resultado existente.
+- Misma clave con distinto contenido: rechazar el conflicto.
+- Borradores y operaciones pendientes conservados tras recargar.
+- Cola local persistente para los pedidos admitidos sin conexión.
+- Estado visible de conexión, pendientes, errores y sincronización.
+- Reintento sin duplicar comandas, pagos o movimientos.
+- Tratamiento de ediciones simultáneas sin sobrescritura silenciosa.
+
+No muestres un cobro como confirmado sin confirmación del servidor. Si su resultado es incierto, consultá la operación antes de reintentar.
+
+Explicá en la interfaz qué acciones pueden hacerse sin conexión. No prometas funcionamiento offline completo si no está implementado y probado.
+
+Implementá auditoría de acciones relevantes, consultable por usuarios autorizados, con filtros por usuario, fecha, entidad y operación. No permitas editarla desde la aplicación.
+
+## 15. UX, responsive y temas
+
+Toda interacción visible debe tener una función real. No incluyas botones vacíos, éxitos ficticios ni enlaces sin destino.
+
+Requisitos:
+
+- Interfaz en español de Argentina.
+- Uso cómodo en computadora, tablet y celular.
+- Aprovechamiento del ancho disponible en escritorio.
+- Bootstrap personalizado, sin apariencia de plantilla genérica.
+- Labels visibles e independientes.
+- Los placeholders no reemplazan los labels.
+- Sin `alert()`, `confirm()` ni `prompt()`.
+- Mensajes claros dentro de la interfaz.
+- Estados de carga, vacío, error, éxito y falta de permisos.
+- Navegación por teclado y foco visible.
+- Estados identificables también mediante texto.
+- Menú hamburguesa funcional cuando corresponda.
+- Botón para volver arriba en páginas largas.
+- Preferencia de tema persistente.
+- Contraste comprobado en ambos modos, incluidos formularios, tablas, mensajes y elementos deshabilitados.
+
+Las eliminaciones requieren una confirmación estilizada dentro de la tarjeta, fila o panel del elemento afectado, mostrando qué se va a eliminar y permitiendo cancelar.
+
+Para selecciones múltiples, incorporá “Marcar todos”, aclarando su alcance, y una confirmación que resuma la acción colectiva.
+
+Durante una operación, impedí envíos repetidos. Cuando una acción sea de único uso y termine, reemplazá su botón por el resultado correspondiente.
+
+Mostrá la fecha de creación de los registros donde corresponda, en formato **DD/MM/AA**. En auditoría, agregá la hora. Guardá fechas consistentemente y presentalas según la zona horaria configurada para la sucursal.
+
+## 16. Validaciones
+
+Validá en frontend y backend. La validación del navegador no reemplaza la del servidor.
+
+Mostrá errores mientras se ingresa o modifica un dato, sin esperar exclusivamente al envío. Usá borde o indicador rojo, texto específico y atributos accesibles; no dependas solo del color.
+
+Aplicá reglas según el campo:
+
+- Cantidades y capacidades válidas y acotadas.
+- Importes y porcentajes con límites coherentes.
+- Valores negativos únicamente donde tengan sentido contable y autorización.
+- Nombres y apellidos de personas con letras, tildes, espacios y apóstrofes; sin números ni otros símbolos.
+- Nombres de productos con las reglas de productos, sin heredar restricciones de nombres personales.
+- Longitudes máximas y tratamiento seguro de texto.
+- Identificadores únicos cuando corresponda.
+- Decimales y formatos argentinos interpretados sin ambigüedad.
+- Archivos y referencias a entidades válidos.
+
+No agregues edad, fecha de nacimiento u otros datos personales innecesarios. Si un requisito posterior los exige, calculá la edad desde la fecha de nacimiento, rechazá fechas futuras y edades superiores a 120 años.
+
+No muestres todos los campos en rojo al abrir un formulario sin interacción.
+
+## 17. Descargas y conservación
+
+Cada descarga generada por la aplicación debe tener una copia persistida en el almacenamiento local del servidor y un registro asociado.
+
+Registrá archivo, tipo, responsable, fecha, entidad relacionada y ubicación. Protegé su acceso según permisos.
+
+Diferenciá generación del archivo, solicitud de descarga y entrega al navegador. No afirmes que el usuario lo guardó en su equipo si no podés comprobarlo.
+
+No registres contraseñas, tokens ni datos sensibles innecesarios en archivos o logs.
+
+## 18. Documentación
+
+Incluí documentación útil y breve:
+
+- README con instalación, configuración, base de datos e inicio.
+- Variables de entorno de ejemplo.
+- Scripts SQL, migraciones y datos ficticios.
+- Arquitectura y decisiones relevantes.
+- Contratos de API y errores.
+- Matriz de permisos.
+- Reglas de estados, dinero, descuentos y devoluciones.
+- Alcance de offline e idempotencia.
+- Integraciones simuladas y pendientes.
+- Fuentes de identidad visual.
+- Guion para la reunión.
+- Preguntas para el encargado.
+- Evidencia y resultados de pruebas.
+
+Por la complejidad, incluí un manual de usuario breve con estructura académica y referencias según APA cuando correspondan, sin inventar bibliografía.
+
+Documentá funciones y módulos cuando ayude a entender propósito, entradas, salidas, errores y relación con otros componentes. No llenes el código de comentarios que repitan instrucciones obvias.
+
+## 19. Datos y recorridos para la reunión
+
+Prepará usuarios ficticios por rol, mesas en distintos estados, categorías, productos, agregados y operaciones de ejemplo. No presentes precios o condiciones ficticias como oficiales de Baguette.
+
+Dejá listos estos recorridos, con pasos y resultados esperados:
+
+1. Abrir mesa, cargar productos con agregados y observaciones, enviar a cocina/bar y entregar.
+2. Cambiar camarero, mover la mesa en el plano y trasladar su cuenta.
+3. Unir mesas, separarlas y dividir consumos sin perder datos.
+4. Solicitar un descuento como camarero y autorizarlo como cajero o encargado.
+5. Anular un ítem y registrar una devolución con reintegro.
+6. Cobrar parcialmente con varios medios, dividir la cuenta y cerrar.
+7. Abrir caja, registrar movimientos, arquear y cerrar.
+8. Crear o editar un producto y comprobar su aparición en la carta pública e imprimible.
+9. Repetir una solicitud y verificar que no se duplica.
+10. Cortar conexión, recargar, recuperar el pedido pendiente y sincronizarlo.
+11. Simular un error de impresora y una reimpresión auditada.
+12. Simular un fallo de facturación y resolver el pendiente sin perder el cobro.
+13. Intentar una acción sin permisos y comprobar el rechazo del servidor.
+
+Podés incorporar herramientas de simulación exclusivas del entorno demo, claramente identificadas y protegidas.
+
+Incluí un procedimiento reproducible para restaurar los datos ficticios. Cualquier reinicio destructivo debe exigir confirmación y estar limitado al entorno de demostración.
+
+## 20. Verificación y entrega
+
+Verificá al menos:
+
+- Cálculos, redondeos y división de cuentas.
+- Transiciones de estados.
+- Permisos del backend.
+- Descuentos y autorizaciones.
+- Devoluciones y reintegros.
+- Transacciones e integridad.
+- Duplicados, reintentos y conflictos concurrentes.
+- Persistencia tras recarga y reinicio.
+- Filtrado de la carta pública.
+- Flujos principales en navegador.
+- Responsive y ambos temas.
+
+Ejecutá compilación, comprobación de tipos, lint y pruebas. Recorré los controles visibles. No des por verificada una función solo porque compila.
+
+No elimines pruebas ni debilites validaciones para conseguir que pasen. Si una comprobación no puede ejecutarse, dejá constancia de la causa y de qué queda sin verificar.
+
+Entregá la aplicación ejecutable, los archivos completos, las instrucciones reproducibles y los recorridos de reunión. Diferenciá lo implementado, lo simulado y lo pendiente.
+
+Trabajá directamente sobre los archivos del proyecto. No pegues código sin cambios en el chat. Si te pido código para copiar, devolvé completos únicamente los archivos modificados, indicando su ubicación.
+
+Mantené las respuestas breves y centradas en el resultado, los archivos pertinentes, cómo ejecutar la demo y cualquier limitación comprobada. No afirmes que está libre de errores ni integrada con servicios que no probaste.
+
+**Empezá inspeccionando el proyecto y la identidad real de Baguette. Documentá los supuestos necesarios y avanzá hasta dejar una demo funcional, comprobable y lista para la reunión.**

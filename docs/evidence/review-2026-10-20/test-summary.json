@@ -1,0 +1,152 @@
+{
+  "date": "2026-10-20",
+  "environment": {
+    "os": "Windows",
+    "node": "24.14.1",
+    "database": "PostgreSQL 18.4",
+    "browser": "Brave via Playwright",
+    "isolatedDatabases": ["baguette_test", "baguette_e2e", "baguette_review_20261020"]
+  },
+  "checks": {
+    "typecheck": "pass",
+    "lint": "pass",
+    "build": "pass",
+    "diffWhitespace": "pass",
+    "dependencyAudit": {
+      "status": "pass",
+      "knownVulnerabilities": 0
+    }
+  },
+  "unitAndIntegration": {
+    "command": "npm test",
+    "passed": 51,
+    "failed": 0,
+    "skipped": 0
+  },
+  "browser": {
+    "command": "npm run test:e2e",
+    "stats": {
+      "startTime": "2026-10-20T13:20:26.332Z",
+      "duration": 79039.098,
+      "expected": 18,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "tests": [
+      {
+        "title": "recuperar una respuesta perdida permite continuar la cola sin duplicar el primer ítem",
+        "file": "client-recovery.spec.ts",
+        "status": "passed",
+        "durationMs": 1949
+      },
+      {
+        "title": "inicio sin desplazamiento en seis tamaños, todas las mesas accesibles por páginas y PIN al tocar",
+        "file": "density.spec.ts",
+        "status": "passed",
+        "durationMs": 10666
+      },
+      {
+        "title": "espera de formulario, disponibilidad parcial, movimiento reducido y controles táctiles",
+        "file": "design-states.spec.ts",
+        "status": "passed",
+        "durationMs": 2372
+      },
+      {
+        "title": "pedido enviado permite cobrar y cerrar sin etapas de cocina ni entrega",
+        "file": "flows.spec.ts",
+        "status": "passed",
+        "durationMs": 3636
+      },
+      {
+        "title": "crear producto desde gestión y verificar misma carta pública e imprimible",
+        "file": "flows.spec.ts",
+        "status": "passed",
+        "durationMs": 1435
+      },
+      {
+        "title": "navegación operativa y formularios sin infracciones automáticas en ambos temas",
+        "file": "flows.spec.ts",
+        "status": "passed",
+        "durationMs": 6666
+      },
+      {
+        "title": "carta pública comparte catálogo, filtra producto oculto y conserva descarga",
+        "file": "operation.spec.ts",
+        "status": "passed",
+        "durationMs": 603
+      },
+      {
+        "title": "abrir mesa, cargar agregado y observación, enviar y conservar al recargar",
+        "file": "operation.spec.ts",
+        "status": "passed",
+        "durationMs": 4080
+      },
+      {
+        "title": "escritorio y móvil, temas persistentes y accesibilidad",
+        "file": "operation.spec.ts",
+        "status": "passed",
+        "durationMs": 7049
+      },
+      {
+        "title": "mesa ocupada pide PIN antes de mostrar carta e identifica al mozo sin selector",
+        "file": "ordering.spec.ts",
+        "status": "passed",
+        "durationMs": 4186
+      },
+      {
+        "title": "mesa libre usa PIN para asignar responsable y el mismo equipo cambia de empleado",
+        "file": "ordering.spec.ts",
+        "status": "passed",
+        "durationMs": 4601
+      },
+      {
+        "title": "gestión con contraseña coexiste con comandera general y PIN de caja habilita sus acciones",
+        "file": "ordering.spec.ts",
+        "status": "passed",
+        "durationMs": 3959
+      },
+      {
+        "title": "comandera compartida conserva borrador offline y solo su empleado puede sincronizarlo",
+        "file": "ordering.spec.ts",
+        "status": "passed",
+        "durationMs": 5410
+      },
+      {
+        "title": "sin conexión real: recargar, recuperar ítem local y sincronizar una vez",
+        "file": "recovery.spec.ts",
+        "status": "passed",
+        "durationMs": 3581
+      },
+      {
+        "title": "pago con respuesta perdida: no confirmar localmente y consultar misma operación",
+        "file": "recovery.spec.ts",
+        "status": "passed",
+        "durationMs": 3092
+      },
+      {
+        "title": "movimiento con respuesta perdida: reintento consulta historial sin duplicar caja",
+        "file": "recovery.spec.ts",
+        "status": "passed",
+        "durationMs": 1664
+      },
+      {
+        "title": "formularios, búsqueda recuperable y agregados accesibles en 390x844",
+        "file": "usability.spec.ts",
+        "status": "passed",
+        "durationMs": 5336
+      },
+      {
+        "title": "formularios, búsqueda recuperable y agregados accesibles en 1440x900",
+        "file": "usability.spec.ts",
+        "status": "passed",
+        "durationMs": 5938
+      }
+    ]
+  },
+  "limits": {
+    "postgresRestartRetested": false,
+    "externalPaymentsAndFiscalServices": "simulated",
+    "deployed": false
+  }
+}

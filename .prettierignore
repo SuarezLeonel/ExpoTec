@@ -1,0 +1,12 @@
+# Original third-party evidence is preserved verbatim.
+docs/fuente-colores.css
+docs/REQUISITOS-ORIGINALES.txt
+frontend/public/brand/
+data/
+storage/
+dist/
+frontend/dist/
+backend/dist/
+test-results/
+playwright-report/
+node_modules/

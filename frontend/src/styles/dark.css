@@ -1,0 +1,153 @@
+[data-theme='dark'] {
+  /* Brand core palette */
+  --color-espresso: #191614;
+  --color-cafe: #845f4d;
+  --color-caramel: #d49d6a;
+  --color-caramel-hover: #e0ab79;
+  --color-cream: #f7f3ec;
+  --color-warm-white: #fffefc;
+  --color-sage: #91a38d;
+  --color-sage-soft: #2b3529;
+
+  /* Surfaces & Backgrounds */
+  --app-bg: #191614;
+  --surface: #24201d;
+  --surface-raised: #302923;
+  --surface-soft: #38302a;
+  --surface-muted: #40362f;
+  --surface-active: #4c4037;
+
+  /* Typography */
+  --ink: #f7f3ec;
+  --ink-secondary: #e3d7cc;
+  --muted: #b8ada4;
+  --muted-light: #948880;
+
+  /* Borders & Lines */
+  --line: #463a33;
+  --line-strong: #5a4a41;
+  --line-subtle: #332b25;
+
+  /* Identity & Accents */
+  --brand: #d49d6a;
+  --brand-hover: #e2ad7b;
+  --brand-deep: #191614;
+  --brand-surface: #24201d;
+  --caramel: #d49d6a;
+  --caramel-soft: #3f3024;
+  --gold: #d49d6a;
+  --gold-soft: #3e3426;
+  --clay: #e1a784;
+
+  /* Semantics */
+  --success: #8ecda0;
+  --success-surface: #203527;
+  --success-line: #3d694a;
+  --success-ink: #c6ecd2;
+
+  --warning: #f2c78e;
+  --warning-surface: #3e2f1c;
+  --warning-line: #7e5b2e;
+  --warning-ink: #fbead0;
+
+  --danger: #ffa49b;
+  --danger-surface: #422220;
+  --danger-line: #833d38;
+  --danger-ink: #ffe0dc;
+
+  --info: #a5bdce;
+  --info-surface: #212e38;
+  --info-line: #42586a;
+  --info-ink: #dcf0fe;
+
+  --focus: #d49d6a;
+
+  /* Bootstrap Variable Mappings */
+  --bs-body-bg: var(--app-bg);
+  --bs-body-color: var(--ink);
+  --bs-border-color: var(--line);
+  --bs-secondary-color: var(--muted);
+  --bs-primary: #d49d6a;
+  --bs-primary-rgb: 212, 157, 106;
+  --bs-link-color: var(--brand);
+  --bs-link-hover-color: #f7f3ec;
+
+  color-scheme: dark;
+}
+
+[data-theme='dark'] .btn-primary {
+  --bs-btn-bg: #d49d6a;
+  --bs-btn-border-color: #d49d6a;
+  --bs-btn-hover-bg: #e0ab79;
+  --bs-btn-hover-border-color: #e0ab79;
+  --bs-btn-active-bg: #c58b58;
+  --bs-btn-active-border-color: #c58b58;
+  --bs-btn-color: #191614;
+}
+
+[data-theme='dark'] .btn-outline-primary {
+  --bs-btn-color: #d49d6a;
+  --bs-btn-border-color: #d49d6a;
+  --bs-btn-hover-bg: #d49d6a;
+  --bs-btn-hover-border-color: #d49d6a;
+  --bs-btn-hover-color: #191614;
+}
+
+[data-theme='dark'] .alert-danger {
+  background: var(--danger-surface);
+  color: var(--danger-ink);
+  border-color: var(--danger-line);
+}
+
+[data-theme='dark'] .alert-success {
+  background: var(--success-surface);
+  color: var(--success-ink);
+  border-color: var(--success-line);
+}
+
+[data-theme='dark'] .alert-warning {
+  background: var(--warning-surface);
+  color: var(--warning-ink);
+  border-color: var(--warning-line);
+}
+
+[data-theme='dark'] .alert-info {
+  background: var(--info-surface);
+  color: var(--info-ink);
+  border-color: var(--info-line);
+}
+
+/* Status Badges in Dark Mode */
+[data-theme='dark'] .status-draft,
+[data-theme='dark'] .status-pending {
+  color: var(--warning-ink);
+  background: var(--warning-surface);
+  border-color: var(--warning-line);
+}
+
+[data-theme='dark'] .status-sent,
+[data-theme='dark'] .status-preparing,
+[data-theme='dark'] .status-requested,
+[data-theme='dark'] .status-prepared {
+  background: #3b2e26;
+  color: #ebdad0;
+  border-color: #634c3e;
+}
+
+[data-theme='dark'] .status-ready,
+[data-theme='dark'] .status-confirmed,
+[data-theme='dark'] .status-open,
+[data-theme='dark'] .status-issued {
+  background: var(--success-surface);
+  color: var(--success-ink);
+  border-color: var(--success-line);
+}
+
+[data-theme='dark'] .status-void,
+[data-theme='dark'] .status-failed,
+[data-theme='dark'] .status-uncertain,
+[data-theme='dark'] .status-rejected {
+  background: var(--danger-surface);
+  color: var(--danger-ink);
+  border-color: var(--danger-line);
+}

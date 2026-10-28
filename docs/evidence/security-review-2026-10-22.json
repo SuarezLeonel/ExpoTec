@@ -1,0 +1,29 @@
+{
+  "scope": "Local security and recovery review; no deployment or operational data changes",
+  "logicAndIntegration": {
+    "passed": 92,
+    "failed": 0,
+    "skipped": 0
+  },
+  "browser": {
+    "startTime": "2026-10-22T14:43:05.907Z",
+    "duration": 51296.062000000005,
+    "expected": 11,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "checks": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "productionBuild": "passed",
+    "remoteTestDatabaseGuard": "Both destructive suites rejected a non-local test URL before database import"
+  },
+  "initialAttempt": "PostgreSQL unavailable; started existing persistent local instance and reran successfully",
+  "databases": ["baguette_test", "baguette_e2e"],
+  "limits": [
+    "Not a dependency audit or penetration test",
+    "Only affected browser flows repeated",
+    "Existing PIN-switch and in-flight-order race remains documented"
+  ]
+}

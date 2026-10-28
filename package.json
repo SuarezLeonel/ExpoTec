@@ -1,0 +1,67 @@
+{
+  "name": "baguette-pos-demo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "setup": "node scripts/setup.mjs",
+    "db:start": "node --env-file=.env scripts/postgres.mjs",
+    "db:migrate": "node --env-file=.env --import tsx backend/src/database/migrate.ts",
+    "db:seed": "node --env-file=.env --import tsx backend/src/database/seed.ts",
+    "menu:import": "node --env-file=.env --import tsx backend/src/database/import-menu.ts",
+    "demo:reset": "node --env-file=.env scripts/reset.mjs",
+    "dev": "node --env-file=.env scripts/dev.mjs",
+    "start": "node --env-file=.env --import tsx backend/src/server.ts",
+    "typecheck": "tsc -p backend/tsconfig.json --noEmit && tsc -p frontend/tsconfig.json --noEmit",
+    "lint": "eslint backend/src backend/tests frontend/src scripts tests",
+    "format": "prettier --write backend/src backend/tests frontend/src scripts tests docs README.md",
+    "format:check": "prettier --check backend/src backend/tests frontend/src scripts tests docs README.md",
+    "test": "node --env-file=.env --import tsx --test --test-concurrency=1 backend/tests/*.test.ts tests/*.test.ts",
+    "test:e2e": "node --env-file=.env scripts/e2e.mjs",
+    "build": "node scripts/build.mjs",
+    "test:persistence": "node --env-file=.env scripts/persistence-check.mjs"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.8",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "embedded-postgres": "18.4.0-beta.17",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.2.1",
+    "helmet": "^8.1.0",
+    "lucide-react": "^0.468.0",
+    "pg": "^8.23.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "sharp": "^0.35.5",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.11.1",
+    "@eslint/js": "^9.39.1",
+    "@playwright/test": "^1.58.2",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^24.10.0",
+    "@types/pg": "^8.16.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.1.1",
+    "eslint": "^9.39.1",
+    "globals": "^16.5.0",
+    "prettier": "^3.7.4",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.48.1",
+    "vite": "^7.3.1"
+  }
+}

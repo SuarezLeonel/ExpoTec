@@ -1,0 +1,42 @@
+{
+  "scope": "Local production build, isolated baguette_e2e; no deployment or operational database changes",
+  "unitTests": {
+    "passed": 44,
+    "failed": 0
+  },
+  "initialBrowserRun": {
+    "startTime": "2026-10-21T23:55:37.691Z",
+    "duration": 48673132.591,
+    "expected": 58,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  },
+  "initialRunNotes": [
+    "Execution interrupted by an overnight pause: public-menu navigation timed out and will be rerun. Wall time is not a performance measurement.",
+    "Lost-response test still expected manual recovery; adapted to assert automatic lookup and no resend."
+  ],
+  "checks": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "productionBuild": "passed"
+  },
+  "browserRerun": {
+    "startTime": "2026-10-22T13:28:12.381Z",
+    "duration": 14700.608999999999,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "browserCasesVerified": 60,
+  "finalFloorChecks": {
+    "startTime": "2026-10-22T13:30:04.670Z",
+    "duration": 38028.884,
+    "expected": 6,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "finalFloorCheckNote": "Repeated density, fit and resize after sharing validated dimensions between editor and operational floor."
+}

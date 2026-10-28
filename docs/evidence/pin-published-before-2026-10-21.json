@@ -1,0 +1,69 @@
+{
+  "measuredAt": "2026-10-21T22:42:08.639Z",
+  "url": "https://gestion-cafe-theta.vercel.app",
+  "samples": [
+    {
+      "milliseconds": 2988,
+      "status": 200,
+      "hasTableSnapshot": true,
+      "role": "waiter"
+    },
+    {
+      "milliseconds": 2980,
+      "status": 200,
+      "hasTableSnapshot": true,
+      "role": "waiter"
+    },
+    {
+      "milliseconds": 3000,
+      "status": 200,
+      "hasTableSnapshot": true,
+      "role": "waiter"
+    }
+  ],
+  "floorViewport": {
+    "width": 1406,
+    "height": 612.5
+  },
+  "screen": {
+    "width": 1440,
+    "height": 900
+  },
+  "visibleTables": 7,
+  "apiTimings": [
+    {
+      "path": "/api/auth/terminal",
+      "duration": 1113
+    },
+    {
+      "path": "/api/state",
+      "duration": 1961
+    },
+    {
+      "path": "/api/auth/terminal",
+      "duration": 307
+    },
+    {
+      "path": "/api/state",
+      "duration": 1909
+    },
+    {
+      "path": "/api/auth/operational-pin",
+      "duration": 2984
+    },
+    {
+      "path": "/api/state",
+      "duration": 2937
+    },
+    {
+      "path": "/api/auth/operational-pin",
+      "duration": 2979
+    },
+    {
+      "path": "/api/auth/operational-pin",
+      "duration": 2998
+    }
+  ],
+  "hasDiscardButton": false,
+  "assets": ["/assets/index-BmHHVTJR.js"]
+}

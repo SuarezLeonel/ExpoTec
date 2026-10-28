@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-20",
+  "command": "npm audit --json",
+  "registry": "https://registry.npmjs.org",
+  "userAuthorizedInventorySubmission": true,
+  "exitCode": 0,
+  "auditReportVersion": 2,
+  "vulnerabilities": {},
+  "metadata": {
+    "vulnerabilities": { "info": 0, "low": 0, "moderate": 0, "high": 0, "critical": 0, "total": 0 },
+    "dependencies": {
+      "prod": 101,
+      "dev": 237,
+      "optional": 90,
+      "peer": 1,
+      "peerOptional": 0,
+      "total": 375
+    }
+  }
+}

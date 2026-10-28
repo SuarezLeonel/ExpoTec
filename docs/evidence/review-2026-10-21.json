@@ -1,0 +1,254 @@
+{
+  "recordedAt": "2026-10-21T22:15:53.380Z",
+  "scope": "Local Windows, Node.js 24, PostgreSQL 18.4 and Chromium/Brave. No deployment.",
+  "checks": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "build": "passed",
+    "unitAndIntegration": {
+      "passed": 72,
+      "failed": 0
+    },
+    "e2e": {
+      "startTime": "2026-10-21T22:10:00.810Z",
+      "duration": 302910.222,
+      "expected": 48,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  },
+  "tests": [
+    {
+      "title": "crear categorías y administrar usuarios por separado en 390px",
+      "status": "passed"
+    },
+    {
+      "title": "crear categorías y administrar usuarios por separado en 1440px",
+      "status": "passed"
+    },
+    {
+      "title": "la carta de clientes no enlaza a la operación",
+      "status": "passed"
+    },
+    {
+      "title": "la carta importada muestra precios y filtra sus variantes en móvil y escritorio",
+      "status": "passed"
+    },
+    {
+      "title": "la navegación respeta el permiso manage_catalog",
+      "status": "passed"
+    },
+    {
+      "title": "la navegación respeta el permiso manage_users",
+      "status": "passed"
+    },
+    {
+      "title": "volver arriba flotante al empezar a bajar en /carta a 390px",
+      "status": "passed"
+    },
+    {
+      "title": "volver arriba flotante al empezar a bajar en /gestion#catalog a 390px",
+      "status": "passed"
+    },
+    {
+      "title": "volver arriba flotante al empezar a bajar en /carta a 1440px",
+      "status": "passed"
+    },
+    {
+      "title": "volver arriba flotante al empezar a bajar en /gestion#catalog a 1440px",
+      "status": "passed"
+    },
+    {
+      "title": "Caja cancela el resumen anterior y no reemplaza importes recientes con respuestas viejas",
+      "status": "passed"
+    },
+    {
+      "title": "carta completa: cinco principales, 27 subcategorías y variantes, también sin conexión",
+      "status": "passed"
+    },
+    {
+      "title": "gestión y comandera: principal → subcategoría → producto → variante, con notas y búsqueda",
+      "status": "passed"
+    },
+    {
+      "title": "recuperar una respuesta perdida permite continuar la cola sin duplicar el primer ítem",
+      "status": "passed"
+    },
+    {
+      "title": "plano continuo: 80 mesas conservan posición y son accesibles en seis tamaños con PIN al tocar",
+      "status": "passed"
+    },
+    {
+      "title": "espera de formulario, disponibilidad parcial, movimiento reducido y controles táctiles",
+      "status": "passed"
+    },
+    {
+      "title": "el borrador sin enviar conserva productos, notas y comensales al recargar, con movimiento reducido",
+      "status": "passed"
+    },
+    {
+      "title": "carga local inmediata, cierre al enviar y cambio seguro de empleado",
+      "status": "passed"
+    },
+    {
+      "title": "salir sin cambios descarta solo el borrador y la personalización de esta mesa",
+      "status": "passed"
+    },
+    {
+      "title": "en Gestión enviar también cierra la mesa antes de que termine la solicitud",
+      "status": "passed"
+    },
+    {
+      "title": "si el dispositivo no puede guardar el envío, conserva la mesa y el borrador",
+      "status": "passed"
+    },
+    {
+      "title": "respuesta perdida: recargar y consultar el pendiente recupera el pedido sin duplicarlo",
+      "status": "passed"
+    },
+    {
+      "title": "pedido enviado permite cobrar y cerrar sin etapas de cocina ni entrega",
+      "status": "passed"
+    },
+    {
+      "title": "crear producto desde gestión y verificar misma carta pública e imprimible",
+      "status": "passed"
+    },
+    {
+      "title": "navegación operativa y formularios sin infracciones automáticas en ambos temas",
+      "status": "passed"
+    },
+    {
+      "title": "la actualización lenta no acumula consultas de estado",
+      "status": "passed"
+    },
+    {
+      "title": "confirmar un pedido reemplaza una lectura anterior al guardado sin volver a mostrar la mesa libre",
+      "status": "passed"
+    },
+    {
+      "title": "la sesión técnica vencida se recupera sin F5 y conserva el borrador detrás del PIN",
+      "status": "passed"
+    },
+    {
+      "title": "Gestión vencida pide login sin F5 y conserva la cola pendiente",
+      "status": "passed"
+    },
+    {
+      "title": "sesión repetitiva: pedidos y paneles no acumulan memoria, nodos ni listeners",
+      "status": "passed"
+    },
+    {
+      "title": "la versión compilada conserva un shell offline acotado y respeta las cachés ajenas",
+      "status": "passed"
+    },
+    {
+      "title": "carta pública comparte catálogo, filtra producto oculto y conserva descarga",
+      "status": "passed"
+    },
+    {
+      "title": "abrir mesa, cargar agregado y observación, enviar y conservar al recargar",
+      "status": "passed"
+    },
+    {
+      "title": "escritorio y móvil, temas persistentes y accesibilidad",
+      "status": "passed"
+    },
+    {
+      "title": "listado de comanda: varias cargas, notas, cantidades y enviados ocupan su lugar",
+      "status": "passed"
+    },
+    {
+      "title": "mesa ocupada pide PIN antes de mostrar carta e identifica al mozo sin selector",
+      "status": "passed"
+    },
+    {
+      "title": "mesa libre usa PIN para asignar responsable y el mismo equipo cambia de empleado",
+      "status": "passed"
+    },
+    {
+      "title": "gestión con contraseña coexiste con comandera general y PIN de caja habilita sus acciones",
+      "status": "passed"
+    },
+    {
+      "title": "comandera compartida conserva borrador offline y solo su empleado puede sincronizarlo",
+      "status": "passed"
+    },
+    {
+      "title": "el cuarto dígito valida el PIN una sola vez y un error permite reintentar con foco",
+      "status": "passed"
+    },
+    {
+      "title": "sin conexión real: recargar, recuperar ítem local y sincronizar una vez",
+      "status": "passed"
+    },
+    {
+      "title": "pago con respuesta perdida: no confirmar localmente y consultar misma operación",
+      "status": "passed"
+    },
+    {
+      "title": "movimiento con respuesta perdida: reintento consulta historial sin duplicar caja",
+      "status": "passed"
+    },
+    {
+      "title": "formularios, búsqueda recuperable y agregados accesibles en 390x844",
+      "status": "passed"
+    },
+    {
+      "title": "formularios, búsqueda recuperable y agregados accesibles en 1440x900",
+      "status": "passed"
+    },
+    {
+      "title": "variantes compartidas: precio por opción, cantidades, notas directas y envío",
+      "status": "passed"
+    },
+    {
+      "title": "comandera táctil: sin desbordes y acción visible en móvil, tablet y escritorio",
+      "status": "passed"
+    },
+    {
+      "title": "nueve variantes, cantidad, agregados y notas entran sin desplazar en los tamaños habituales",
+      "status": "passed"
+    }
+  ],
+  "longSession": {
+    "cycles": 70,
+    "baseline": {
+      "documents": 3,
+      "nodes": 479,
+      "jsEventListeners": 195,
+      "heap": 5008060
+    },
+    "halfway": {
+      "documents": 3,
+      "nodes": 479,
+      "jsEventListeners": 195,
+      "heap": 5268324
+    },
+    "final": {
+      "documents": 3,
+      "nodes": 479,
+      "jsEventListeners": 195,
+      "heap": 5410204
+    },
+    "emptyDraftKeys": 0,
+    "earlyAddMs": 9.400000005960464,
+    "lateAddMs": 10.799999997019768
+  },
+  "compiledShellCache": "baguette-shell-064e7d2c370f3a1a",
+  "isolatedDatabases": {
+    "integration": "baguette_test",
+    "e2e": "baguette_e2e",
+    "operationalPreserved": "baguette_demo"
+  },
+  "screenshotsInspected": [
+    "test-results/pedido-local-enviando.png",
+    "test-results/plano-continuo-320.png"
+  ],
+  "limits": [
+    "The 70-cycle regression uses a mocked API and does not establish eight-hour stability.",
+    "Dependency audit and operational cluster restart/restore were not repeated."
+  ],
+  "earlierFailureResolved": "The full suite reproduced lost focus after an invalid PIN. Focus now runs after the input is enabled. The final full run passed all 48 scenarios."
+}

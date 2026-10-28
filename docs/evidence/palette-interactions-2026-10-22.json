@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-22",
+  "environment": "local production build; isolated baguette_e2e database; mocked editor API",
+  "command": "npm run test:e2e -- floor-resize.spec.ts floor-fit.spec.ts",
+  "passed": 12,
+  "failed": 0,
+  "skipped": 0,
+  "flaky": 0,
+  "checks": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "productionBuild": "passed",
+    "diffWhitespace": "passed",
+    "desktopAndMobileScreenshots": "reviewed"
+  },
+  "coverage": [
+    "All six palette icons arm placement and create at chosen coordinates without moving existing objects.",
+    "Mouse and touch drag; outside drop and Escape cancel creation.",
+    "Keyboard placement with zoom, grid and a scrolled canvas.",
+    "Touch selection followed by page scrolling and placement at 390x700.",
+    "Delete availability, cancel/confirm, undo/redo, nonexistent selection and sector changes.",
+    "Existing resize, draft save/reload, accessibility and salon fit scenarios."
+  ],
+  "limits": [
+    "An initial nine-scenario run had two failures: selector timeout and mobile test measuring during smooth scrolling. The final run uses a role selector and instant test scrolling and passed without retries.",
+    "No backend source changes or deployment; backend integration suite was not repeated."
+  ]
+}

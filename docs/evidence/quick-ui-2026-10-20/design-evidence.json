@@ -1,0 +1,151 @@
+{
+  "contract": "design-contract.md",
+  "targetViewports": ["390x844", "1440x900"],
+  "accessibility": {
+    "status": "pass",
+    "evidence": "Axe aprobó caja, catálogo, servicios y auditoría en temas claro/oscuro; catálogo con registros y diálogo de agregados se verificaron también a390px y1440px. PIN mantiene etiqueta accesible, foco, estado de espera y error vinculado. Movimiento reducido y controles táctiles aprobados por design-states en la suite de19; se inspeccionaron foco y contraste en capturas."
+  },
+  "responsive": {
+    "status": "pass",
+    "evidence": "14capturas de7superficies a390x844 y1440x900 sin desborde horizontal. Catálogo móvil expone Editar y conserva campos completos en edición. PIN>=88px y fuente>=40px comprobados en390,1440 y320px; paginación80mesas aprobada en6tamaños. Servicios móvil también usa filas compactas, con todos sus botones dentro del ancho disponible; sus botones se midieron y axe aprobó a390px y1440px en la captura final."
+  },
+  "contentStates": {
+    "loading": {
+      "status": "pass",
+      "evidence": "design-states retuvo ingreso y comprobó Guardando, aria-busy y campos bloqueados. PIN comprueba Validando PIN y evita envíos duplicados."
+    },
+    "empty": {
+      "status": "pass",
+      "evidence": "Usability ejercitó catálogo sin resultados y Limpiar búsqueda en ambos tamaños, recuperando Editar dentro del viewport."
+    },
+    "error": {
+      "status": "pass",
+      "evidence": "Envío vacío enfoca Usuario y marca error. PIN incorrecto limpia campo y devuelve foco; luego acepta reintento."
+    },
+    "partial": {
+      "status": "pass",
+      "evidence": "design-states usó carta local interceptada con un producto no disponible y otro disponible, sin ocultar el segundo ni desbordar el nombre largo."
+    },
+    "success": {
+      "status": "pass",
+      "evidence": "Flujo real de pedido, cobros mixtos y cierre aprobado con Cobrar visible antes de abrir Opciones; agregado se conserva y cierra formulario."
+    },
+    "permission": {
+      "status": "pass",
+      "evidence": "PIN obligatorio antes de carta; cambio de operador, reentrada y separación gestión/terminal aprobados. Camarero sigue sin cobro, anulación ni cierre."
+    }
+  },
+  "renderedEvidence": [
+    {
+      "viewport": "390x844",
+      "artifact": "login-390.png",
+      "observation": "Acceso con campos grandes y sin párrafos de bienvenida."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "cash-390.png",
+      "observation": "Resumen y acciones de caja con encabezado simple."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "catalog-390.png",
+      "observation": "Catálogo con edición visible; móvil usa registros compactos sin desplazamiento lateral."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "services-390.png",
+      "observation": "Aviso de simulación breve, nombres de destinos en español y referencia de mesa."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "audit-390.png",
+      "observation": "Formulario legible con título directo y filtros agrupados."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "pin-390.png",
+      "observation": "Diálogo compacto Tu PIN, campo de96px con caracteres44px y solo4dígitos como indicación."
+    },
+    {
+      "viewport": "390x844",
+      "artifact": "pedido-390.png",
+      "observation": "Productos legibles y Cobrar visible sin abrir Opciones; datos y acciones dentro del panel."
+    },
+    {
+      "viewport": "1440x900",
+      "artifact": "login-1440.png",
+      "observation": "Acceso con campos grandes y sin párrafos de bienvenida."
+    },
+    {
+      "viewport": "1440x900",
+      "artifact": "cash-1440.png",
+      "observation": "Resumen y acciones de caja con encabezado simple."
+    },
+    {
+      "viewport": "1440x900",
+      "artifact": "catalog-1440.png",
+      "observation": "Catálogo con edición visible; móvil usa registros compactos sin desplazamiento lateral."
+    },
+    {
+      "viewport": "1440x900",
+      "artifact": "services-1440.png",
+      "observation": "Aviso de simulación breve, nombres de destinos en español y referencia de mesa."
+    },
+    {
+      "viewport": "1440x900",
+      "artifact": "audit-1440.png",
+      "observation": "Formulario legible con título directo y filtros agrupados."
+    },
+    {
+      "viewport": "1440x900",
+      "artifact": "pin-1440.png",
+      "observation": "Diálogo compacto Tu PIN, campo de96px con caracteres44px y solo4dígitos como indicación."
+    },
+    {
+      "viewport": "1440x900",
+      "artifact": "pedido-1440.png",
+      "observation": "Productos legibles y Cobrar visible sin abrir Opciones; datos y acciones dentro del panel."
+    }
+  ],
+  "validation": {
+    "fullBrowserRegression": {
+      "passed": 19,
+      "failed": 0,
+      "scope": "Antes del ajuste final de catálogo móvil y cabecera"
+    },
+    "affectedSurfaceRerun": {
+      "passed": 6,
+      "failed": 0,
+      "scope": "Tras catálogo móvil; flujos, PIN grande y usabilidad"
+    },
+    "finalManagementCheck": {
+      "stats": {
+        "startTime": "2026-10-20T13:53:18.863Z",
+        "duration": 9625.606,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "scope": "Tras nombres de servicios y cabecera móvil"
+    },
+    "typecheck": "pass",
+    "lint": "pass",
+    "build": "pass",
+    "finalServiceLayout": {
+      "status": "pass",
+      "build": "pass",
+      "captures": 14,
+      "checks": [
+        "Sin desborde horizontal en siete pantallas y dos tamaños",
+        "Todos los botones de servicios dentro del ancho y con al menos40px de alto",
+        "Axe sin infracciones en servicios móvil y escritorio"
+      ]
+    }
+  },
+  "limits": [
+    "Axe y la inspección no constituyen certificación universal.",
+    "Disponibilidad parcial se reprodujo mediante respuestas locales interceptadas.",
+    "No se publicó ni se alteraron datos de baguette_demo."
+  ]
+}
