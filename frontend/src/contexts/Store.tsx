@@ -81,8 +81,9 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     promise: Promise<void>;
   } | null>(null);
   const invalidateStateRead = useCallback(() => {
+    // Basta con invalidar la revisión: la lectura en vuelo se descarta al resolver
+    // (guarda `revision !== viewRevision.current`). Abortarla generaba ERR_ABORTED.
     ++viewRevision.current;
-    stateRequest.current?.controller.abort();
     stateRequest.current = null;
   }, []);
   const lock = useRef(false);

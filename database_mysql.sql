@@ -546,7 +546,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- 9. DATOS INICIALES (DEMO EXPO TEC 2026)
 -- -----------------------------------------------------------------------------
 -- Roles y Permisos
-INSERT IGNORE INTO roles(name) VALUES ('admin'),('cashier'),('waiter'),('kitchen'),('bar'),('terminal');
+INSERT IGNORE INTO roles(name) VALUES ('admin'),('cashier'),('waiter'),('kitchen'),('terminal');
 
 INSERT IGNORE INTO permissions(name) VALUES 
 ('operate'),('prepare_kitchen'),('prepare_bar'),('cash'),('discount'),
@@ -559,7 +559,7 @@ INSERT IGNORE INTO role_permissions(role, permission) VALUES
 ('cashier','operate'),('cashier','cash'),('cashier','discount'),('cashier','refund'),('cashier','sensitive_void'),
 ('waiter','operate'),
 ('kitchen','prepare_kitchen'),
-('bar','prepare_bar'),
+('kitchen','prepare_bar'),
 ('terminal','terminal_view');
 
 -- Usuarios Oficiales (Contraseña: DemoBaguette2026!)
@@ -568,7 +568,6 @@ INSERT INTO users(id, username, name, role, password_hash, active, pin_hash, pin
 ('50000000-0000-4000-8000-000000000002','caja','Carla Cajera','cashier','scrypt$131072$8$1$a2c84353f1dda5a7c23ee3eac27fdda4$524afa126bcd957aa89db47e08b56066ea3445dbf08beb5db54496025f40cd2f9d2985dd3ed93e1cdf9f65882a586f4530d4f5f5e19e5f63f2c10772df6e85da',true,'scrypt$131072$8$1$c87d9a2d81b5128061f546e3d8c8179b$88d3680b119abcaaead972c64f98e19d60a7663857eaa80f4ebc40b1c3c27150943a50a8d073037f2b5f9ce5b2e9096425a12bd85d690b3d82077f59e8a339d1','f58aef36d7d6fc575dbe4e6abe97faf469ee4db6f59c7eb219295da2c6c5bf80',1),
 ('50000000-0000-4000-8000-000000000003','mozo','Martín Camarero','waiter','scrypt$131072$8$1$a2c84353f1dda5a7c23ee3eac27fdda4$524afa126bcd957aa89db47e08b56066ea3445dbf08beb5db54496025f40cd2f9d2985dd3ed93e1cdf9f65882a586f4530d4f5f5e19e5f63f2c10772df6e85da',true,'scrypt$131072$8$1$eb9a623768eb0e93fb0f84618926af87$4cff7bab16dcee5b4388e02f44fc94f97977f52822162f677d2f2aca06015aefcf73dd4dbec51767cd2d5473269d55b03c06533de58548b4a7a8ceaea2a36a03','09f919857a06dd2de2b86ede1939b76fe96ec909ef09a3749c58f5c0ef0d222f',1),
 ('50000000-0000-4000-8000-000000000004','cocina','Lucía Cocina','kitchen','scrypt$131072$8$1$a2c84353f1dda5a7c23ee3eac27fdda4$524afa126bcd957aa89db47e08b56066ea3445dbf08beb5db54496025f40cd2f9d2985dd3ed93e1cdf9f65882a586f4530d4f5f5e19e5f63f2c10772df6e85da',true,'scrypt$131072$8$1$eef3334df7b5d8b3812351273d6fe913$abb408f5913bba25eb99895ebe89e5f6c3083e50f37ec48472b0cb2ef66a65d84d92a6d6138c158299425d0c3272ea7d62b192696355eda02ea2550904ac84e9','3433eb2077b46e1124318d045dfe0f82280fe6f14cc0b64012cd19c5b5d2b4ee',1),
-('50000000-0000-4000-8000-000000000005','bar','Bruno Bar','bar','scrypt$131072$8$1$a2c84353f1dda5a7c23ee3eac27fdda4$524afa126bcd957aa89db47e08b56066ea3445dbf08beb5db54496025f40cd2f9d2985dd3ed93e1cdf9f65882a586f4530d4f5f5e19e5f63f2c10772df6e85da',true,'scrypt$131072$8$1$e786d450571343375d5334739b2f7621$ca65ffc9185a5784e2e10a244be550dcdd6df51488a0b6d9e296ceb1e4dec2b2a90c04c8a5e42ce7e07e1a3fd90d26fc220f164d235cfbb1c23c99d815921e72','fef1d10189d530bcfdccc4f5397541036269258d510a47a2b7f2fb6c70e8d516',1),
 ('50000000-0000-4000-8000-000000000006','moza','María Camarera','waiter','scrypt$131072$8$1$a2c84353f1dda5a7c23ee3eac27fdda4$524afa126bcd957aa89db47e08b56066ea3445dbf08beb5db54496025f40cd2f9d2985dd3ed93e1cdf9f65882a586f4530d4f5f5e19e5f63f2c10772df6e85da',true,'scrypt$131072$8$1$26fd0fca564ff647cbceb3db9741be01$2279ee639c7608e0eadd915a056854ff4234f269accf9dbd9c825f86cdcc6a167baea2578174286ef248b4d8071ff9a143a27babd05afc7f62c8cc96db9577cb','ff0e36fd35e21037ab2018e6f8b3e37b9adc962ec1fb5a1d46b99a545ad74fd8',1),
 ('50000000-0000-4000-8000-000000000007','terminal.demo','Terminal compartida','terminal','scrypt$131072$8$1$a2c84353f1dda5a7c23ee3eac27fdda4$524afa126bcd957aa89db47e08b56066ea3445dbf08beb5db54496025f40cd2f9d2985dd3ed93e1cdf9f65882a586f4530d4f5f5e19e5f63f2c10772df6e85da',true,NULL,NULL,0)
 ON DUPLICATE KEY UPDATE name=VALUES(name), password_hash=VALUES(password_hash), active=VALUES(active);

@@ -1,7 +1,7 @@
-INSERT INTO roles(name) VALUES ('admin'),('cashier'),('waiter'),('kitchen'),('bar') ON CONFLICT DO NOTHING;
+INSERT INTO roles(name) VALUES ('admin'),('cashier'),('waiter'),('kitchen') ON CONFLICT DO NOTHING;
 INSERT INTO permissions(name) VALUES ('operate'),('prepare_kitchen'),('prepare_bar'),('cash'),('discount'),('refund'),('sensitive_void'),('manage_catalog'),('manage_tables'),('manage_users'),('audit'),('settings') ON CONFLICT DO NOTHING;
 INSERT INTO role_permissions SELECT 'admin',name FROM permissions ON CONFLICT DO NOTHING;
-INSERT INTO role_permissions(role,permission) VALUES ('cashier','operate'),('cashier','cash'),('cashier','discount'),('cashier','refund'),('cashier','sensitive_void'),('waiter','operate'),('kitchen','prepare_kitchen'),('bar','prepare_bar') ON CONFLICT DO NOTHING;
+INSERT INTO role_permissions(role,permission) VALUES ('cashier','operate'),('cashier','cash'),('cashier','discount'),('cashier','refund'),('cashier','sensitive_void'),('waiter','operate'),('kitchen','prepare_kitchen'),('kitchen','prepare_bar') ON CONFLICT DO NOTHING;
 INSERT INTO categories(id,name,sort_order) VALUES
 ('11000000-0000-4000-8000-000000000001','Cafetería',10),('11000000-0000-4000-8000-000000000002','Desayunos',20),
 ('10000000-0000-4000-8000-000000000002','Cocina',30),('10000000-0000-4000-8000-000000000003','Dulces',40),

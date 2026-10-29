@@ -66,18 +66,23 @@ try {
     const imported: string[] = [];
     for (const category of catalog.categories) {
       const section = defaultCategory(category.name);
-      const parent = section.parent
-        ? await one(
-            db,
-            'INSERT INTO categories(name) VALUES($1) ON CONFLICT(name) DO UPDATE SET active=true RETURNING id',
-            [section.parent],
-          )
-        : undefined;
-      const saved = await one(
-        db,
-        'INSERT INTO categories(name,parent_id,created_at) VALUES($1,$2,clock_timestamp()) ON CONFLICT(name) DO UPDATE SET active=true,parent_id=excluded.parent_id,updated_at=now() RETURNING id',
+      let parent: { id: string } | undefined;
+      if (section.parent) {
+        await db.query(
+          'INSERT INTO categories(name) VALUES($1) ON CONFLICT(name) DO UPDATE SET active=true',
+          [section.parent],
+        );
+        parent = await one<{ id: string }>(db, 'SELECT id FROM categories WHERE name=$1', [
+          section.parent,
+        ]);
+      }
+      await db.query(
+        'INSERT INTO categories(name,parent_id,created_at) VALUES($1,$2,clock_timestamp()) ON CONFLICT(name) DO UPDATE SET active=true,parent_id=excluded.parent_id,updated_at=now()',
         [section.name, parent?.id ?? null],
       );
+      const saved = await one<{ id: string }>(db, 'SELECT id FROM categories WHERE name=$1', [
+        section.name,
+      ]);
       for (const [name, price, description] of category.items) {
         const id = randomUUID();
         const variation = defaultVariation(category.name, name);

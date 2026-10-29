@@ -24,6 +24,7 @@ export const seedUsers = [
     username: 'admin',
     name: 'Ana Encargada',
     role: 'admin',
+    pin: '4101',
     active: true,
   },
   {
@@ -31,6 +32,7 @@ export const seedUsers = [
     username: 'caja',
     name: 'Carla Cajera',
     role: 'cashier',
+    pin: '4202',
     active: true,
   },
   {
@@ -38,6 +40,7 @@ export const seedUsers = [
     username: 'mozo',
     name: 'Martín Camarero',
     role: 'waiter',
+    pin: '4303',
     active: true,
   },
   {
@@ -45,13 +48,7 @@ export const seedUsers = [
     username: 'cocina',
     name: 'Lucía Cocina',
     role: 'kitchen',
-    active: true,
-  },
-  {
-    id: '50000000-0000-4000-8000-000000000005',
-    username: 'bar',
-    name: 'Bruno Bar',
-    role: 'bar',
+    pin: '4404',
     active: true,
   },
   {
@@ -59,6 +56,7 @@ export const seedUsers = [
     username: 'moza',
     name: 'María Camarera',
     role: 'waiter',
+    pin: '4606',
     active: true,
   },
 ];
@@ -102,8 +100,8 @@ export async function seed(db?: DB, sample = true) {
         'INSERT INTO users(id,username,name,role,password_hash,active) VALUES($1,$2,$3,$4,$5,$6) ON CONFLICT(id) DO UPDATE SET active=$6',
         [user.id, user.username, user.name, user.role, passwordHash, user.active !== false],
       );
-    for (const [index, user] of seedUsers.entries()) {
-      const pin = String(4101 + index * 101);
+    for (const user of seedUsers) {
+      const pin = user.pin;
       const existing = await one(
         client,
         'SELECT pin_hash,pin_lookup FROM users WHERE id=$1 AND username=$2',

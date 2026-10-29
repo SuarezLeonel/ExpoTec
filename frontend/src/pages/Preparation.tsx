@@ -7,7 +7,7 @@ export function Preparation() {
   const { state, session, command, busy, refresh } = useStore();
   const [filter, setFilter] = useState('all');
   if (!state || !session) return null;
-  const destination = session.user.role === 'bar' ? 'bar' : filter;
+  const destination = filter;
   const items = state.items.filter(
     (i) =>
       ['sent', 'preparing', 'ready'].includes(i.status) &&

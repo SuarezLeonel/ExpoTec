@@ -276,7 +276,7 @@ export const schemas = {
     id: uuid.optional(),
     username,
     name: person,
-    role: z.enum(['admin', 'cashier', 'waiter', 'kitchen', 'bar']),
+    role: z.enum(['admin', 'cashier', 'waiter', 'kitchen']),
     active: z.boolean(),
     password: password.optional(),
     pin: z

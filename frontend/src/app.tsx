@@ -152,10 +152,14 @@ export function App() {
                 key={n.id}
                 className={`nav-tab ${current === n.id ? 'active' : ''}`}
                 aria-current={current === n.id ? 'page' : undefined}
+                aria-label={n.name}
+                title={n.name}
                 onClick={() => navigate(n.id)}
               >
-                <Icon size={17} strokeWidth={1.8} />
-                <span>{n.name}</span>
+                <span className="nav-btn-icon">
+                  <Icon size={17} strokeWidth={1.8} />
+                </span>
+                <span className="nav-btn-label">{n.name}</span>
                 {n.id === 'preparation' &&
                   state &&
                   state.items.some((i) => ['sent', 'preparing'].includes(i.status)) && (

@@ -84,8 +84,7 @@ export async function state(db: DB, auth: AuthRequest) {
   const scope = terminal ? auth.grantTableId : undefined;
   const cash = auth.permissions.includes('cash');
   const admin = auth.permissions.includes('manage_users');
-  const destination =
-    auth.user.role === 'kitchen' ? 'kitchen' : auth.user.role === 'bar' ? 'bar' : null;
+  const destination = auth.user.role === 'kitchen' ? 'kitchen' : null;
   return {
     user: auth.user,
     mode: auth.mode,

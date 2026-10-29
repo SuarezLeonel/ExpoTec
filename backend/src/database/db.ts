@@ -92,6 +92,33 @@ if (isMysql) {
   pgPool.on('error', () => process.stderr.write('Se perdió una conexión inactiva a PostgreSQL.\n'));
 }
 
+/**
+ * TiDB cierra los sockets ociosos sin avisar. La primera consulta que reutiliza
+ * una conexión reciclada puede fallar antes de ejecutar la sentencia; el error
+ * trae `ECONNRESET`/`fatal` y mysql2 retira la conexión del pool. Reintentar una
+ * sola vez sobre la conexión nueva evita propagar el fallo al cliente.
+ */
+function isConnectionLoss(error: unknown): boolean {
+  if (!error || typeof error !== 'object') return false;
+  const { code, fatal, message } = error as { code?: unknown; fatal?: unknown; message?: unknown };
+  if (fatal === true) return true;
+  if (
+    typeof code === 'string' &&
+    ['ECONNRESET', 'PROTOCOL_CONNECTION_LOST', 'ETIMEDOUT', 'EPIPE'].includes(code)
+  )
+    return true;
+  return typeof message === 'string' && /closed state|Connection lost/i.test(message);
+}
+
+async function retrying<T>(run: () => Promise<T>): Promise<T> {
+  try {
+    return await run();
+  } catch (error) {
+    if (!isConnectionLoss(error)) throw error;
+    return run();
+  }
+}
+
 async function executeMysql<T = QueryResultRow>(
   target: MysqlPool | PoolConnection,
   sql: string,
@@ -304,7 +331,9 @@ async function executeMysql<T = QueryResultRow>(
 export const pool = {
   async query<T = QueryResultRow>(sql: string, params: unknown[] = []): Promise<DBResult<T>> {
     if (isMysql) {
-      return executeMysql<T>(mysqlPool!, sql, params);
+      const run = () => executeMysql<T>(mysqlPool!, sql, params);
+      // Sólo las lecturas pueden repetirse sin riesgo de duplicar efectos.
+      return /^\s*select/i.test(sql) ? retrying(run) : run();
     } else {
       const res = await pgPool!.query<T extends QueryResultRow ? T : QueryResultRow>(sql, params);
       return { rows: res.rows as T[], rowCount: res.rowCount ?? 0 };
@@ -361,23 +390,32 @@ export async function one<T = QueryResultRow>(
 }
 
 export async function transaction<T>(fn: (client: DB) => Promise<T>, write = true): Promise<T> {
+  if (write) return runTransaction(fn, true);
+  // Una transacción de lectura puede repetirse completa si la conexión reciclada
+  // llegó cerrada desde TiDB.
+  try {
+    return await runTransaction(fn, false);
+  } catch (error) {
+    if (!isConnectionLoss(error)) throw error;
+    return runTransaction(fn, false);
+  }
+}
+
+async function runTransaction<T>(fn: (client: DB) => Promise<T>, write: boolean): Promise<T> {
   const client = await pool.connect();
   try {
     if (isMysql) {
       await client.query('START TRANSACTION');
       if (write) await client.query('SELECT pg_advisory_xact_lock(725615870)');
-      const result = await fn(client);
-      await client.query('COMMIT');
-      return result;
     } else {
       await client.query(write ? 'BEGIN' : 'BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');
       if (write) await client.query('SELECT pg_advisory_xact_lock(725615870)');
-      const result = await fn(client);
-      await client.query('COMMIT');
-      return result;
     }
+    const result = await fn(client);
+    await client.query('COMMIT');
+    return result;
   } catch (error) {
-    await client.query('ROLLBACK');
+    await client.query('ROLLBACK').catch(() => {});
     throw error;
   } finally {
     if (isMysql && write) {

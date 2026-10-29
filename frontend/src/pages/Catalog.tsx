@@ -81,7 +81,6 @@ export function Catalog({ users = false }: { users?: boolean }) {
           { value: 'waiter', label: 'Camarero' },
           { value: 'cashier', label: 'Cajero' },
           { value: 'kitchen', label: 'Cocina' },
-          { value: 'bar', label: 'Bar' },
           { value: 'admin', label: 'Encargado' },
         ],
       },

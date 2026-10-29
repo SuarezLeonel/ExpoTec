@@ -411,10 +411,15 @@ summary:focus-visible {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: nowrap;
   overflow-x: auto;
-  scrollbar-width: thin;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
   margin-bottom: 20px;
   padding-bottom: 3px;
+}
+.category-tabs::-webkit-scrollbar {
+  display: none;
 }
 .salon-toolbar .category-tabs {
   margin: 0;
@@ -1334,30 +1339,25 @@ summary:focus-visible {
 }
 @media (max-width: 700px) {
   .catalog-table,
-  .catalog-table tbody,
-  .services-table,
-  .services-table tbody {
+  .catalog-table tbody {
     display: block;
     width: 100%;
   }
-  .catalog-table thead,
-  .services-table thead {
+  .catalog-table thead {
     position: absolute;
     width: 1px;
     height: 1px;
     overflow: hidden;
     clip-path: inset(50%);
   }
-  .catalog-table tr,
-  .services-table tr {
+  .catalog-table tr {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 10px;
     padding: 16px 0;
     border-bottom: 1px solid var(--line);
   }
-  .catalog-table td,
-  .services-table td {
+  .catalog-table td {
     padding: 0;
     border: 0;
     min-width: 0;
@@ -1383,29 +1383,6 @@ summary:focus-visible {
   }
   .catalog-table tr:has(td:nth-child(7)) td:nth-child(n + 4):not(:last-child) {
     display: none;
-  }
-  .services-table td:first-child {
-    grid-column: 1;
-    grid-row: 1;
-  }
-  .services-table td:nth-child(2) {
-    grid-column: 2;
-    grid-row: 1;
-    max-width: 110px;
-    font-size: 12px;
-    text-align: right;
-  }
-  .services-table td:nth-child(3),
-  .services-table td:last-child {
-    grid-column: 1 / -1;
-  }
-  .services-table .row-actions {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-  .services-table .row-actions .btn {
-    flex: 1 1 auto;
-    min-height: 44px;
   }
 }
 .row-actions {
@@ -1710,6 +1687,7 @@ summary:focus-visible {
   display: flex;
   align-items: center;
   gap: 20px;
+  min-width: 0;
   border-bottom: 1px solid var(--line);
   padding: 22px 0;
 }
@@ -1718,14 +1696,17 @@ summary:focus-visible {
   height: 70px;
   object-fit: cover;
   border-radius: 6px;
+  flex-shrink: 0;
 }
 .menu-product > div {
   flex: 1;
+  min-width: 0;
 }
 .menu-product h3,
 .menu-product h4 {
   font-size: 23px;
   margin-bottom: 6px;
+  overflow-wrap: break-word;
 }
 .category-navigation {
   min-width: 0;

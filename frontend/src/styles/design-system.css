@@ -234,6 +234,8 @@ h4 {
   padding: 0 20px;
   gap: 16px;
   flex-shrink: 0;
+  max-width: 100vw;
+  box-sizing: border-box;
 }
 
 .top-navbar-brand {
@@ -299,12 +301,24 @@ h4 {
   gap: 4px;
   flex: 1;
   min-width: 0;
-  overflow-x: auto;
+  flex-wrap: nowrap;
+  overflow-x: hidden;
   scrollbar-width: none;
 }
 
 .top-navbar-nav::-webkit-scrollbar {
   display: none;
+}
+
+.top-navbar-nav .nav-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.top-navbar-nav .nav-btn-label {
+  display: inline;
 }
 
 .top-navbar-nav .nav-tab {
@@ -485,6 +499,18 @@ h4 {
   }
 }
 
+/* Modo solo iconos: cuando no hay ancho para las etiquetas */
+@media (max-width: 992px) {
+  .top-navbar-nav .nav-btn-label {
+    display: none;
+  }
+  .top-navbar-nav .nav-tab {
+    padding: 8px 10px;
+    min-width: 40px;
+    justify-content: center;
+  }
+}
+
 @media (max-width: 860px) {
   .top-navbar {
     padding: 0 14px;
@@ -521,11 +547,25 @@ h4 {
     min-height: 42px;
     font-size: 14px;
   }
+  /* En el menú desplegable se vuelven a mostrar las etiquetas */
+  .top-navbar-nav .nav-btn-label {
+    display: inline;
+  }
   .logout-text {
     display: none;
   }
   .carta-link span {
     display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-navbar-nav {
+    gap: 2px;
+  }
+  .top-navbar-nav .nav-tab {
+    padding: 6px 8px;
+    min-width: 36px;
   }
 }
 
