@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
-import { X, ArrowLeft, Check, Eye, EyeOff } from 'lucide-react';
+import { X, Check, Eye, EyeOff } from 'lucide-react';
 import { ApiError, statusLabel } from '../services/api';
 export function Badge({ value }: { value: string }) {
   return <span className={`status status-${value}`}>{statusLabel[value] || value}</span>;
@@ -545,12 +545,5 @@ export function PageHeading({
       </div>
       <div className="heading-actions">{children}</div>
     </header>
-  );
-}
-export function Back({ onClick }: { onClick: () => void }) {
-  return (
-    <button className="btn btn-link" onClick={onClick}>
-      <ArrowLeft size={18} /> Volver
-    </button>
   );
 }
