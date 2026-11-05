@@ -1,3 +1,14 @@
+/**
+ * Contexto y proveedor del estado global de la aplicación.
+ *
+ * Núcleo de la arquitectura frontend:
+ * - Sincronización continua de estado con el servidor mediante polling adaptativo (`/api/state`).
+ * - Gestión de modo de acceso dual: Kiosk de salón (`terminal`) vs Panel administrativo (`management`).
+ * - Cola de pedidos offline-first: Los pedidos se guardan localmente de inmediato, se despachan en
+ *   segundo plano y se concilian con confirmaciones del servidor sin bloquear la interfaz.
+ * - Ciclo de PIN operativo: Solicita PIN al tocar una mesa, gestionando el grant temporal en memoria.
+ */
+
 import {
   createContext,
   useCallback,
@@ -53,6 +64,9 @@ interface StoreValue {
   clear: () => void;
 }
 const Store = createContext<StoreValue | null>(null);
+/**
+ * Proveedor de contexto global que envuelve la aplicación completa.
+ */
 export function StoreProvider({ children }: { children: ReactNode }) {
   const terminal = isTerminalMode();
   const [identity, setIdentity] = useState<Session | null>(null);
@@ -859,6 +873,9 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     </Store.Provider>
   );
 }
+/**
+ * Hook para acceder al estado y acciones globales del sistema desde cualquier componente.
+ */
 export function useStore() {
   const value = useContext(Store);
   if (!value) throw new Error('Falta el proveedor de operación.');

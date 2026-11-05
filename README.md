@@ -1,77 +1,217 @@
-# Gestion - cafe
+# Gestion - cafe · Sistema de Gestión Gastronómica (Cafetería & Salón)
 
-Prototipo local para una sucursal ficticia. React + TypeScript + Vite + Bootstrap; API Node.js + TypeScript + Express; PostgreSQL real. El catálogo es compartido con la carta pública. Precios, personas y operaciones son ficticios; impresión, correo, medios de pago y facturación usan adaptadores de demostración. **Demostración. Sin validez fiscal.**
+Sistema integral de punto de venta (POS), comandas y administración gastronómica diseñado para sucursales de cafetería y gastronomía. Implementa una arquitectura **offline-first**, soporte de terminales compartidas táctiles con identificación por PIN, auditoría de libro inmutable (ledger) y compatibilidad con bases de datos relacionales duales (**PostgreSQL** y **MySQL / TiDB Cloud en AWS**).
 
-## Inicio en Windows
+---
 
-Requisito: Node.js 24 LTS con npm. Abrí una terminal en la raíz del proyecto. Las dependencias se instalan desde la raíz; el frontend es un workspace y el backend usa las dependencias compartidas.
+## 1. Tecnologías Principales
+
+* **Frontend**:
+  * **React 19** + **TypeScript 5.9** sobre **Vite 7.3** (compilación ultrarrápida y HMR).
+  * **Bootstrap 5.3** + Sistema de diseño CSS personalizado (modo claro/oscuro dinámico).
+  * **Lucide React** para iconografía consistente y accesible.
+  * **Service Worker** para soporte offline y caché controlada del shell de la aplicación.
+* **Backend**:
+  * **Node.js (LTS 22 / 24)** en modo ECMAScript Modules (`"type": "module"`).
+  * **Express 5.2** con enrutamiento modular y manejo centralizado de errores.
+  * **Zod 4.3** para validación estricta de esquemas de datos y contratos de entrada.
+  * **Helmet** con CSP riguroso, CORS parametrizado y cookies de sesión con `SameSite=Lax`.
+  * **Sharp** para optimización y reescalado de imágenes a formato WebP.
+* **Base de Datos (Soporte Dual)**:
+  * **PostgreSQL (v14–v18)**: Motor relacional principal con soporte para clúster local embebido (`embedded-postgres`), Docker o servidores gestionados.
+  * **MySQL 8.0 / TiDB Cloud (AWS)**: Motor cloud serverless escalable con cifrado obligatorio TLS 1.2.
+* **Calidad y Pruebas**:
+  * **Node Test Runner** nativo con ejecución mediante **TSX**.
+  * **Playwright** para pruebas E2E de navegador completas.
+  * **ESLint 9** (Flat Config) + **TypeScript-ESLint 8** + **Prettier 3**.
+
+---
+
+## 2. Estructura del Proyecto
+
+```text
+├── api/                        # Entrada serverless para despliegues (Vercel)
+│   └── index.ts
+├── backend/                    # Servidor, API y lógica de negocio
+│   ├── catalog/                # Catálogo JSON maestro de productos iniciales
+│   ├── sql/                    # Migraciones PostgreSQL y esquema MySQL (database_mysql.sql)
+│   ├── src/
+│   │   ├── app.ts              # Fábrica de aplicación Express, seguridad y middlewares
+│   │   ├── server.ts           # Punto de arranque del servidor HTTP local
+│   │   ├── config/             # Validación de variables de entorno con Zod
+│   │   ├── database/           # Abstracción de conexión dual (pg / mysql2) y transacciones
+│   │   ├── middleware/         # Autenticación, protección CSRF y control de roles
+│   │   └── modules/            # Controladores y comandos (cuentas, pedidos, caja, mesas)
+│   └── tests/                  # Pruebas de integración, dinero exacto y seguridad
+├── frontend/                   # Aplicación cliente SPA
+│   ├── public/                 # Service Worker (sw.js), tipografías e isotipos
+│   └── src/
+│       ├── app.tsx             # Shell principal de gestión, navbar y router SPA
+│       ├── main.tsx            # Punto de montaje del DOM e importación de estilos
+│       ├── components/         # Workspace de comandas, paleta del salón, terminal y UI
+│       ├── contexts/           # Estado global reactivo (Store.tsx) y tema visual (Theme.tsx)
+│       ├── hooks/              # Hooks personalizados (useLocalOrder, useFloorViewport, etc.)
+│       ├── pages/              # Vistas: Salón, Cocina, Caja, Catálogo, Auditoría, Editor, Login
+│       ├── services/           # Cliente HTTP (api.ts), permisos, categorías y polling
+│       ├── styles/             # Hojas de estilo del sistema de diseño (tokens, layouts, temas)
+│       └── types/              # Tipos TypeScript compartidos en frontend
+├── docs/                       # Documentación técnica, API contracts y BASE-DE-DATOS.md
+├── scripts/                    # Scripts utilitarios (setup, dev, build, db, migraciones)
+├── tests/                      # Pruebas unitarias de interfaz y suite E2E de Playwright
+├── .env.example                # Plantilla de entorno para desarrollo local
+├── .env.production.example     # Plantilla de entorno documentada para producción
+├── vercel.json                 # Configuración de rutas y rewrites de despliegue
+└── package.json                # Dependencias unificadas de workspace y scripts de ejecución
+```
+
+---
+
+## 3. Rutas y Experiencia de Usuario
+
+La aplicación distribuye sus funcionalidades en tres accesos bien definidos:
+
+1. **Terminal de Salón (`/` o `/terminal`)**:
+   * Vista táctil de pantalla completa diseñada para los mozos en el salón.
+   * Muestra las mesas organizadas por sectores (Interior, Terraza, Barra, etc.).
+   * Al tocar cualquier mesa libre u ocupada, solicita un **PIN personal de 4 dígitos** (últimos 4 dígitos del DNI).
+   * Al validar el PIN, abre el espacio de comanda (`TableOrderWorkspace`) para agregar productos, variantes, observaciones y enviar el pedido en un solo toque, cerrando la mesa de inmediato.
+2. **Panel de Gestión (`/gestion`)**:
+   * Acceso protegido mediante **usuario y contraseña** para supervisores, encargados y cajeros.
+   * Brinda acceso según permisos a:
+     * **Caja**: Apertura, arqueo, ingresos/egresos y cobro de cuentas.
+     * **Cocina / Bar**: Pantalla de preparación de comandas en tiempo real.
+     * **Catálogo**: Edición de productos, precios, categorías jerárquicas y variantes.
+     * **Diseño del salón**: Editor visual con cuadrícula, zoom, rotación y mobiliario.
+     * **Auditoría**: Trazabilidad detallada de todas las operaciones realizadas.
+3. **Carta Pública Digital (`/carta`)**:
+   * Menú digital interactivo para los clientes, agrupado por categorías principales y variantes, sin acceso a operaciones internas.
+
+---
+
+## 4. Requisitos Previos
+
+* **Node.js**: Versión **22 LTS** o **24 LTS**.
+* **npm**: Versión 10 o superior (incluido con Node.js).
+* *(Opcional)*: Clúster de **TiDB Cloud** o **PostgreSQL externo** si no se utiliza la base local embebida.
+
+---
+
+## 5. Instalación y Puesta en Marcha
+
+### Paso 1: Clonar e instalar dependencias
 
 ```powershell
+git clone https://github.com/SuarezLeonel/ExpoTec.git
+cd ExpoTec
 npm install
+```
+
+### Paso 2: Configurar variables de entorno y base local
+
+El comando `setup` genera automáticamente un archivo `.env` con contraseñas aleatorias seguras y la clave criptográfica `OPERATION_HASH_KEY` necesaria para el sellado de PINs e idempotencia:
+
+```powershell
 npm run setup
+```
+
+### Paso 3: Iniciar la base de datos local
+
+Iniciá el motor de PostgreSQL local embebido (dejá esta terminal abierta):
+
+```powershell
 npm run db:start
 ```
 
-El último comando inicia PostgreSQL local real; dejá esa terminal abierta. En otra terminal, desde la misma carpeta:
+### Paso 4: Migrar, sembrar y compilar
+
+En otra terminal, desde la carpeta del proyecto:
 
 ```powershell
+# Aplica las migraciones estructurales
 npm run db:migrate
+
+# Siembra los usuarios iniciales, mesas y catálogo base
 npm run db:seed
+
+# Compila el frontend optimizado para producción
 npm run build
+
+# Inicia el servidor de la aplicación
 npm start
 ```
 
-Abrí [la terminal local](http://127.0.0.1:3100/) (o el puerto configurado): muestra el salón directamente, sin login de empleado. [Gestión](http://127.0.0.1:3100/gestion) mantiene el acceso independiente con usuario y contraseña para caja/encargado. Esta versión compilada permite comprobar la recarga sin conexión. Para editar con recarga automática, usá `npm run dev` y la dirección que informa Vite; el servidor de desarrollo no registra el service worker. Los datos de PostgreSQL se conservan entre reinicios. No vuelvas a sembrar para recuperar una sesión de trabajo: iniciar base y aplicación es suficiente.
+La aplicación estará lista en:
+* **Terminal de salón**: [http://127.0.0.1:3100/](http://127.0.0.1:3100/)
+* **Panel de gestión**: [http://127.0.0.1:3100/gestion](http://127.0.0.1:3100/gestion)
+* **Carta pública**: [http://127.0.0.1:3100/carta](http://127.0.0.1:3100/carta)
 
-`npm run setup` crea `.env` con contraseña aleatoria para la base y una clave aleatoria `OPERATION_HASH_KEY` para idempotencia y protección/localización de PIN; conserva los valores existentes. Guardá esa clave junto con los respaldos de la base: cambiarla impide verificar reintentos y PIN protegidos con el secreto anterior. La copia de referencia de backend está en `backend/.env.example`. Los puertos, orígenes, almacenamiento, conexión y `BRANCH_TIMEZONE` se ajustan por variables de entorno validadas. El puerto inicial de PostgreSQL es 55432; la API escucha en 3100 y Vite en 5173 por defecto. No uses datos personales ni credenciales fiscales reales.
+---
 
-Para un PostgreSQL externo, configurá `DATABASE_URL` y una base separada en `TEST_DATABASE_URL`; omití `db:start`. Las credenciales y permisos de creación corresponden al servidor elegido. El lanzador local crea `baguette_demo` y `baguette_test`; las pruebas no deben apuntar a una base operativa.
+## 6. Modo Desarrollo con Recarga Rápida (HMR)
 
-## Comprobaciones
+Para trabajar activamente en el código fuente con recarga en caliente:
 
 ```powershell
-npm run typecheck
-npm run lint
-npm test
-npm run build
-npm run test:e2e
-npm run test:persistence
+npm run dev
 ```
 
-`npm test` necesita PostgreSQL activo y una base de pruebas separada. E2E compila e inicia su propia API en `E2E_PORT` (3101 por defecto), restaura exclusivamente `baguette_e2e` y conserva `baguette_demo`. Requiere el PostgreSQL local activo y un navegador disponible: utiliza `BROWSER_EXECUTABLE`, Brave/Edge detectado en Windows o Chromium de Playwright. Si no hay navegador compatible, instalalo con `npx playwright install chromium`. Los requisitos previos y resultados efectivamente ejecutados se registran en [docs/ESTADO-PRUEBAS.md](docs/ESTADO-PRUEBAS.md). La existencia de un comando o de una prueba no acredita que haya sido ejecutada.
+Vite iniciará el servidor de desarrollo en `http://localhost:5173`, redirigiendo automáticamente las llamadas `/api/*` al backend Express en el puerto 3100.
 
-Para usar la compilación local, ejecutá `npm run build` y luego `npm start` con PostgreSQL activo. La API sirve también el frontend compilado en el puerto configurado.
+---
 
-`npm run test:persistence` reinicia únicamente el cluster PostgreSQL demo local dentro del proyecto, verifica cantidades y huella de operaciones antes/después y escribe `test-results/persistence.json`. Ejecutalo sin otras pruebas o escrituras en curso.
+## 7. Conexión con TiDB Cloud (MySQL en la Nube)
 
-## Uso y documentación
+Si preferís operar el sistema utilizando un clúster en la nube de **TiDB Cloud**:
 
-- [Revisión ECC del 21/10/2026](docs/REVISION-2026-10-21.md): cierre al enviar, salida sin cambios, caché acotada y prioridades pendientes.
-- [Revisión del 20/10/2026](docs/REVISION-2026-10-20.md): mejoras de seguridad, recuperación y usabilidad, con alcance de las verificaciones.
-- [Manual de usuario](docs/MANUAL-USUARIO.md): ingreso y operación por rol.
-- [Guion de reunión](docs/GUION-REUNION.md): trece recorridos y preguntas para el encargado.
-- [Arquitectura](docs/ARQUITECTURA.md), [permisos](docs/PERMISOS.md) y [reglas operativas](docs/REGLAS-OPERATIVAS.md).
-- [API](docs/API.md) y [contrato detallado](docs/API-CONTRACT.md).
-- [Integraciones](docs/INTEGRACIONES.md), [identidad visual](docs/IDENTIDAD.md) y [especificación](docs/SPEC.md).
+1. En tu archivo `.env`, configurá la variable `DATABASE_URL`:
+   ```env
+   DATABASE_URL=mysql://<USUARIO>:<CONTRASENA>@gateway01.sa-east-1.prod.aws.tidbcloud.com:4000/cafe_demo?ssl={"rejectUnauthorized":true}
+   ```
+2. Ejecutá la migración automática a TiDB:
+   ```powershell
+   npm run db:migrate:tidb
+   ```
+3. El backend detectará automáticamente el protocolo `mysql:` y utilizará el pool de conexiones optimizado con reintentos para sockets en la nube.
 
-La restauración destructiva desde la aplicación requiere administrador, modo demostración y confirmación literal `RESTAURAR DEMO`. La alternativa de terminal es `npm run demo:reset`, también limitada a `baguette_demo`, con la misma confirmación. Conservá una copia de la base y del almacenamiento si necesitás preservar evidencia. Los usuarios ficticios son `admin`, `caja`, `mozo`, `moza`, `cocina` y `bar`; la contraseña inicial se toma de `DEMO_PASSWORD` (por defecto local `DemoBaguette2026!`). Deben reemplazarse antes de cualquier uso fuera de la demostración.
+---
 
-La demo tiene almacenamiento persistente y reglas operativas reales. Las limitaciones pendientes se indican en el registro de pruebas; no constituye una habilitación para operar una sucursal en producción.
+## 8. Usuarios de Prueba y PINs de Demostración
 
-## Terminal compartida y pedidos
+La base de demostración incluye los siguientes usuarios preconfigurados con la contraseña unificada `DemoBaguette2026!`:
 
-El PIN se valida automáticamente al completar el cuarto dígito, sin tocar un botón ni presionar Enter. Si es incorrecto, el campo se limpia y conserva el foco para volver a escribirlo.
+| Usuario | Nombre | Rol | PIN de Salón | Permisos Destacados |
+| :--- | :--- | :--- | :---: | :--- |
+| `admin` | Ana Encargada | `admin` | `4101` | Acceso global a todas las funciones y configuraciones. |
+| `caja` | Carla Cajera | `cashier` | `4202` | Apertura/cierre de caja, cobros, facturación y descuentos. |
+| `mozo` | Martín Camarero | `waiter` | `4303` | Apertura de mesas, carga y envío de comandas. |
+| `moza` | María Camarera | `waiter` | `4606` | Apertura de mesas, carga y envío de comandas. |
+| `cocina` | Lucía Cocina | `kitchen` | `4404` | Visualización y cambio de estados en pantalla de cocina. |
 
-En la terminal, agregar productos, cambiar cantidades y escribir notas arma un borrador guardado en el dispositivo, separado por empleado y mesa. «Enviar pedido» guarda primero la solicitud local, inicia el envío de todos los renglones juntos en segundo plano y cierra la mesa de inmediato, volviendo al salón. «Enviando» pasa a confirmado solo con la respuesta del servidor. La cuenta de una mesa libre se crea al confirmar ese primer envío. Si falta conexión o se pierde la respuesta, el pedido queda en Pendientes para consultar/reintentar sin duplicarlo, con el PIN de su responsable. El botón de envío de esa mesa espera la confirmación anterior; se puede seguir armando el siguiente pedido. Las animaciones duran 80–150 ms y respetan movimiento reducido.
+---
 
-La terminal obtiene automáticamente una sesión técnica limitada. Tocar cualquier mesa, libre u ocupada, solicita un PIN de cuatro dígitos que identifica al empleado sin selector de persona. Luego abre la carta por categoría → subcategoría → producto → variante. La carta importada reúne sus 27 secciones en cinco principales: Cafetería, Desayunos, Cocina, Dulces y Bebidas. Tocar un producto permite elegir una variante, ajustar la cantidad con +/− y agregar observaciones escritas o rápidas en la misma pantalla. Los productos individuales conservan el botón + para sumar una unidad. El pedido aparece al costado; en celular se alterna Carta/Pedido. «Nota» permite comentar un ítem desde el pedido y «Enviar pedido» permanece al pie. Cobrar y solicitar cuenta están a la vista, según los permisos; las demás operaciones siguen en «Opciones de cuenta».
+## 9. Comandos Disponibles en `package.json`
 
-Catálogo permite crear principales y subcategorías mediante «Categoría principal», y configurar «Producto base» y «Nombre de la variante» en cada producto. Las opciones con el mismo producto base y subcategoría se agrupan tanto en la comandera como en la carta pública. Cada variante conserva su identificación, precio, agregados, disponibilidad y visibilidad propios. La migración `011_category_hierarchy.sql` reorganiza las secciones conservando sus IDs, productos y consumos; las futuras importaciones aplican la misma jerarquía. Desactivar una principal impide nuevos pedidos de toda su rama, conservando las instantáneas existentes.
+| Comando | Descripción |
+| :--- | :--- |
+| `npm run setup` | Crea `.env` con secretos criptográficos aleatorios si no existe. |
+| `npm run db:start` | Inicia el motor PostgreSQL embebido local en el puerto 55432. |
+| `npm run db:migrate` | Aplica las migraciones pendientes en PostgreSQL. |
+| `npm run db:seed` | Carga usuarios, mesas, carta y plano inicial en la base activa. |
+| `npm run db:migrate:tidb` | Ejecuta el esquema `backend/sql/database_mysql.sql` en TiDB Cloud. |
+| `npm run dev` | Inicia backend y frontend en modo desarrollo con Vite HMR. |
+| `npm run build` | Compila frontend y valida tipos para producción en `frontend/dist`. |
+| `npm start` | Inicia el servidor Node.js sirviendo la API y el frontend compilado. |
+| `npm run typecheck` | Comprobación estricta de tipos TypeScript en backend y frontend. |
+| `npm run lint` | Análisis estático de código con ESLint en todo el repositorio. |
+| `npm test` | Ejecuta la suite de 100 pruebas de lógica, integración y seguridad. |
+| `npm run test:e2e` | Ejecuta las pruebas automatizadas de navegador con Playwright. |
+| `npm run demo:reset` | Restaura la base de demostración a su estado inicial de fábrica. |
 
-El encargado configura solo los cuatro últimos dígitos del DNI, sin documento completo. Los PIN activos deben ser únicos; los duplicados se rechazan. La demo usa sufijos ficticios: admin 4101, caja 4202, mozo 4303 y moza 4606. El token operativo queda ligado a terminal, empleado y mesa; solo vive en memoria. Salir, cambiar de mesa o recargar lo descarta; **volver a entrar siempre pide PIN**, aunque sea la misma mesa. El máximo de diez minutos del servidor no evita esa reentrada. La salida solicita además liberar la autorización al servidor; una nueva identificación invalida las anteriores de esa terminal.
+---
 
-Enviar marca los ítems como **Pedido**. No hay que pasar por cocina, preparando, listo o entregado para cobrar/cerrar. Se conservan registros anteriores. El camarero agrega/envía y realiza sus acciones permitidas; no descuenta, anula, cobra ni cierra. Gestión de catálogo, usuarios y configuración exige `/gestion`; **un PIN administrador en la terminal no concede esos permisos**. La API verifica contexto y rol.
+## 10. Documentación Complementaria
 
-Sin conexión se conservan pendientes admitidos, sin PIN ni token operativo. No se identifica un empleado nuevo ni se abre una mesa nueva offline. Para sincronizar después de recargar se vuelve a ingresar el PIN online del operador correspondiente. El arranque automático exige `DEMO_MODE=true`; la ejecución actual escucha en `127.0.0.1` por configuración, sin una comprobación adicional de IP en ese endpoint. El enrolamiento de dispositivos de producción queda pendiente. [Estado de pruebas](docs/ESTADO-PRUEBAS.md) separa la evidencia anterior y la validación de esta revisión.
-
-La migración a terminal conserva datos e historial. El seed puede completar el localizador de los PIN ficticios conocidos después de verificar su hash. Un PIN personalizado anterior no se puede recuperar ni adivinar desde su verificador: el encargado debe configurarlo nuevamente desde Gestión antes de identificar a esa persona en terminal.
+* [**Arquitectura de Base de Datos**](docs/BASE-DE-DATOS.md): Detalle técnico de tablas, campos, claves foráneas, índices y reglas del libro contable inmutable.
+* [**Reglas Operativas**](docs/REGLAS-OPERATIVAS.md): Circuitos de comanda, cobro, asignación de mesas y reglas de negocio gastronómicas.
+* [**Contrato de API**](docs/API-CONTRACT.md): Especificación detallada de endpoints, parámetros y estructuras de respuesta.
+* [**Manual de Usuario**](docs/MANUAL-USUARIO.md): Guía de uso y procedimientos para cada rol del salón.

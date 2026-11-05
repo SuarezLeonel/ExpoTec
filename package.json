@@ -14,6 +14,7 @@
     "setup": "node scripts/setup.mjs",
     "db:start": "node --env-file=.env scripts/postgres.mjs",
     "db:migrate": "node --env-file=.env --import tsx backend/src/database/migrate.ts",
+    "db:migrate:tidb": "node --env-file=.env scripts/migrate-tidb.mjs",
     "db:seed": "node --env-file=.env --import tsx backend/src/database/seed.ts",
     "menu:import": "node --env-file=.env --import tsx backend/src/database/import-menu.ts",
     "demo:reset": "node --env-file=.env scripts/reset.mjs",

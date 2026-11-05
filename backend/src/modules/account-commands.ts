@@ -1,3 +1,12 @@
+/**
+ * Comandos de ciclo de vida de cuentas de mesas.
+ *
+ * Administra la apertura de mesas, traslados entre mesas, división de consumos,
+ * unificación de cuentas, solicitud de cobro y cierre definitivo.
+ *
+ * Toda mutación incrementa el campo `version` de la cuenta para control de concurrencia optimista.
+ */
+
 import crypto from 'node:crypto';
 import { one, rows } from '../database/db.js';
 import { has, userById } from '../middleware/auth.js';

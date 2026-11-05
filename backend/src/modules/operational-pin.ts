@@ -1,3 +1,14 @@
+/**
+ * Gestión y verificación de PIN operativo para mozos en terminales compartidas.
+ *
+ * En la terminal compartida del salón, el personal no inicia sesión con contraseña:
+ * ingresa su PIN personal de 4 dígitos al tocar una mesa.
+ *
+ * Para proteger valores cortos de 4 dígitos contra ataques de fuerza bruta y rainbow tables,
+ * cada PIN se deriva criptográficamente con HMAC-SHA256 usando `OPERATION_HASH_KEY` antes de
+ * guardarse o compararse con el hash scrypt/argon2 en la base de datos.
+ */
+
 import { z } from 'zod';
 import { one, rows, type DB } from '../database/db.js';
 import { config } from '../config/env.js';
@@ -24,6 +35,13 @@ export interface OperatorIdentity {
   permissions: string[];
   tableId?: string;
 }
+/**
+ * Resuelve la identidad operativa del empleado que ejecuta la acción.
+ *
+ * En modo Gestión toma la sesión autenticada con usuario/contraseña.
+ * En modo Terminal valida el token operativo (`X-Operation-Token` / grant) emitido
+ * previamente tras ingresar el PIN personal en dicha mesa.
+ */
 export async function resolveOperator(
   db: DB,
   auth: AuthRequest,

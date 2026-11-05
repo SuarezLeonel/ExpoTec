@@ -1,3 +1,11 @@
+/**
+ * Contenedor visual de la terminal compartida de salón.
+ *
+ * Muestra la barra superior con estado de conectividad, contador de pedidos en cola,
+ * selector de tema claro/oscuro y accesos rápidos a la carta pública y panel de gestión.
+ * Alberga la vista principal del mapa interactivo de mesas (`Salon`).
+ */
+
 import { useEffect, useState } from 'react';
 import { BookOpen, Settings, Wifi, WifiOff, X } from 'lucide-react';
 import { useStore } from '../contexts/Store';

@@ -1,3 +1,14 @@
+/**
+ * Aplicación principal Express del sistema de gestión gastronómica.
+ *
+ * Arquitectura del servidor:
+ * - Seguridad perimetral: Helmet con CSP estricto, CORS validado contra orígenes permitidos y protección CSRF.
+ * - Enrutamiento y consultas: Endpoints públicos (`/api/public/*`), autenticación (`/api/auth/*`) y estado reactivo (`/api/state`).
+ * - Patrón de Comandos (`POST /api/command`): Centraliza todas las modificaciones de negocio (cuentas, pedidos, caja, mesas)
+ *   en transacciones serializadas con claves de idempotencia (`Idempotency-Key`), verificación de PIN operativo y registro de auditoría.
+ * - Archivos estáticos: Distribución del frontend compilado en producción con soporte para rutas SPA.
+ */
+
 import { randomUUID } from 'node:crypto';
 import path from 'node:path';
 import { existsSync } from 'node:fs';
@@ -47,6 +58,9 @@ const commands = {
   ...orderCommands,
   ...serviceCommands,
 };
+/**
+ * Entrega un archivo generado (factura, ticket, listado) registrando la confirmación de descarga exitosa.
+ */
 function deliverFile(res: Response, file: Awaited<ReturnType<typeof fileContent>>) {
   const { _delivery_id: deliveryId, ...payload } = file;
   res.once('finish', () => {
@@ -57,6 +71,10 @@ function deliverFile(res: Response, file: Awaited<ReturnType<typeof fileContent>
   });
   res.json(payload);
 }
+
+/**
+ * Fabrica y configura la instancia de la aplicación Express con todos sus middlewares y rutas.
+ */
 export function createApp() {
   const app = express();
   app.disable('x-powered-by');

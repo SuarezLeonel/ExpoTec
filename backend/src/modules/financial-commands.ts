@@ -1,3 +1,13 @@
+/**
+ * Comandos financieros: caja, cobros, facturación, descuentos y reintegros.
+ *
+ * Reglas de integridad monetaria:
+ * - Todo cobro o egreso de efectivo debe asociarse a un turno de caja abierto (`cash_shifts`).
+ * - No se admiten pagos que excedan el saldo adeudado (`balance_cents`).
+ * - El arqueo de cierre de caja (`cash.close`) compara el dinero contado en mano
+ *   con el saldo esperado del sistema, registrando faltantes o sobrantes auditados.
+ */
+
 import { one } from '../database/db.js';
 import { authorize, has } from '../middleware/auth.js';
 import { account, bump, item } from './account-data.js';

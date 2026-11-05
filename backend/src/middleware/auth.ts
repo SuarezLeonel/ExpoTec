@@ -1,9 +1,22 @@
+/**
+ * Middlewares y utilidades de autenticación, autorización y seguridad de sesión.
+ *
+ * El sistema opera con dos modos de sesión estrictamente aislados:
+ * 1. Modo Gestión (`management`): Sesión de usuario individual (admin, cajero, mozo) con cookie `baguette_session`.
+ * 2. Modo Terminal (`terminal`): Sesión compartida de terminal del salón con cookie `baguette_terminal`,
+ *    cuyas operaciones requieren validación de PIN operativo por mesa.
+ */
+
 import type { RequestHandler } from 'express';
 import { pool, one, type DB } from '../database/db.js';
 import { sha256, verifyPassword } from '../modules/security.js';
 import { ApiError, ensure } from '../modules/errors.js';
 import type { AuthRequest, CommandContext, User } from '../modules/types.js';
 
+/**
+ * Middleware que verifica la validez de la sesión HTTP mediante cookie firmada y consulta a base de datos.
+ * Adjunta al objeto `req` la identidad del usuario, modo de acceso, token CSRF y lista de permisos.
+ */
 export const authenticate: RequestHandler = async (request, _response, next) => {
   try {
     const mode = request.get('X-Session-Mode') === 'terminal' ? 'terminal' : 'management';
@@ -44,6 +57,9 @@ export const authenticate: RequestHandler = async (request, _response, next) => 
     next(error);
   }
 };
+/**
+ * Restringe la operación únicamente a sesiones en modo Gestión, bloqueando terminales de salón.
+ */
 export const managementOnly: RequestHandler = (request, _response, next) => {
   if ((request as AuthRequest).mode !== 'management')
     return next(
@@ -55,6 +71,10 @@ export const managementOnly: RequestHandler = (request, _response, next) => {
     );
   next();
 };
+
+/**
+ * Valida que el token del encabezado X-CSRF-Token coincida con el emitido para la sesión.
+ */
 export const csrf: RequestHandler = (request, _response, next) => {
   const req = request as AuthRequest;
   if (request.get('X-CSRF-Token') !== req.csrf)
@@ -63,6 +83,10 @@ export const csrf: RequestHandler = (request, _response, next) => {
     );
   next();
 };
+
+/**
+ * Genera un middleware que restringe el endpoint a usuarios con un permiso específico.
+ */
 export function requirePermission(permission: string): RequestHandler {
   return (request, _response, next) => {
     if (!(request as AuthRequest).permissions.includes(permission))
@@ -70,6 +94,10 @@ export function requirePermission(permission: string): RequestHandler {
     next();
   };
 }
+
+/**
+ * Comprueba que el contexto de ejecución posea el permiso requerido; lanza ApiError 403 en caso contrario.
+ */
 export function has(ctx: CommandContext, permission: string) {
   ensure(
     ctx.permissions.includes(permission),
@@ -78,6 +106,13 @@ export function has(ctx: CommandContext, permission: string) {
     'Tu usuario no tiene permiso para esta acción.',
   );
 }
+
+/**
+ * Valida permisos para operaciones sensibles. Si el operador no cuenta con el permiso directo,
+ * exige la autorización secundaria mediante usuario y contraseña de un supervisor distinto.
+ *
+ * @returns ID del usuario que autorizó la operación.
+ */
 export async function authorize(
   ctx: CommandContext,
   permission: string,

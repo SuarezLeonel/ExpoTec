@@ -1,3 +1,13 @@
+/**
+ * Espacio de trabajo para la toma de comandas en una mesa seleccionada.
+ *
+ * Se activa tras la identificación por PIN del mozo y reúne:
+ * - Explorador y buscador de carta con navegación jerárquica y variantes (`ProductPicker`).
+ * - Borrador local reactivo de pedidos (`useLocalOrder` y `LocalOrderItems`).
+ * - Panel de cuenta activa con saldos, cobros y comprobantes (`AccountPanel`).
+ * - Despacho atómico en segundo plano con retorno inmediato al salón (`queueOrder`).
+ */
+
 import { useRef, useState } from 'react';
 import { Settings2, ReceiptText, Utensils, Send, LoaderCircle, LogOut } from 'lucide-react';
 import { Dialog } from './UI';

@@ -12,8 +12,9 @@
   "rewrites": [
     { "source": "/api/:path*", "destination": "/api" },
     { "source": "/uploads/:path*", "destination": "/api" },
-    { "source": "/", "destination": "/index.html" },
     { "source": "/gestion", "destination": "/index.html" },
-    { "source": "/carta", "destination": "/index.html" }
+    { "source": "/carta", "destination": "/index.html" },
+    { "source": "/terminal", "destination": "/index.html" },
+    { "source": "/", "destination": "/index.html" }
   ]
 }

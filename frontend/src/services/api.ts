@@ -1,20 +1,45 @@
+/**
+ * Cliente HTTP y utilidades de comunicación con el backend.
+ *
+ * Responsabilidades:
+ * - Detección del modo de ejecución: Terminal compartida (`/` y `/terminal`) vs Gestión (`/gestion`).
+ * - Inyección automática de encabezados de seguridad: CSRF (`X-CSRF-Token`),
+ *   idempotencia (`Idempotency-Key`) y token de PIN operativo (`X-Operation-Token`).
+ * - Formateo y conversión segura de importes monetarios en centavos enteros.
+ */
+
 import type { Download, Pending } from '../types';
+
 let csrf = '';
 let operationToken = '';
-export const isTerminalMode = () => location.pathname.startsWith('/terminal');
+
+/**
+ * Determina si la aplicación debe operar como terminal táctil de salón (modo compartido)
+ * o como panel administrativo de gestión.
+ */
+export const isTerminalMode = () =>
+  !location.pathname.startsWith('/gestion') && !location.pathname.startsWith('/carta');
+
 export function setOperationToken(value: string) {
   operationToken = value;
 }
+
 let branchTimezone = 'America/Argentina/Buenos_Aires';
+
 export function setTimezone(value?: string) {
   if (value) {
     new Intl.DateTimeFormat('es-AR', { timeZone: value });
     branchTimezone = value;
   }
 }
+
 export function setCsrf(value: string) {
   csrf = value;
 }
+
+/**
+ * Representa un error controlado devuelto por la API del backend.
+ */
 export class ApiError extends Error {
   constructor(
     public status: number,
@@ -25,6 +50,7 @@ export class ApiError extends Error {
     super(message);
   }
 }
+
 function invalidResponse(): never {
   throw new ApiError(
     502,
@@ -32,6 +58,16 @@ function invalidResponse(): never {
     'El servidor no devolvió una confirmación válida. Consultá el resultado en Pendientes antes de repetir la operación.',
   );
 }
+
+/**
+ * Realiza una petición POST al backend adjuntando automáticamente credenciales,
+ * tokens CSRF, modo terminal y clave de idempotencia si corresponde.
+ *
+ * @param path Ruta del endpoint bajo `/api/`.
+ * @param body Cuerpo de la petición en formato JSON.
+ * @param key Clave única de idempotencia para garantizar ejecución exacta única.
+ * @param grant Token operativo del mozo para la mesa activa.
+ */
 export async function post<T>(
   path: string,
   body: unknown = {},

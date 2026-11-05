@@ -1,3 +1,13 @@
+/**
+ * Capa de abstracción de base de datos con soporte dual para PostgreSQL y MySQL / TiDB Cloud.
+ *
+ * Provee:
+ * - Detección automática del motor según la cadena DATABASE_URL.
+ * - Pool de conexiones optimizado con reconexión transparente para sockets ociosos de TiDB Cloud.
+ * - Adaptador de sintaxis SQL (parámetros $1 -> ?, emulación de RETURNING, funciones de fecha y JSON).
+ * - Envoltura transaccional unificada con bloqueo de concurrencia serializada.
+ */
+
 import crypto from 'node:crypto';
 import pg, { type QueryResultRow } from 'pg';
 import mysql, { type Pool as MysqlPool, type PoolConnection } from 'mysql2/promise';
@@ -373,6 +383,9 @@ export const pool = {
   },
 };
 
+/**
+ * Ejecuta una consulta SQL y retorna la lista completa de filas resultantes.
+ */
 export async function rows<T = QueryResultRow>(
   db: DB,
   sql: string,
@@ -381,6 +394,9 @@ export async function rows<T = QueryResultRow>(
   return (await db.query<T>(sql, params)).rows;
 }
 
+/**
+ * Ejecuta una consulta SQL y retorna únicamente la primera fila, o undefined si no hay resultados.
+ */
 export async function one<T = QueryResultRow>(
   db: DB,
   sql: string,
@@ -389,6 +405,15 @@ export async function one<T = QueryResultRow>(
   return (await rows<T>(db, sql, params))[0];
 }
 
+/**
+ * Ejecuta una función dentro de una transacción de base de datos aislada.
+ *
+ * En transacciones de escritura adquiere un advisory lock global para evitar colisiones
+ * concurrentes de saldos y números de comprobante. En caso de error realiza ROLLBACK automático.
+ *
+ * @param fn Función callback que recibe el cliente de base de datos con la transacción activa.
+ * @param write Si es true inicia transacción de escritura con lock; si es false inicia transacción de solo lectura.
+ */
 export async function transaction<T>(fn: (client: DB) => Promise<T>, write = true): Promise<T> {
   if (write) return runTransaction(fn, true);
   // Una transacción de lectura puede repetirse completa si la conexión reciclada

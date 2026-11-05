@@ -1,15 +1,50 @@
+# Dependencias
 node_modules/
+
+# Compilaciones y artefactos de distribución
 dist/
 frontend/dist/
 backend/dist/
+.vercel/
+
+# Archivos de entorno y credenciales (se preservan únicamente plantillas de ejemplo)
 .env
-.env.*.local
+.env.*
+!.env.example
+!.env.*.example
+!.env.production.example
+
+# Almacenamiento local y datos de base embebida
 data/
 storage/
+storage-test/
+
+# Reportes y resultados de pruebas
 test-results/
 playwright-report/
+
+# Logs, cachés y temporales
 *.log
 *.tsbuildinfo
-storage-test/
-.vercel/
-.env.local
+*.tmp
+*.temp
+
+# Archivos comprimidos y paquetes de despliegue
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+
+# Volcados y respaldos SQL (no estructurales)
+*.dump
+*.sql.bak
+*.bak
+dump*.sql
+backup*.sql
+*_backup.sql
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db

@@ -1,3 +1,14 @@
+/**
+ * Comandos para la gestión de pedidos y consumos de mesa.
+ *
+ * Cubre:
+ * - Envío atómico por lote (`order.submit`): Abre la cuenta si la mesa estaba libre,
+ *   valida disponibilidad y precios vigentes, crea renglones con agregados e imprime
+ *   los tickets para comandas de cocina o barra.
+ * - Ciclo de vida del ítem: `draft` -> `sent` -> `preparing` -> `ready` -> `delivered`.
+ * - Anulaciones (`item.void`): Exigen motivo, perfil autorizado y registro de auditoría.
+ */
+
 import { one, rows } from '../database/db.js';
 import { randomUUID } from 'node:crypto';
 import { authorize, has } from '../middleware/auth.js';
