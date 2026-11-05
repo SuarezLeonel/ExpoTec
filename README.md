@@ -1,4 +1,4 @@
-# Baguette · demo de operación gastronómica
+# Gestion - cafe
 
 Prototipo local para una sucursal ficticia. React + TypeScript + Vite + Bootstrap; API Node.js + TypeScript + Express; PostgreSQL real. El catálogo es compartido con la carta pública. Precios, personas y operaciones son ficticios; impresión, correo, medios de pago y facturación usan adaptadores de demostración. **Demostración. Sin validez fiscal.**
 
