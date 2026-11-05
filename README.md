@@ -167,10 +167,7 @@ Si preferís operar el sistema utilizando un clúster en la nube de **TiDB Cloud
    ```env
    DATABASE_URL=mysql://<USUARIO>:<CONTRASENA>@gateway01.sa-east-1.prod.aws.tidbcloud.com:4000/cafe_demo?ssl={"rejectUnauthorized":true}
    ```
-2. Ejecutá la migración automática a TiDB:
-   ```powershell
-   npm run db:migrate:tidb
-   ```
+2. Creá las tablas ejecutando el script oficial [`backend/sql/database_mysql.sql`](backend/sql/database_mysql.sql) directamente desde el SQL Editor de TiDB Cloud o MySQL Workbench.
 3. El backend detectará automáticamente el protocolo `mysql:` y utilizará el pool de conexiones optimizado con reintentos para sockets en la nube.
 
 ---
@@ -197,7 +194,6 @@ La base de demostración incluye los siguientes usuarios preconfigurados con la 
 | `npm run db:start` | Inicia el motor PostgreSQL embebido local en el puerto 55432. |
 | `npm run db:migrate` | Aplica las migraciones pendientes en PostgreSQL. |
 | `npm run db:seed` | Carga usuarios, mesas, carta y plano inicial en la base activa. |
-| `npm run db:migrate:tidb` | Ejecuta el esquema `backend/sql/database_mysql.sql` en TiDB Cloud. |
 | `npm run dev` | Inicia backend y frontend en modo desarrollo con Vite HMR. |
 | `npm run build` | Compila frontend y valida tipos para producción en `frontend/dist`. |
 | `npm start` | Inicia el servidor Node.js sirviendo la API y el frontend compilado. |
