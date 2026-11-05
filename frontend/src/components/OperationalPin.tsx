@@ -1,3 +1,12 @@
+/**
+ * Teclado numérico modal para validación rápida de PIN operativo en salón.
+ *
+ * Responsabilidades:
+ * - Entrada táctil optimizada de 4 dígitos o captura de teclado físico numérico.
+ * - Validación contra el backend (`/api/auth/operational-pin`) para emitir un token temporal de operación.
+ * - Desbloqueo rápido de mesas para mozos y encargados sin necesidad de login formal con usuario y contraseña.
+ */
+
 import { useEffect, useRef, useState } from 'react';
 import { Delete, RotateCcw } from 'lucide-react';
 import { Dialog } from './UI';

@@ -1,3 +1,13 @@
+/**
+ * Componente raíz de la aplicación y enrutador principal.
+ *
+ * Responsabilidades:
+ * - Selección de modo de visualización: Kiosco de salón (`TerminalShell`) vs Panel de administración completo.
+ * - Enrutamiento basado en hash del navegador (`#salon`, `#preparation`, `#cash`, `#catalog`, `#users`, `#design`, `#audit`).
+ * - Control de acceso y visibilidad de pestañas según los roles del usuario autenticado (`admin`, `cashier`, `waiter`, `kitchen`).
+ * - Barra lateral de navegación responsive, monitor de conectividad (online/offline) y cola de pedidos en vuelo.
+ */
+
 import { useEffect, useState } from 'react';
 import {
   LayoutGrid,
@@ -31,6 +41,7 @@ import { Catalog } from './pages/Catalog';
 import { Audit } from './pages/Audit';
 import { FloorPlanEditor } from './pages/FloorPlanEditor';
 import './styles/floor-plan.css';
+
 const navigation = [
   {
     id: 'salon',

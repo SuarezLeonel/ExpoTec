@@ -1,3 +1,12 @@
+/**
+ * Servicios y utilidades para la jerarquía de categorías de la carta.
+ *
+ * Funciones principales:
+ * - `categoryIsActive`: Valida que una categoría y su padre (si existe) estén activos.
+ * - `categoryTree`: Construye el árbol jerárquico de ramas de categorías filtrando las que contengan productos.
+ * - `categoryPath`: Genera la ruta en formato breadcrumb (ej: "Cafetería › Café de especialidad").
+ */
+
 import type { Category } from '../types';
 
 export interface CategoryBranch {

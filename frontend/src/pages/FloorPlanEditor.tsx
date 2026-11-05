@@ -1,3 +1,15 @@
+/**
+ * Editor visual e interactivo del plano de salón y sectores.
+ *
+ * Responsabilidades principales:
+ * - Renderizado del lienzo interactivo con soporte de paneo, zoom y grilla magnética (snap a 20px).
+ * - Manipulación directa de mesas y mobiliario: arrastre, redimensionamiento mediante controles cardinales,
+ *   rotación y asignación de capacidad/etiquetas.
+ * - Historial bidireccional de cambios en memoria (pila de deshacer/rehacer de hasta 50 estados).
+ * - Gestión de ciclo de vida con guardado de borrador (`draft`) y publicación atómica (`publish`) con control
+ *   de concurrencia optimista mediante números de revisión.
+ */
+
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent } from 'react';
 import { Check, Eye, Grid2X2, Minus, Plus, Redo2, RotateCw, Save, Undo2 } from 'lucide-react';
 import { Confirm } from '../components/UI';
@@ -13,8 +25,14 @@ import {
 import { resizeFloorItem, type ResizeHandle } from '../services/floor-resize';
 import type { FloorElement, FloorLayout, Table } from '../types';
 
+/** Normaliza el nombre del sector garantizando consistencia con los sectores soportados. */
 const normalizeSector = (value?: string): 'Salón' | 'Patio' =>
   value?.toLocaleLowerCase() === 'patio' ? 'Patio' : 'Salón';
+
+/**
+ * Reconstruye el estado inicial del layout a partir del borrador guardado,
+ * del plano publicado o, en su defecto, de la lista básica de mesas del salón.
+ */
 const initialLayout = (state: ReturnType<typeof useStore>['state']): FloorLayout => {
   const saved = state?.floorPlanDraft?.draft ??
     state?.floorPlan?.published ?? {
@@ -108,11 +126,15 @@ export function FloorPlanEditor() {
     () => JSON.stringify(layout) !== JSON.stringify(initialLayout(state)),
     [layout, state],
   );
+
+  /** Agrega el estado actual a la pila de deshacer (limitada a 50 pasos) y actualiza el layout. */
   const pushLayout = (next: FloorLayout) => {
     setUndoStack((stack) => [...stack.slice(-49), layout]);
     setRedoStack([]);
     setLayout(next);
   };
+
+  /** Convierte las coordenadas del puntero de pantalla al espacio local del lienzo considerando zoom y snap. */
   const point = (event: PointerEvent) => {
     const rect = canvas.current!.getBoundingClientRect();
     const rawX = Math.max(0, (event.clientX - rect.left) / zoom);

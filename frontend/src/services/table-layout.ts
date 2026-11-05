@@ -1,4 +1,11 @@
+/**
+ * Algoritmo de mapeo de mesas a celdas de grilla matricial.
+ *
+ * Asigna slots de fila y columna para la vista de grilla estructurada, resolviendo colisiones espaciales.
+ */
+
 import type { Table } from '../types';
+
 export function tableLayout(tables: Table[]) {
   const columns = Math.max(8, Math.min(20, 1 + Math.max(0, ...tables.map((t) => t.x))));
   const occupied = new Set<number>();

@@ -1,3 +1,13 @@
+/**
+ * Motor matemático de redimensionamiento de elementos del plano de salón.
+ *
+ * Responsabilidades:
+ * - Proyección trigonométrica del vector de arrastre en el espacio rotado del elemento (`item.rotation`).
+ * - Preservación opcional de relación de aspecto para mesas cuadradas o redondas.
+ * - Anclaje espacial (evita desplazamiento de la esquina o borde opuesto al punto de redimensionamiento).
+ * - Restricción dentro de límites mínimos/máximos y ajuste magnético al paso (`step` / snap).
+ */
+
 export type ResizeHandle = 'nw' | 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w';
 
 type FloorItem = { x: number; y: number; width: number; height: number; rotation: number };

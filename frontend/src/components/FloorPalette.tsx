@@ -1,3 +1,11 @@
+/**
+ * Paleta de elementos arrastrables para el editor de planos de salón.
+ *
+ * Responsabilidades:
+ * - Selección de formas de mesas (redonda, cuadrada, rectangular) y mobiliario/estructuras (paredes, divisiones).
+ * - Dimensionamiento por defecto y cálculo de coordenadas de colocación (`floorDropPoint`) en el lienzo.
+ */
+
 import { useEffect, useRef, useState, type PointerEvent, type RefObject } from 'react';
 import { Circle, Square, RectangleHorizontal, BrickWall, Trash2, X } from 'lucide-react';
 

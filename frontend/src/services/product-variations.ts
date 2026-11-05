@@ -1,3 +1,12 @@
+/**
+ * Agrupación de productos y gestión de variantes de la carta.
+ *
+ * Funciones provistas:
+ * - `groupProducts`: Agrupa productos individuales que comparten la misma familia (`variant_group`) bajo una ficha unificada.
+ * - `matchesProductGroup`: Búsqueda flexible de productos insensible a mayúsculas, minúsculas y acentos diacríticos.
+ * - `groupPrice`: Obtiene el rango o precio mínimo disponible de una familia de productos.
+ */
+
 import type { Product } from '../types';
 
 export interface ProductGroup {

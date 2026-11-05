@@ -1,9 +1,21 @@
+/**
+ * Modales de operaciones avanzadas sobre la cuenta de una mesa.
+ *
+ * Operaciones gestionadas:
+ * - `move`: Traslado de comensales y cuenta completa a otra mesa libre del salón.
+ * - `transfer`: Transferencia selectiva de ítems entre cuentas activas.
+ * - `update`: Reasignación de camarero responsable o actualización de cantidad de comensales.
+ * - `discount`: Aplicación de descuentos porcentuales o de monto fijo con motivo obligatorio de auditoría.
+ * - `void`: Anulación de ítems solicitados con motivo auditable y registro de merma si corresponde.
+ */
+
 import { useState } from 'react';
 import { Dialog, FieldsForm, type FieldSpec } from '../../components/UI';
 import { useStore } from '../../contexts/Store';
 import { cents } from '../../services/api';
 import { can } from '../../services/permissions';
 import type { Account, Item } from '../../types';
+
 export function AccountActions({
   action,
   account,

@@ -1,3 +1,12 @@
+/**
+ * Contexto y proveedor para la gestión del tema visual (claro / oscuro / sistema).
+ *
+ * Responsabilidades:
+ * - Detección automática del esquema preferido por el sistema operativo mediante `matchMedia`.
+ * - Persistencia de la preferencia del usuario en `localStorage` (`baguette.theme`).
+ * - Aplicación de atributos en el elemento raíz HTML (`data-theme` y `data-bs-theme`) para Bootstrap y Tailwind.
+ */
+
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 export type ThemePreference = 'light' | 'dark' | 'system';

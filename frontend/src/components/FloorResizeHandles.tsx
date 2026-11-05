@@ -1,3 +1,12 @@
+/**
+ * Puntos de control (handles) para el redimensionamiento interactivo de mesas y paredes en el editor.
+ *
+ * Responsabilidades:
+ * - Renderizado accesible de 8 puntos cardinales (esquinas y bordes: `nw`, `n`, `ne`, `e`, `se`, `s`, `sw`, `w`).
+ * - Ajuste dinámico del cursor según el ángulo de rotación del elemento seleccionado.
+ * - Soporte para control de teclado (flechas de dirección) y gestos táctiles / ratón con captura de puntero.
+ */
+
 import { useId, type CSSProperties, type KeyboardEvent, type PointerEvent } from 'react';
 import type { ResizeHandle } from '../services/floor-resize';
 

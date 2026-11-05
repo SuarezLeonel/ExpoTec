@@ -1,3 +1,11 @@
+/**
+ * Cálculo del encuadre y límites geométricos del plano de salón.
+ *
+ * Responsabilidades:
+ * - Determinación del bounding box que engloba todas las mesas y elementos arquitectónicos considerando su rotación.
+ * - Modo fallback para distribuciones heredadas sin coordenadas asignadas, ubicándolas en una grilla ordenada.
+ */
+
 import type { FloorElement, Table } from '../types';
 
 export function floorTableSize(table: Pick<Table, 'width' | 'height'>) {

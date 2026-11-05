@@ -1,3 +1,12 @@
+/**
+ * Selector interactivo de productos y agregados para el ingreso de comandas.
+ *
+ * Responsabilidades:
+ * - Búsqueda rápida por texto y navegación por categorías y subcategorías.
+ * - Soporte para productos con variantes complejas (tamaños, tipo de leche, opciones de cocción) delegando en `ProductComposer`.
+ * - Agregado directo o acumulación en borrador local (`draftScope`).
+ */
+
 import { useRef, useState } from 'react';
 import { Search, Plus, ChevronRight, SlidersHorizontal } from 'lucide-react';
 import { Dialog, Empty } from '../../components/UI';

@@ -1,3 +1,11 @@
+/**
+ * Fila individual para la visualización y control de un producto en comanda.
+ *
+ * Responsabilidades:
+ * - Renderizado de nombre, modificadores, notas de cocina, estado y precio.
+ * - Acciones rápidas según permisos: incrementar/decrementar cantidad, anular, marcar como entregado o agregar nota.
+ */
+
 import { useRef, useState, type ReactNode } from 'react';
 import { MessageSquare, Plus, Minus, Pencil, Trash2, MoreHorizontal } from 'lucide-react';
 import { Badge } from '../../components/UI';

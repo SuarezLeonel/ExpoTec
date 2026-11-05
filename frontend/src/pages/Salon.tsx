@@ -1,3 +1,15 @@
+/**
+ * Vista principal operativa del salón gastronómico.
+ *
+ * Responsabilidades:
+ * - Visualización interactiva del mapa de mesas (grilla y plano libre) filtrado por sector (Salón, Patio).
+ * - Monitor en tiempo real de platos listos para servir (KDS Ready Banner), permitiendo marcarlos
+ *   como entregados directamente desde el salón.
+ * - Acceso a la mesa con solicitud de PIN operativo mediante `enterTable(tableId)`.
+ * - Despliegue del espacio de trabajo lateral (`TableOrderWorkspace`) para comandar o gestionar la cuenta activa.
+ * - Persistencia del nivel de zoom en `localStorage` para una experiencia ergonómica en tablets y POS fijos.
+ */
+
 import { useEffect, useState } from 'react';
 import {
   Plus,
@@ -20,6 +32,7 @@ import type { Table } from '../types';
 
 const salonZoomKey = 'baguette.salon.zoom.v1';
 
+/** Recupera el nivel de zoom preferido por el usuario o devuelve 1 como valor por defecto. */
 function savedSalonZoom() {
   try {
     const saved = Number(localStorage.getItem(salonZoomKey));

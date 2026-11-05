@@ -1,3 +1,14 @@
+/**
+ * Módulo de gestión financiera y control de caja.
+ *
+ * Responsabilidades:
+ * - Ciclo de vida de turnos de caja (apertura de fondo inicial, consulta de estado y arqueo ciego de cierre).
+ * - Agregación de ingresos y cobros en tiempo real agrupados por método de pago (efectivo, débito, crédito, digital).
+ * - Registro de movimientos manuales de caja chica (egresos por compras operativas o ingresos extraordinarios).
+ * - Cobro directo de cuentas abiertas y visualización del histórico de cuentas cerradas.
+ * - Generación de reportes de cierre de turno optimizados para impresión física o guardado en PDF.
+ */
+
 import { useEffect, useState } from 'react';
 import { Wallet, Download, Printer, Plus, LockKeyhole } from 'lucide-react';
 import { useStore } from '../contexts/Store';
@@ -5,6 +16,7 @@ import { Badge, Dialog, Empty, FieldsForm, PageHeading } from '../components/UI'
 import { cents, date, downloadFile, money, post } from '../services/api';
 import type { Download as File } from '../types';
 import { AccountPanel } from './accounts/AccountPanel';
+
 export function Cash() {
   const { state, command, busy } = useStore();
   const [summary, setSummary] = useState<Record<string, unknown> | null>(null);

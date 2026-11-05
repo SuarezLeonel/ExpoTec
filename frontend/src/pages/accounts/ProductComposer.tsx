@@ -1,3 +1,13 @@
+/**
+ * Compositor y configurador de un producto con modificadores.
+ *
+ * Responsabilidades:
+ * - Selección de variantes (ej. tamaños: chico, mediano, grande).
+ * - Selección de agregados compatibles (`addons`) con control de disponibilidad y cálculo de precio incremental.
+ * - Carga de notas personalizadas para cocina (ej. "sin sal", "edulcorante").
+ * - Persistencia del borrador de configuración en `localStorage` ante cierres imprevistos.
+ */
+
 import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import type { ProductGroup } from '../../services/product-variations';

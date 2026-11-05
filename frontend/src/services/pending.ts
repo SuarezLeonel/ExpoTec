@@ -1,3 +1,13 @@
+/**
+ * Gestión y conciliación de pedidos en cola offline / pendientes de confirmación.
+ *
+ * Funciones clave:
+ * - `pendingForTable`: Filtra operaciones pendientes que pertenecen a una mesa en particular.
+ * - `confirmedOrder`: Valida estrictamente la respuesta del servidor ante la creación o confirmación de un pedido,
+ *   asegurando que todos los ítems enviados hayan sido persistidos y asociados a la cuenta correcta.
+ * - `settlePending`: Concilia la cola local tras la recepción de un nuevo estado global del servidor.
+ */
+
 import type { Account, Item, Pending } from '../types';
 import { ApiError } from './api';
 

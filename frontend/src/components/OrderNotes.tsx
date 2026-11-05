@@ -1,3 +1,11 @@
+/**
+ * Editor de notas y observaciones especiales de cocina para un plato o bebida.
+ *
+ * Responsabilidades:
+ * - Área de texto con sugerencias rápidas contextuales según destino (Bar: "Sin hielo", "Tibio"; Cocina: "Sin sal", "Bien cocido").
+ * - Formateo y delimitación de requerimientos especiales para el comensal.
+ */
+
 import { useId } from 'react';
 
 export function OrderNotes({

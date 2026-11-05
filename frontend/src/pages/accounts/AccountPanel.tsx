@@ -1,3 +1,14 @@
+/**
+ * Panel de control integral para una cuenta de mesa o mostrador.
+ *
+ * Responsabilidades:
+ * - Visualización detallada del consumo: ítems enviados, en preparación, entregados o anulados.
+ * - Conciliación de ítems locales en borrador antes del despacho a cocina.
+ * - Desglose financiero: subtotal de consumos, recargos, propina sugerida y descuentos aplicados.
+ * - Acceso a modales de cobranza (`PaymentPanel`), devoluciones y acciones sobre la cuenta (`AccountActions`).
+ * - Soporte para uso autónomo (en la página de Caja) o incrustado (`embedded` en el lateral del Salón).
+ */
+
 import { useState, type ReactNode } from 'react';
 import { Plus, Send, MoreHorizontal, CreditCard, CheckCheck, Printer } from 'lucide-react';
 import { Badge, Confirm, Dialog } from '../../components/UI';
@@ -9,6 +20,7 @@ import { ProductPicker } from './ProductPicker';
 import { AccountActions } from './AccountActions';
 import { PaymentPanel, RefundPanel } from './PaymentPanel';
 import { OrderItemList } from './OrderItemList';
+
 export function AccountPanel({
   account,
   embedded = false,

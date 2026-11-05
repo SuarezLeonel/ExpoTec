@@ -1,6 +1,19 @@
+/**
+ * Biblioteca de componentes visuales base del sistema de diseño.
+ *
+ * Componentes provistos:
+ * - `Badge`: Indicadores de estado con estilo y traducción semántica unificada.
+ * - `Empty`: Contenedor para estados vacíos de listados y tableros.
+ * - `Dialog`: Ventana modal accesible montada sobre la API nativa `<dialog>` de HTML5, con restauración de foco.
+ * - `Confirm` e `InlineConfirm`: Modales y botones de doble paso para confirmación de acciones destructivas o sensibles.
+ * - `PageHeading`: Cabecera unificada con eyebrow, título y botones de acción contextuales.
+ * - `FieldsForm`: Generador y validador reactivo de formularios dinámicos a partir de especificaciones de campos.
+ */
+
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { X, Check, Eye, EyeOff } from 'lucide-react';
 import { ApiError, statusLabel } from '../services/api';
+
 export function Badge({ value }: { value: string }) {
   return <span className={`status status-${value}`}>{statusLabel[value] || value}</span>;
 }

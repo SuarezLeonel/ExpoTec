@@ -1,3 +1,13 @@
+/**
+ * Tipos e interfaces globales del frontend de la aplicación.
+ *
+ * Modela las entidades del dominio de negocio:
+ * - Usuarios, roles y credenciales de salón.
+ * - Mesas, distribución física y elementos arquitectónicos del plano.
+ * - Cuentas, comandas, productos, variantes y pagos.
+ * - Estado global reactivo (`State`) sincronizado con el backend.
+ */
+
 export type Role = 'admin' | 'cashier' | 'waiter' | 'kitchen' | 'terminal';
 export interface User {
   id: string;

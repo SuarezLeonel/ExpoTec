@@ -1,9 +1,19 @@
+/**
+ * Registro de auditoría y trazabilidad inmutable del sistema.
+ *
+ * Responsabilidades:
+ * - Consulta filtrada de eventos de seguridad y operaciones críticas (cobros, anulaciones, descuentos, arqueos).
+ * - Filtros combinados por rango de fechas, usuario responsable, tipo de entidad y nombre de operación.
+ * - Exportación de reportes de auditoría en formato estructurado (CSV/JSON/PDF).
+ */
+
 import { useState } from 'react';
 import { Download } from 'lucide-react';
 import { useStore } from '../contexts/Store';
 import { Empty, FieldsForm, PageHeading } from '../components/UI';
 import { date, downloadFile, post, operationLabel } from '../services/api';
 import type { Download as File, Row } from '../types';
+
 export function Audit() {
   const { state, command } = useStore();
   const [events, setEvents] = useState<Row[] | null>(null);

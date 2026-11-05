@@ -1,3 +1,13 @@
+/**
+ * Representación gráfica e interactiva del plano de mesas en el salón.
+ *
+ * Responsabilidades:
+ * - Renderizado posicional absoluto de mesas y mobiliario según coordenadas del backend o borrador de edición.
+ * - Indicadores visuales de estado por mesa: libre, ocupada, comanda enviada, esperando cuenta o deshabilitada.
+ * - Soporte para visualización en plano 2D libre o grilla adaptativa.
+ * - Manejo de interacción táctil / clic para ingresar a la mesa o seleccionarla.
+ */
+
 import type { CSSProperties } from 'react';
 import { Link2 } from 'lucide-react';
 import { useStore } from '../contexts/Store';

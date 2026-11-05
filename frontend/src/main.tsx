@@ -1,3 +1,12 @@
+/**
+ * Punto de entrada principal de la aplicación React.
+ *
+ * Responsabilidades:
+ * - Carga de estilos globales (Bootstrap, paleta lumínica/oscura, estilos de salón y terminal).
+ * - Montaje del árbol de proveedores: `ThemeProvider` (tema visual) y `StoreProvider` (estado global).
+ * - Registro del Service Worker para funcionamiento offline en entornos de producción.
+ */
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import 'bootstrap/dist/css/bootstrap.min.css';

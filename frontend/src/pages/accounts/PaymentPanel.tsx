@@ -1,8 +1,20 @@
+/**
+ * Panel de cobros, división de cuentas y devoluciones.
+ *
+ * Responsabilidades:
+ * - Registro de pagos por diversos métodos: Efectivo (`cash`), Débito (`debit`), Crédito (`credit`) y Digital (`transfer`).
+ * - División de cuenta flexible: cobro por importe exacto, división equitativa en partes iguales (ej. mesa de amigos),
+ *   o cobro selectivo por ítems específicos consumidos.
+ * - Cálculo automático de vuelto / cambio en pagos en efectivo y validación contra el saldo pendiente.
+ * - Prevención de pagos duplicados concurrentes validando pagos en vuelo (`uncertain`).
+ */
+
 import { useState } from 'react';
 import { Dialog, FieldsForm, Badge } from '../../components/UI';
 import { useStore } from '../../contexts/Store';
 import { cents, money, post } from '../../services/api';
 import type { Account, Item } from '../../types';
+
 export function PaymentPanel({
   account,
   selected,

@@ -1,3 +1,13 @@
+/**
+ * Menú / carta pública interactiva para clientes.
+ *
+ * Responsabilidades:
+ * - Consulta pública de categorías y productos activos (`/api/public/menu`) sin requerir autenticación.
+ * - Soporte de caché offline en `localStorage`: permite consultar los productos si se interrumpe la conexión.
+ * - Navegación jerárquica por árbol de categorías y subcategorías.
+ * - Agrupación de variantes y modificadores de productos.
+ */
+
 import { useEffect, useState } from 'react';
 import { money, post } from '../services/api';
 import type { Category, Product } from '../types';
@@ -5,6 +15,7 @@ import { groupProducts } from '../services/product-variations';
 import { categoryTree } from '../services/categories';
 import { CategoryNavigation } from '../components/CategoryNavigation';
 import { ThemeSelector } from '../components/ThemeSelector';
+
 export function Menu() {
   const [data, setData] = useState<{
     categories: Category[];

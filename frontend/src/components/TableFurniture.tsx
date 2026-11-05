@@ -1,3 +1,11 @@
+/**
+ * Renderizado de mobiliario, sillas y siluetas para las mesas del salón.
+ *
+ * Responsabilidades:
+ * - Algoritmo de distribución proporcional de sillas alrededor de la mesa según su forma (redonda, cuadrada, rectangular) y capacidad.
+ * - Estilización visual atractiva y realista para el plano de planta.
+ */
+
 import type { CSSProperties, ReactNode } from 'react';
 import type { Table } from '../types';
 

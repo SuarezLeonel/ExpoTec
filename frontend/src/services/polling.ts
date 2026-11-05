@@ -1,4 +1,12 @@
-/** Wait after each response, so a slow connection never builds a backlog of refreshes. */
+/**
+ * Polling adaptativo con gestión de visibilidad de pestaña.
+ *
+ * Características:
+ * - Secuencial y no acumulativo: espera a que termine la petición previa antes de programar la siguiente.
+ * - Eficiente en consumo de recursos: suspende el ciclo cuando la pestaña está oculta (`document.hidden`)
+ *   y reanuda inmediatamente al volver al primer plano.
+ */
+
 export function startPolling(
   work: () => Promise<unknown>,
   delay: number,

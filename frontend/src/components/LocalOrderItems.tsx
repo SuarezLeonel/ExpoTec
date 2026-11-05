@@ -1,3 +1,11 @@
+/**
+ * Lista de ítems en borrador local del dispositivo antes del envío a cocina.
+ *
+ * Responsabilidades:
+ * - Permite al mozo revisar, modificar cantidades o notas de los platos cargados antes de despachar la comanda.
+ * - Brinda retroalimentación visual inmediata con guardado optimista local sin latencia de red.
+ */
+
 import { useState } from 'react';
 import { OrderItemRow } from '../pages/accounts/OrderItemRow';
 import { OrderNotes } from './OrderNotes';

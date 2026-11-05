@@ -1,3 +1,13 @@
+/**
+ * Pantalla de inicio de sesión y selección rápida de perfiles de demostración.
+ *
+ * Responsabilidades:
+ * - Autenticación formal de usuarios mediante usuario y contraseña con JWT.
+ * - Soporte para tarjetas de acceso rápido ("1-Click Login") en modo demo con credenciales preconfiguradas.
+ * - Validación de sesión activa y redirección al área de trabajo correspondiente según rol.
+ * - Acceso directo al selector de tema visual (claro / oscuro).
+ */
+
 import { useState } from 'react';
 import {
   ArrowUpRight,

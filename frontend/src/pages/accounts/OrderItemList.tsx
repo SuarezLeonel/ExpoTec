@@ -1,3 +1,12 @@
+/**
+ * Lista estructurada de ítems de una cuenta o comanda.
+ *
+ * Responsabilidades:
+ * - Clasificación visual de ítems por estado: borrador local, enviados a cocina y anulados.
+ * - Selección múltiple de ítems para acciones en lote (cobro parcial, anulación, división de cuenta).
+ * - Edición en línea de observaciones/notas especiales de cocina para cada plato.
+ */
+
 import { useEffect, useRef, useState, type Dispatch, type SetStateAction } from 'react';
 import { Check, ChevronDown, ChevronRight, ClipboardList } from 'lucide-react';
 import { useStore } from '../../contexts/Store';

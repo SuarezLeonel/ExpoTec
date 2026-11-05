@@ -1,3 +1,13 @@
+/**
+ * Panel de administración de catálogo y usuarios.
+ *
+ * Responsabilidades:
+ * - Altas, bajas y modificaciones (ABM) de productos, categorías, agregados/variantes y usuarios.
+ * - Validación de permisos granulares (`manage_catalog`, `manage_users`).
+ * - Jerarquía de categorías (categorías padre y subcategorías).
+ * - Carga de imágenes para productos y control de precios/unidades de medida.
+ */
+
 import { useState } from 'react';
 import { Plus, Pencil, ExternalLink, ImagePlus } from 'lucide-react';
 import {
@@ -13,7 +23,9 @@ import { can } from '../services/permissions';
 import { cents, date, money, post, statusLabel } from '../services/api';
 import type { Addon, Category, Product, User } from '../types';
 import { categoryIsActive, categoryPath } from '../services/categories';
+
 type Entity = Product | Addon | Category | User;
+
 export function Catalog({ users = false }: { users?: boolean }) {
   const { state, command } = useStore();
   const [requestedTab, setTab] = useState('product');

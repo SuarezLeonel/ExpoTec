@@ -1,3 +1,12 @@
+/**
+ * Hook para la gestión del borrador local de pedidos de una mesa.
+ *
+ * Responsabilidades:
+ * - Almacena el pedido en curso en `localStorage` con clave compuesta por operador y mesa (`baguette.local-order.v1...`).
+ * - Evita pérdida de pedidos si el mozo apaga la tablet o recarga la página.
+ * - Filtra ítems que ya fueron encolados para despacho en segundo plano evitando duplicación.
+ */
+
 import { useRef, useState } from 'react';
 import type { Addon, Item, Product } from '../types';
 import { readPending } from '../services/api';

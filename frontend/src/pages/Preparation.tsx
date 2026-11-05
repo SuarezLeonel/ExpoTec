@@ -1,8 +1,19 @@
+/**
+ * Sistema de visualización de cocina y despacho (KDS - Kitchen Display System).
+ *
+ * Responsabilidades:
+ * - Monitor en tiempo real de comandas activas agrupadas por cuenta/mesa.
+ * - Filtro de estaciones de trabajo: Despacho general, Cocina (`kitchen`) o Cafetería/Bar (`bar`).
+ * - Gestión de estados de preparación de cada ítem (`sent` -> `preparing` -> `ready` -> `served`).
+ * - Visualización de notas especiales de cocción, alérgenos y modificadores de productos.
+ */
+
 import { useState } from 'react';
 import { ChefHat, Coffee, RefreshCw } from 'lucide-react';
 import { useStore } from '../contexts/Store';
 import { Badge, Empty, PageHeading } from '../components/UI';
 import { date } from '../services/api';
+
 export function Preparation() {
   const { state, session, command, busy, refresh } = useStore();
   const [filter, setFilter] = useState('all');

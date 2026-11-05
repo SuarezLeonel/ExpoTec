@@ -1,3 +1,10 @@
+/**
+ * Hook para la medición reactiva del contenedor del plano de salón.
+ *
+ * Utiliza `ResizeObserver` para recalcular las dimensiones reales del viewport cuando cambia la vista
+ * o se redimensiona la ventana del navegador.
+ */
+
 import { useLayoutEffect, useRef, useState } from 'react';
 
 export function useFloorViewport(view: string) {

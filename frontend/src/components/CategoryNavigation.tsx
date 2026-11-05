@@ -1,3 +1,11 @@
+/**
+ * Barra de navegación interactiva por pestañas para categorías y subcategorías de la carta.
+ *
+ * Responsabilidades:
+ * - Selección de categoría principal y despliegue automático de sus subcategorías hijas.
+ * - Soporte de accesibilidad con atributos `aria-pressed` y teclado.
+ */
+
 import type { CategoryBranch } from '../services/categories';
 
 export function CategoryNavigation({

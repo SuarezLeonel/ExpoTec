@@ -1,3 +1,10 @@
+/**
+ * Selector de tema visual para la interfaz de usuario.
+ *
+ * Opciones disponibles:
+ * - Claro (`light`), Oscuro (`dark`) y Automático según preferencias del sistema operativo (`system`).
+ */
+
 import { Sun, Moon, Laptop } from 'lucide-react';
 import { useTheme, type ThemePreference } from '../contexts/Theme';
 
